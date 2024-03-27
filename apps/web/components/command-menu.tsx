@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 
 import {
   CommandDialog,
@@ -18,7 +19,6 @@ import { PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 import { useCommandMenuStore } from '@/zustand/command-menu.store';
-import { useRouter } from 'next/navigation';
 
 const COMMAND_ITEM_ICON_STYLE = 'mr-2 size-4';
 

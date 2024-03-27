@@ -6,9 +6,48 @@ import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
 
-import { icon, menuItemName, query } from '@/layouts/authorised';
-
 import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
+import { capitalize } from '@/lib/utils';
+
+export const icon = (type: (typeof pages)[number], size: number) => {
+  switch (type) {
+    case '/profile':
+      return <Icons.myProfile size={size} />;
+    case '/news':
+      return <Icons.news size={size} />;
+    case '/messenger':
+      return <Icons.messenger size={size} />;
+    case '/friends':
+      return <Icons.friends size={size} />;
+    case '/photos':
+      return <Icons.photos size={size} />;
+    default:
+      const _: never = type; // eslint-disable-line
+      throw 'Not all cases are covered';
+  }
+};
+
+export const menuItemName = (type: (typeof pages)[number]) => {
+  const pathname = type.slice(1);
+
+  switch (type) {
+    case '/profile':
+      return `My ${pathname}`;
+    default:
+      return capitalize(pathname);
+  }
+};
+
+export const query = (type: (typeof pages)[number]) => {
+  switch (type) {
+    case '/friends':
+      return {
+        tab: 'all'
+      };
+    default:
+      return undefined;
+  }
+};
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
