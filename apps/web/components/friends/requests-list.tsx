@@ -30,14 +30,14 @@ const BUTTONS: Record<
 > = {
   incoming: ({ onClicks }) => {
     return (
-      <div className='flex gap-3'>
-        <Tooltip text='Accept friend request'>
-          <Button onClick={onClicks[0]} variant='outline'>
+      <div className="flex gap-3">
+        <Tooltip text="Accept friend request">
+          <Button onClick={onClicks[0]} variant="outline">
             <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </Tooltip>
-        <Tooltip text='Reject friend request'>
-          <Button onClick={onClicks[1]} variant='outline'>
+        <Tooltip text="Reject friend request">
+          <Button onClick={onClicks[1]} variant="outline">
             <Icons.reject className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </Tooltip>
@@ -46,8 +46,8 @@ const BUTTONS: Record<
   },
   outgoing: ({ onClicks }) => {
     return (
-      <Tooltip text='Cancel request'>
-        <Button onClick={onClicks[0]} variant='outline'>
+      <Tooltip text="Cancel request">
+        <Button onClick={onClicks[0]} variant="outline">
           <Icons.undo className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
@@ -55,8 +55,8 @@ const BUTTONS: Record<
   },
   rejected: ({ onClicks }) => {
     return (
-      <Tooltip text='Add to friends'>
-        <Button onClick={onClicks[0]} variant='outline'>
+      <Tooltip text="Add to friends">
+        <Button onClick={onClicks[0]} variant="outline">
           <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
       </Tooltip>
@@ -111,29 +111,29 @@ export const RequestsList = ({ requests }: Props) => {
 
   if (!requests[type]?.length) {
     return (
-      <span className='my-7 text-center'>
+      <span className="my-7 text-center">
         {`You don't have any ${type} requests yet.`}
       </span>
     );
   }
 
   return (
-    <ul className='flex flex-col gap-5'>
+    <ul className="flex flex-col gap-5">
       {requests[type].map((user) => (
         <li
-          className='flex items-center justify-between py-2'
+          className="flex items-center justify-between py-2"
           key={user.username}
         >
-          <div className='flex items-center gap-3'>
+          <div className="flex items-center gap-3">
             <Link href={`/${user.username}`}>
               <Avatar
-                size='medium'
+                size="medium"
                 username={user.username}
                 avatar={user.profile.avatar?.name}
               />
             </Link>
             <Link href={`/${user.username}`}>
-              <span className='cursor-pointer hover:underline'>
+              <span className="cursor-pointer hover:underline">
                 {user.username}
               </span>
             </Link>

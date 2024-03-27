@@ -78,17 +78,17 @@ export const SignInForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-10'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
         <FormField
           control={form.control}
-          name='username'
+          name="username"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
-                  placeholder='your username here...'
-                  type='text'
+                  placeholder="your username here..."
+                  type="text"
                   {...field}
                 />
               </FormControl>
@@ -98,14 +98,14 @@ export const SignInForm = () => {
         ></FormField>
         <FormField
           control={form.control}
-          name='password'
+          name="password"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
-                  placeholder='your password here...'
-                  type='password'
+                  placeholder="your password here..."
+                  type="password"
                   {...field}
                 />
               </FormControl>
@@ -114,12 +114,12 @@ export const SignInForm = () => {
           )}
         ></FormField>
         <Button
-          type='submit'
-          className='w-full'
+          type="submit"
+          className="w-full"
           disabled={loading || isPending}
         >
           {loading || isPending ? (
-            <div className='flex items-center gap-2'>
+            <div className="flex items-center gap-2">
               <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
               />

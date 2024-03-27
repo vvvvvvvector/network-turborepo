@@ -56,8 +56,8 @@ export default async function RequestsPage({ searchParams }: Props) {
 
   return (
     <>
-      <div className='text-sm'>
-        <ul className='flex gap-7'>
+      <div className="text-sm">
+        <ul className="flex gap-7">
           {types.map((type) => (
             <Link key={type} href={`${PAGES.FRIENDS_REQUESTS}?type=${type}`}>
               <li
@@ -74,7 +74,7 @@ export default async function RequestsPage({ searchParams }: Props) {
           ))}
         </ul>
       </div>
-      <Separator className='my-4' />
+      <Separator className="my-4" />
       <RequestsList
         requests={{
           incoming,

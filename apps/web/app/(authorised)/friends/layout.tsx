@@ -14,12 +14,12 @@ export default function FriendsLayout({
   const pathname = usePathname();
 
   return (
-    <div className='flex flex-col-reverse gap-5 lg:grid lg:grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)] lg:items-start'>
-      <div className='flex flex-col rounded-lg bg-background p-5'>
+    <div className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-[minmax(0,2.5fr)_minmax(0,1fr)] lg:items-start">
+      <div className="flex flex-col rounded-lg bg-background p-5">
         {children}
       </div>
-      <div className='rounded-lg bg-background p-5'>
-        <ul className='flex flex-col gap-2'>
+      <div className="rounded-lg bg-background p-5">
+        <ul className="flex flex-col gap-2">
           <Link
             href={{
               pathname: PAGES.FRIENDS,

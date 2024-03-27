@@ -22,10 +22,10 @@ export default async function MessengerPage() {
   const chats = await getAutorisedUserChats();
 
   return (
-    <div className='rounded-lg bg-background'>
-      <div className='p-5'>
+    <div className="rounded-lg bg-background">
+      <div className="p-5">
         <span>{`Chats [${chats.length}]`}</span>
-        <Separator className='mt-5' />
+        <Separator className="mt-5" />
       </div>
       <ListOfChats chats={chats} />
     </div>

@@ -56,28 +56,28 @@ const MobileNav = () => {
     <Sheet open={open} onOpenChange={setOpen} defaultOpen={open}>
       <SheetTrigger asChild>
         <Button
-          className='hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-1 focus-visible:ring-offset-0'
-          variant='ghost'
-          size='icon'
+          className="hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-1 focus-visible:ring-offset-0"
+          variant="ghost"
+          size="icon"
         >
           <Icons.mobileMenu />
-          <span className='sr-only'>open mobile menu</span>
+          <span className="sr-only">open mobile menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent className='flex flex-col gap-7' side='left'>
+      <SheetContent className="flex flex-col gap-7" side="left">
         <MobileLink
-          href='news'
+          href="news"
           onOpenChange={setOpen}
-          className='flex items-center'
+          className="flex items-center"
         >
           {/* <Icons.appLogo className='mr-3 size-7' /> */}
-          <span className='ml-8 text-2xl font-bold'>Network</span>
+          <span className="ml-8 text-2xl font-bold">Network</span>
         </MobileLink>
-        <div className='flex flex-col gap-10 pl-8'>
+        <div className="flex flex-col gap-10 pl-8">
           {pages.map((page) => (
             <MobileLink
               key={page}
-              className='flex items-center'
+              className="flex items-center"
               href={{
                 pathname: page,
                 query: query(page)
@@ -85,7 +85,7 @@ const MobileNav = () => {
               onOpenChange={setOpen}
             >
               {icon(page, 20)}
-              <span className='ml-2'>{menuItemName(page)}</span>
+              <span className="ml-2">{menuItemName(page)}</span>
             </MobileLink>
           ))}
         </div>

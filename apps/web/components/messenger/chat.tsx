@@ -207,29 +207,29 @@ export const Chat = ({ chat }: Props) => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
-        <Button size='icon' variant='outline' asChild>
+      <div className="flex items-center justify-between">
+        <Button size="icon" variant="outline" asChild>
           <Link href={PAGES.MESSENGER}>
-            <Icons.arrowLeft className='size-4' />
+            <Icons.arrowLeft className="size-4" />
           </Link>
         </Button>
-        <div className='flex flex-col gap-1 text-center text-sm'>
-          <Link href={`/${chat.friendUsername}`} target='_blank'>
+        <div className="flex flex-col gap-1 text-center text-sm">
+          <Link href={`/${chat.friendUsername}`} target="_blank">
             <b>{`${chat.friendUsername}`}</b>
           </Link>
           <div>
             {state.friendOnlineStatus === 'online' ? (
-              <div className='flex items-baseline justify-center gap-2'>
+              <div className="flex items-baseline justify-center gap-2">
                 {state.friendTyping ? (
-                  <span className='flex items-baseline gap-[5px]'>
-                    <span className='size-[3px] animate-friend-typing rounded-full bg-foreground' />
-                    <span className='size-[3px] animate-friend-typing rounded-full bg-foreground delay-300' />
-                    <span className='size-[3px] animate-friend-typing rounded-full bg-foreground delay-500' />
-                    <span className='ml-1'>typing</span>
+                  <span className="flex items-baseline gap-[5px]">
+                    <span className="size-[3px] animate-friend-typing rounded-full bg-foreground" />
+                    <span className="size-[3px] animate-friend-typing rounded-full bg-foreground delay-300" />
+                    <span className="size-[3px] animate-friend-typing rounded-full bg-foreground delay-500" />
+                    <span className="ml-1">typing</span>
                   </span>
                 ) : (
-                  <span className='flex animate-slide items-baseline gap-2'>
-                    <span className='inline-flex size-2 items-center justify-center rounded-full bg-emerald-400' />
+                  <span className="flex animate-slide items-baseline gap-2">
+                    <span className="inline-flex size-2 items-center justify-center rounded-full bg-emerald-400" />
                     <span>online</span>
                   </span>
                 )}
@@ -239,19 +239,19 @@ export const Chat = ({ chat }: Props) => {
             )}
           </div>
         </div>
-        <Link href={`/${chat.friendUsername}`} target='_blank'>
+        <Link href={`/${chat.friendUsername}`} target="_blank">
           <Avatar
-            size='small'
+            size="small"
             username={`${chat.friendUsername}`}
             avatar={chat.friendAvatar || undefined}
           />
         </Link>
       </div>
       {state.messages.length > 0 ? (
-        <div className='flex h-full flex-col justify-end overflow-y-hidden'>
+        <div className="flex h-full flex-col justify-end overflow-y-hidden">
           <ul
             ref={messagesListRef}
-            className='custom-scrollbar flex flex-col gap-3 overflow-y-scroll pr-1'
+            className="custom-scrollbar flex flex-col gap-3 overflow-y-scroll pr-1"
           >
             {state.messages.map((message) => (
               <li
@@ -265,19 +265,19 @@ export const Chat = ({ chat }: Props) => {
                 )}
               >
                 <Button
-                  className='hidden group-hover:inline-flex group-focus:inline-flex'
-                  size='icon'
-                  variant='ghost'
+                  className="hidden group-hover:inline-flex group-focus:inline-flex"
+                  size="icon"
+                  variant="ghost"
                 >
                   <Icons.moreVertical className={ICON_INSIDE_BUTTON_SIZE} />
                 </Button>
-                <div className='inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]'>
+                <div className="inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]">
                   {message.sender.username !== chat.authorizedUserUsername && (
-                    <span className='font-semibold underline'>
+                    <span className="font-semibold underline">
                       {chat.friendUsername}
                     </span>
                   )}
-                  <p className='whitespace-pre-wrap break-words text-start'>
+                  <p className="whitespace-pre-wrap break-words text-start">
                     {message.content}
                   </p>
                   <time
@@ -298,21 +298,21 @@ export const Chat = ({ chat }: Props) => {
           </ul>
         </div>
       ) : (
-        <div className='grid h-full w-full place-items-center'>
-          <p className='my-7 text-center leading-9'>
+        <div className="grid h-full w-full place-items-center">
+          <p className="my-7 text-center leading-9">
             No messages here yet... 😗
             <br /> Send a message to your friend first!
           </p>
         </div>
       )}
-      <div className='flex gap-3'>
-        <Button className='w-full max-w-[40px]' variant='ghost' size='icon'>
+      <div className="flex gap-3">
+        <Button className="w-full max-w-[40px]" variant="ghost" size="icon">
           <Icons.attach className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
         <Textarea
-          className='min-h-full resize-none'
+          className="min-h-full resize-none"
           rows={1}
-          placeholder='Write a message...'
+          placeholder="Write a message..."
           ref={messageInputRef}
           value={messageInputValue}
           onChange={(e) => {
@@ -336,8 +336,8 @@ export const Chat = ({ chat }: Props) => {
           }}
         />
         <Button
-          className='w-full max-w-[40px]'
-          size='icon'
+          className="w-full max-w-[40px]"
+          size="icon"
           disabled={messageInputValue.length === 0}
           onClick={onSendMessage}
         >

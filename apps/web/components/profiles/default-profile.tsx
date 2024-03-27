@@ -39,13 +39,13 @@ const BUTTONS: Record<
 > = {
   none: ({ onClicks }) => (
     <>
-      <Badge className='absolute -right-0 -top-0'>
+      <Badge className="absolute -right-0 -top-0">
         You haven&apos;t sent a friend request yet
       </Badge>
-      <Tooltip side='bottom' text='Send a friend request'>
+      <Tooltip side="bottom" text="Send a friend request">
         <Button
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
-          variant='outline'
+          variant="outline"
         >
           <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
@@ -54,13 +54,13 @@ const BUTTONS: Record<
   ),
   'pending:receiver': ({ onClicks }) => (
     <>
-      <Badge className='absolute -right-0 -top-0'>
+      <Badge className="absolute -right-0 -top-0">
         You have already sent a friend request to this user
       </Badge>
-      <Tooltip side='bottom' text='Cancel request'>
+      <Tooltip side="bottom" text="Cancel request">
         <Button
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
-          variant='outline'
+          variant="outline"
         >
           <Icons.undo className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
@@ -69,12 +69,12 @@ const BUTTONS: Record<
   ),
   'pending:sender': ({ onClicks }) => (
     <>
-      <Badge className='absolute -right-0 -top-0'>
+      <Badge className="absolute -right-0 -top-0">
         User have sent you a friend request!
       </Badge>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='outline' size='icon'>
+          <Button variant="outline" size="icon">
             <Icons.moreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         </DropdownMenuTrigger>
@@ -97,13 +97,13 @@ const BUTTONS: Record<
   ),
   'rejected:sender': ({ onClicks }) => (
     <>
-      <Badge variant='destructive' className='absolute -right-0 -top-0'>
+      <Badge variant="destructive" className="absolute -right-0 -top-0">
         You have rejected a friend request from this user
       </Badge>
-      <Tooltip side='bottom' text='Add to friends'>
+      <Tooltip side="bottom" text="Add to friends">
         <Button
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
-          variant='outline'
+          variant="outline"
         >
           <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
         </Button>
@@ -143,13 +143,13 @@ export const DefaultProfile = (
   };
 
   return (
-    <div className='rounded-lg bg-background p-5'>
-      <div className='relative flex items-center justify-between'>
-        <div className='flex items-center gap-5'>
+    <div className="rounded-lg bg-background p-5">
+      <div className="relative flex items-center justify-between">
+        <div className="flex items-center gap-5">
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar
-                size='large'
+                size="large"
                 username={user.username}
                 avatar={user.profile.avatar?.name}
               />
@@ -167,8 +167,8 @@ export const DefaultProfile = (
               </DropdownMenuContent>
             )}
           </DropdownMenu>
-          <div className='relative top-3 flex flex-col'>
-            <span className='mb-4 text-2xl font-semibold'>{`${user.username}`}</span>
+          <div className="relative top-3 flex flex-col">
+            <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
             <span>{`bio: ${user.profile.bio ?? 'no bio yet 😔'}`}</span>
           </div>
         </div>
@@ -176,8 +176,8 @@ export const DefaultProfile = (
           onClicks: ON_CLICKS(user.extendedFriendRequestStatus)(user.username)
         })}
       </div>
-      <Separator className='my-4' />
-      <ul className='flex flex-col gap-5'>
+      <Separator className="my-4" />
+      <ul className="flex flex-col gap-5">
         <li>
           <time suppressHydrationWarning>
             {`last seen: ${formatDate(user.lastSeen)} at ${formatTime(

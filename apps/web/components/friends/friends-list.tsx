@@ -47,7 +47,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
 
   if (!users.length) {
     return (
-      <span className='my-7 text-center'>
+      <span className="my-7 text-center">
         {tab === 'all'
           ? "You don't have any friends yet."
           : 'None of your friends are online.'}
@@ -56,34 +56,34 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
   }
 
   return (
-    <ul className='flex flex-col gap-5'>
+    <ul className="flex flex-col gap-5">
       {users.map((user) => (
         <li
-          className='flex items-center justify-between py-2'
+          className="flex items-center justify-between py-2"
           key={user.username}
         >
-          <div className='flex items-center gap-3'>
+          <div className="flex items-center gap-3">
             <Link href={`/${user.username}`}>
-              <div className='relative'>
+              <div className="relative">
                 <Avatar
-                  size='medium'
+                  size="medium"
                   username={user.username}
                   avatar={user.profile.avatar?.name}
                 />
                 {connectionsInformation[user.username] === 'online' && (
-                  <span className='absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700' />
+                  <span className="absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700" />
                 )}
               </div>
             </Link>
             <Link href={`/${user.username}`}>
-              <span className='cursor-pointer hover:underline'>
+              <span className="cursor-pointer hover:underline">
                 {user.username}
               </span>
             </Link>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant='ghost' size='icon'>
+              <Button variant="ghost" size="icon">
                 <Icons.moreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
               </Button>
             </DropdownMenuTrigger>

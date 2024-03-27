@@ -48,17 +48,17 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
     useProfileActions(setOpen);
 
   return (
-    <div className='rounded-lg bg-background p-5'>
-      <div className='flex items-center gap-5'>
+    <div className="rounded-lg bg-background p-5">
+      <div className="flex items-center gap-5">
         <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger>
-            <div className='relative'>
+            <div className="relative">
               <Avatar
-                size='large'
+                size="large"
                 username={user.username}
                 avatar={user.profile.avatar?.name}
               />
-              <span className='absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400' />
+              <span className="absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -71,14 +71,14 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <input
                 onChange={user.profile.avatar ? updateAvatar() : uploadAvatar()}
-                id='avatar'
-                type='file'
-                accept='image/jpeg, image/png, image/jpg'
+                id="avatar"
+                type="file"
+                accept="image/jpeg, image/png, image/jpg"
                 hidden
               />
               <label
-                htmlFor='avatar'
-                className='flex cursor-pointer items-center'
+                htmlFor="avatar"
+                className="flex cursor-pointer items-center"
               >
                 {user.profile.avatar ? (
                   <>
@@ -96,7 +96,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             {user.profile.avatar && (
               <DropdownMenuItem onClick={deleteAvatar()}>
                 <Icons.trash
-                  color='hsl(0 84.2% 60.2%)'
+                  color="hsl(0 84.2% 60.2%)"
                   className={DROPDOWN_MENU_ICON_STYLES}
                 />
                 <span>Delete photo</span>
@@ -104,11 +104,11 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             )}
           </DropdownMenuContent>
         </DropdownMenu>
-        <div className='relative top-3 flex flex-col'>
-          <span className='mb-4 text-2xl font-semibold'>{`${user.username}`}</span>
+        <div className="relative top-3 flex flex-col">
+          <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
           <Dialog onOpenChange={() => setBio(user.profile.bio || '')}>
             <DialogTrigger>
-              <span className='cursor-pointer'>{`bio: ${
+              <span className="cursor-pointer">{`bio: ${
                 user.profile.bio ?? 'no bio yet 😔'
               }`}</span>
             </DialogTrigger>
@@ -123,7 +123,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               <Input onChange={(e) => setBio(e.target.value)} value={bio} />
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button type='button' variant='secondary'>
+                  <Button type="button" variant="secondary">
                     Close
                   </Button>
                 </DialogClose>
@@ -137,8 +137,8 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
           </Dialog>
         </div>
       </div>
-      <Separator className='my-4' />
-      <ul className='flex flex-col gap-5'>
+      <Separator className="my-4" />
+      <ul className="flex flex-col gap-5">
         <li>{`Your avatar likes: ${
           user.profile.avatar?.likes ?? 'no photo yet'
         } ❤️`}</li>
@@ -150,11 +150,11 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
           </time>
         </li>
         <li>{`email: ${user.contacts.email.contact}`}</li>
-        <li className='flex items-center gap-3'>
+        <li className="flex items-center gap-3">
           <span>{`email privacy [${
             user.contacts.email.isPublic ? 'public' : 'private'
           }]`}</span>
-          <div className='flex items-center gap-3'>
+          <div className="flex items-center gap-3">
             <Switch
               checked={!user.contacts.email.isPublic}
               onCheckedChange={async () => {

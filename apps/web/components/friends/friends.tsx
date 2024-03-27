@@ -47,8 +47,8 @@ export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
 
   return (
     <>
-      <div className='flex items-center justify-between text-sm'>
-        <ul className='flex gap-3 sm:gap-7'>
+      <div className="flex items-center justify-between text-sm">
+        <ul className="flex gap-3 sm:gap-7">
           <li
             onClick={() => router.replace(`${PAGES.FRIENDS}?tab=all`)}
             className={cn(
@@ -58,8 +58,8 @@ export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
               }
             )}
           >
-            <span className='flex sm:hidden'>{`All [${users.length}]`}</span>
-            <span className='hidden sm:flex'>{`All friends [${users.length}]`}</span>
+            <span className="flex sm:hidden">{`All [${users.length}]`}</span>
+            <span className="hidden sm:flex">{`All friends [${users.length}]`}</span>
           </li>
           <li
             onClick={() => router.replace(`${PAGES.FRIENDS}?tab=online`)}
@@ -78,11 +78,11 @@ export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
           </li>
         </ul>
         <Button onClick={() => router.replace(`${PAGES.FRIENDS_FIND}?page=1`)}>
-          <span className='flex sm:hidden'>Find</span>
-          <span className='hidden sm:flex'>Find friends</span>
+          <span className="flex sm:hidden">Find</span>
+          <span className="hidden sm:flex">Find friends</span>
         </Button>
       </div>
-      <Separator className='my-4' />
+      <Separator className="my-4" />
       <FriendsList
         friends={users}
         connectionsInformation={connectionsInformation}

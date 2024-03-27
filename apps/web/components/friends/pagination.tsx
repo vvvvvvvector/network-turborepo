@@ -48,7 +48,7 @@ const Pagination = ({
 
 const PaginationContent = ({ children, ...props }: ComponentProps<'ul'>) => {
   return (
-    <ul className='flex items-center justify-center gap-1' {...props}>
+    <ul className="flex items-center justify-center gap-1" {...props}>
       {children}
     </ul>
   );

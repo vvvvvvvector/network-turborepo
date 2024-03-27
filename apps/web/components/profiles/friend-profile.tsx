@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useEffect, useState } from 'react';
 
@@ -48,19 +48,19 @@ export const FriendProfile = (
   }, []);
 
   return (
-    <div className='rounded-lg bg-background p-5'>
-      <div className='relative flex items-center justify-between'>
-        <div className='flex items-center gap-5'>
+    <div className="rounded-lg bg-background p-5">
+      <div className="relative flex items-center justify-between">
+        <div className="flex items-center gap-5">
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <div className='relative'>
+              <div className="relative">
                 <Avatar
-                  size='large'
+                  size="large"
                   username={user.username}
                   avatar={user.profile.avatar?.name}
                 />
                 {onlineStatus === 'online' && (
-                  <span className='absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400' />
+                  <span className="absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400" />
                 )}
               </div>
             </DropdownMenuTrigger>
@@ -77,32 +77,32 @@ export const FriendProfile = (
               </DropdownMenuContent>
             )}
           </DropdownMenu>
-          <div className='relative top-3 flex flex-col'>
-            <span className='mb-4 text-2xl font-semibold'>{`${user.username}`}</span>
+          <div className="relative top-3 flex flex-col">
+            <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
             <span>{`bio: ${user.profile.bio ?? 'no bio yet 😔'}`}</span>
           </div>
         </div>
-        <div className='absolute -right-0 -top-0 flex gap-2'>
+        <div className="absolute -right-0 -top-0 flex gap-2">
           {onlineStatus === 'online' && (
-            <Badge className='bg-emerald-400'>{`Online 👋`}</Badge>
+            <Badge className="bg-emerald-400">{`Online 👋`}</Badge>
           )}
           <Badge>{`Friend 🎉`}</Badge>
         </div>
-        <div className='flex items-center gap-4'>
+        <div className="flex items-center gap-4">
           <Button onClick={writeMessage(user.username)}>Message</Button>
-          <Tooltip side='bottom' text='Unfriend'>
+          <Tooltip side="bottom" text="Unfriend">
             <Button
               onClick={unfriend(user.username)}
-              variant='outline'
-              size='icon'
+              variant="outline"
+              size="icon"
             >
               <Icons.acceptUser className={ICON_INSIDE_BUTTON_SIZE} />
             </Button>
           </Tooltip>
         </div>
       </div>
-      <Separator className='my-4' />
-      <ul className='flex flex-col gap-5'>
+      <Separator className="my-4" />
+      <ul className="flex flex-col gap-5">
         {onlineStatus === 'offline' && (
           <li>
             <time suppressHydrationWarning>

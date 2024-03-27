@@ -88,23 +88,23 @@ const Header = () => {
   }, [theme]);
 
   return (
-    <header className='sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background'>
-      <div className='flex h-14 w-full max-w-authorised items-center px-5'>
-        <ul className='flex size-full items-center justify-between gap-2 md:gap-0'>
-          <li className='md:hidden'>
+    <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background">
+      <div className="flex h-14 w-full max-w-authorised items-center px-5">
+        <ul className="flex size-full items-center justify-between gap-2 md:gap-0">
+          <li className="md:hidden">
             <MobileNav />
           </li>
-          <li className='flex flex-1'>
+          <li className="flex flex-1">
             <div
               onClick={() => push(PAGES.NEWS)}
-              className='mr-14 hidden cursor-pointer items-center gap-3 md:flex'
+              className="mr-14 hidden cursor-pointer items-center gap-3 md:flex"
             >
               <Icons.appLogo />
-              <span className='text-2xl font-bold'>Network</span>
+              <span className="text-2xl font-bold">Network</span>
             </div>
-            <CommandMenu className='md:max-w-[320px]' />
+            <CommandMenu className="md:max-w-[320px]" />
           </li>
-          <li className='h-full'>
+          <li className="h-full">
             <Dialog>
               <DropdownMenu
                 open={dropdownMenuOpen}
@@ -114,18 +114,18 @@ const Header = () => {
                 <DropdownMenuTrigger asChild>
                   <div
                     onClick={() => setDropdownMenuOpen(true)}
-                    className='flex h-full w-[80px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent md:w-[100px]'
+                    className="flex h-full w-[80px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent md:w-[100px]"
                   >
                     <Avatar
                       username={data?.username || 'Unknown'}
                       avatar={data?.avatar?.name}
                     />
-                    <Icons.arrowDown className='size-4' />
+                    <Icons.arrowDown className="size-4" />
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align='center' className='w-52'>
+                <DropdownMenuContent align="center" className="w-52">
                   <DropdownMenuLabel>
-                    <div className='flex gap-2'>
+                    <div className="flex gap-2">
                       <span>Profile: </span>
                       <span
                         onClick={() => {
@@ -133,7 +133,7 @@ const Header = () => {
 
                           setDropdownMenuOpen(false);
                         }}
-                        className='cursor-pointer hover:underline'
+                        className="cursor-pointer hover:underline"
                       >
                         {data?.username || 'Unknown'}
                       </span>
@@ -147,15 +147,15 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                     {themeMenu.icon}
-                    <div className='flex flex-1 justify-between'>
+                    <div className="flex flex-1 justify-between">
                       <span>Theme:</span>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <div className='mr-2 flex items-center'>
+                          <div className="mr-2 flex items-center">
                             <span>{themeMenu.text}</span>
                           </div>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align='end'>
+                        <DropdownMenuContent align="end">
                           {ThemeMenu.slice(0, 3).map((item) => (
                             <DropdownMenuItem
                               key={item.text}
@@ -174,7 +174,7 @@ const Header = () => {
                     </div>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DialogTrigger className='w-full'>
+                  <DialogTrigger className="w-full">
                     <DropdownMenuItem>
                       <Icons.signOut className={DROPDOWN_MENU_ICON_STYLES} />
                       <span>Sign out</span>
@@ -182,7 +182,7 @@ const Header = () => {
                   </DialogTrigger>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <DialogContent className='max-w-[500px]'>
+              <DialogContent className="max-w-[500px]">
                 <DialogHeader>
                   <DialogTitle>Please, confirm your intention</DialogTitle>
                   <DialogDescription>
@@ -190,7 +190,7 @@ const Header = () => {
                   </DialogDescription>
                   <DialogFooter>
                     <DialogClose asChild>
-                      <Button type='button' variant='secondary'>
+                      <Button type="button" variant="secondary">
                         Close
                       </Button>
                     </DialogClose>

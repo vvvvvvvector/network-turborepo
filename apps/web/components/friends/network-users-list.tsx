@@ -52,28 +52,28 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
 
   return (
     <>
-      <div className='mb-4 flex gap-2'>
+      <div className="mb-4 flex gap-2">
         <span>Find friends</span>
       </div>
-      <div className='flex justify-between gap-5 text-sm'>
+      <div className="flex justify-between gap-5 text-sm">
         <Input
           ref={inputRef}
           value={searchValue}
-          placeholder='Search...'
+          placeholder="Search..."
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') onSearch();
           }}
         />
         {!params.get('username') ? (
-          <Button onClick={onSearch} size='icon' className='w-14'>
+          <Button onClick={onSearch} size="icon" className="w-14">
             <Icons.search className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
         ) : (
-          <Tooltip text='Reset search'>
+          <Tooltip text="Reset search">
             <Button
-              size='icon'
-              className='w-14'
+              size="icon"
+              className="w-14"
               onClick={() => {
                 replace(`${PAGES.FRIENDS_FIND}?page=1`);
 
@@ -85,31 +85,31 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
           </Tooltip>
         )}
       </div>
-      <Separator className='my-4' />
+      <Separator className="my-4" />
       {users.length > 0 ? (
-        <ul className='flex flex-col gap-5'>
+        <ul className="flex flex-col gap-5">
           {users.map((user) => (
             <li
-              className='flex items-center justify-between py-2'
+              className="flex items-center justify-between py-2"
               key={user.username}
             >
-              <div className='flex items-center gap-3'>
+              <div className="flex items-center gap-3">
                 <Link href={`/${user.username}`}>
                   <Avatar
-                    size='medium'
+                    size="medium"
                     username={user.username}
                     avatar={user.profile.avatar?.name}
                   />
                 </Link>
                 <Link href={`/${user.username}`}>
-                  <span className='cursor-pointer hover:underline'>
+                  <span className="cursor-pointer hover:underline">
                     {user.username}
                   </span>
                 </Link>
               </div>
               {user.requestStatus === 'none' ? (
-                <Tooltip text='Send a friend request'>
-                  <Button onClick={send(user.username)} variant='outline'>
+                <Tooltip text="Send a friend request">
+                  <Button onClick={send(user.username)} variant="outline">
                     <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />
                   </Button>
                 </Tooltip>
@@ -120,7 +120,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
           ))}
         </ul>
       ) : (
-        <span className='my-7 text-center'>
+        <span className="my-7 text-center">
           Your search returned no results.
         </span>
       )}

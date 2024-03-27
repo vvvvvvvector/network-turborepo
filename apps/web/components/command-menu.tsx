@@ -58,7 +58,7 @@ export const CommandMenu = ({ className }: Props) => {
   return (
     <>
       <Button
-        variant='outline'
+        variant="outline"
         onClick={() => setCommandMenuOpened(true)}
         className={cn(
           'flex w-full items-center justify-between rounded-lg text-sm text-muted-foreground',
@@ -66,18 +66,18 @@ export const CommandMenu = ({ className }: Props) => {
         )}
       >
         <span>Search...</span>
-        <kbd className='pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 dark:bg-neutral-900 md:flex'>
-          <span className='text-xs'>⌘</span>K
+        <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 dark:bg-neutral-900 md:flex">
+          <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
       <CommandDialog
         open={commandMenuOpened}
         onOpenChange={setCommandMenuOpened}
       >
-        <CommandInput placeholder='Search for pages or commands...' />
+        <CommandInput placeholder="Search for pages or commands..." />
         <CommandList>
           <CommandEmpty>No results found 🥲</CommandEmpty>
-          <CommandGroup heading='Pages'>
+          <CommandGroup heading="Pages">
             <CommandItem
               onSelect={() => runCommand(() => push(PAGES.MY_PROFILE))}
             >
@@ -108,7 +108,7 @@ export const CommandMenu = ({ className }: Props) => {
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading='Friends'>
+          <CommandGroup heading="Friends">
             <CommandItem
               onSelect={() =>
                 runCommand(() => push(`${PAGES.FRIENDS_FIND}?page=1`))
@@ -145,7 +145,7 @@ export const CommandMenu = ({ className }: Props) => {
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading='Friend Requests'>
+          <CommandGroup heading="Friend Requests">
             <CommandItem
               onSelect={() =>
                 runCommand(() =>
@@ -178,7 +178,7 @@ export const CommandMenu = ({ className }: Props) => {
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading='Theme'>
+          <CommandGroup heading="Theme">
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
               <Icons.lightMode className={COMMAND_ITEM_ICON_STYLE} />
               <span>Light</span>
@@ -193,7 +193,7 @@ export const CommandMenu = ({ className }: Props) => {
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading='Settings'>
+          <CommandGroup heading="Settings">
             <CommandItem>
               <Icons.settings className={COMMAND_ITEM_ICON_STYLE} />
               <span>Settings</span>
