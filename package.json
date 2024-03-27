@@ -1,18 +1,23 @@
 {
   "name": "social-network-turborepo",
   "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
+    "dev": "turbo run dev --parallel",
+    "server:dev": "turbo --filter=social-network-server dev",
+    "web:dev": "turbo --filter=social-network-web dev",
     "build": "turbo build",
-    "dev": "turbo dev",
+    "server:build": "turbo --filter=social-network-server build",
+    "web:build": "turbo --filter=social-network-web build",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format:check": "turbo run format:check",
+    "format:write": "turbo run format:write"
   },
+  "packageManager": "pnpm@8.9.0",
   "devDependencies": {
     "prettier": "^3.2.5",
     "turbo": "latest"
-  },
-  "packageManager": "pnpm@8.9.0",
-  "engines": {
-    "node": ">=18"
   }
 }

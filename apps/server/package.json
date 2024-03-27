@@ -8,8 +8,9 @@
   "scripts": {
     "dev": "nest start --watch",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "format:check": "prettier --check \"**/*.{ts,md}\" --cache",
+    "format:write": "prettier --write \"**/*.{ts,md}\" --cache",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
