@@ -1,5 +1,3 @@
-# The project was moved to the [monorepo (Turborepo)](https://github.com/vvvvvvvector/social-network-turborepo)
-
 An open source application built using [Next.js](https://nextjs.org/).
 
 [👉 Screenshots 👈](https://drive.google.com/drive/folders/18ECGstBfa0534t8nTC6LbmJpjc6w4QL9?usp=drive_link)
@@ -10,7 +8,7 @@ An open source application built using [Next.js](https://nextjs.org/).
 - Users can add other users as "friends". A friend request has 3 states: accepted, pending, rejected. A user can manage thier list of requests and friends
 - A user can select the app theme: light, dark, system
 
-## Running locally 
+## Running locally
 
 1. Install dependencies using npm:
 

@@ -1,5 +1,3 @@
-# The project was moved to the [monorepo (Turborepo)](https://github.com/vvvvvvvector/social-network-turborepo)
-
 An open source application built using [NestJS](https://nestjs.com/)
 
 ## Features
