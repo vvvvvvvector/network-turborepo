@@ -63,15 +63,11 @@ export class AuthService {
       password: hash,
     });
 
-    const link = `${process.env.API_URL}/auth/activate/${uuid}`;
-
-    // To Do: send email with the activation link
+    // Todo: send email with the activation link
+    const link = `${process.env.API_URL}/auth/activate/${uuid}`; // eslint-disable-line
 
     return {
-      message: 'Activation link was successfully sent to e-mail.',
-      statusCode: 201,
       receiver: email,
-      link,
     };
   }
 
