@@ -9,6 +9,8 @@ import * as express from 'express';
 import { join } from 'path';
 
 async function bootstrap() {
+  var esnlintTest;
+  
   const app = await NestFactory.create(AppModule, { cors: false });
 
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads'))); // https://loclahost:5173/uploads/avatars/* -> will show the image because of this

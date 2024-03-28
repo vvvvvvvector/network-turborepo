@@ -88,7 +88,7 @@ const Header = () => {
   }, [theme]);
 
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background">
+    <header className="sticky z-50 top-0 flex w-full items-center justify-center border-b border-b-muted bg-background">
       <div className="flex h-14 w-full max-w-authorised items-center px-5">
         <ul className="flex size-full items-center justify-between gap-2 md:gap-0">
           <li className="md:hidden">
