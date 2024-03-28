@@ -12,8 +12,8 @@ This Turborepo includes the following apps:
 
 ### Apps
 
-- `web`: a [Next.js](https://nextjs.org/) app. It was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-client)
-- `server`: a [NestJS](https://nestjs.com/) app. It was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-server)
+- `web`: a [Next.js](https://nextjs.org/) app, deployed on _Vercel_. The app was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-client)
+- `server`: a [NestJS](https://nestjs.com/) app, depoyed on _Render_ (free tier) but 🚨 **WebSockets** and **static files storage** don't work 🚨. The app was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-server)
 
 ### Develop
 
