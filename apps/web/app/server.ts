@@ -27,3 +27,11 @@ export async function request<T>(
 
   return res.json();
 }
+
+export async function setToken(token: string) {
+  cookies().set(TOKEN_NAME, token); // Good to know: invalidates the Router Cache
+}
+
+export async function signOut() {
+  cookies().delete(TOKEN_NAME); // Good to know: invalidates the Router Cache
+}

@@ -29,7 +29,7 @@ import { Avatar } from '@/components/avatar';
 import { CommandMenu } from '@/components/command-menu';
 import { MobileNav } from '@/components/mobile-nav';
 
-import { signOut } from '@/axios/auth';
+import { signOut } from '@/app/server';
 import { getAuthorisedUserUsernameAndAvatar, url } from '@/axios/users';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';

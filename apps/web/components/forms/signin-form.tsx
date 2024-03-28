@@ -4,11 +4,12 @@ import { useTransition } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { setCookie } from 'nookies';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
+
+import { setToken } from '@/app/server';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -26,7 +27,7 @@ import { Icons } from '@/components/icons';
 import { signIn } from '@/axios/auth';
 
 import { env } from '@/lib/env';
-import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -42,9 +43,7 @@ export const SignInForm = () => {
   const signInMutation = useMutation({
     mutationFn: (data: z.infer<typeof formSchema>) => signIn(data),
     onSuccess: ({ token }) => {
-      setCookie(null, TOKEN_NAME, token, {
-        path: '/'
-      });
+      setToken(token);
     }
   });
 

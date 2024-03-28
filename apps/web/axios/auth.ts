@@ -1,8 +1,4 @@
-import { destroyCookie } from 'nookies';
-
 import { axiosApiInstance } from '@/axios';
-
-import { TOKEN_NAME } from '@/lib/constants';
 
 // vvv ------------------mutations------------------ vvv
 
@@ -29,10 +25,4 @@ const signUp = async (values: {
 
 // ^^^ ------------------mutations------------------ ^^^
 
-const signOut = () => {
-  destroyCookie(null, TOKEN_NAME, {
-    path: '/'
-  });
-};
-
-export { signIn, signUp, signOut };
+export { signIn, signUp };
