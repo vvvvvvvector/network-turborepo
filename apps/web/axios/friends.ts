@@ -6,7 +6,7 @@ export type RequestStatus = BaseFriendRequestStatus | 'none';
 
 const ROUTE = '/friend-requests';
 
-// vvv ------------------actions------------------ vvv
+// vvv ------------------mutations------------------ vvv
 
 const unfriend = async (username: string) => {
   await axiosApiInstance.patch(`${ROUTE}/unfriend`, { username });
@@ -32,7 +32,7 @@ const cancelFriendRequest = async (username: string) => {
   });
 };
 
-// ^^^ ------------------actions------------------ ^^^
+// ^^^ ------------------mutations------------------ ^^^
 
 export {
   sendFriendRequest,

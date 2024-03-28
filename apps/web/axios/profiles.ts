@@ -2,6 +2,8 @@ import { axiosApiInstance } from '@/axios';
 
 const ROUTE = '/profiles';
 
+// vvv ------------------mutations------------------ vvv
+
 const updateBio = async (bio: string) => {
   await axiosApiInstance.put(`${ROUTE}/bio`, {
     bio
@@ -35,5 +37,7 @@ const updateAvatar = async (avatar: File) => {
 const deleteAvatar = async () => {
   await axiosApiInstance.delete(`${ROUTE}/avatar`);
 };
+
+// ^^^ ------------------mutations------------------ ^^^
 
 export { updateBio, uploadAvatar, updateAvatar, deleteAvatar };

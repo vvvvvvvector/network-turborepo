@@ -4,7 +4,6 @@ import type { User, AvatarWithoutLikes } from '../lib/types';
 
 const ROUTE = '/users';
 
-// vvv ------------------authorised------------------ vvv
 export const url = `${ROUTE}/me/username-avatar`;
 
 const getAuthorisedUserUsernameAndAvatar = async (url: string) => {
@@ -12,6 +11,8 @@ const getAuthorisedUserUsernameAndAvatar = async (url: string) => {
 
   return data;
 };
+
+// vvv ------------------mutations------------------ vvv
 
 const toogleAuthorisedUserEmailPrivacy = async () => {
   await axiosApiInstance.patch<{
@@ -21,6 +22,6 @@ const toogleAuthorisedUserEmailPrivacy = async () => {
   }>(`${ROUTE}/me/contacts/email/privacy`);
 };
 
-// ^^^ ------------------authorised------------------ ^^^
+// ^^^ ------------------mutations------------------ ^^^
 
 export { toogleAuthorisedUserEmailPrivacy, getAuthorisedUserUsernameAndAvatar };

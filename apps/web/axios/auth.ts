@@ -4,6 +4,8 @@ import { axiosApiInstance } from '@/axios';
 
 import { TOKEN_NAME } from '@/lib/constants';
 
+// vvv ------------------mutations------------------ vvv
+
 const signIn = async (values: { username: string; password: string }) => {
   const { data } = await axiosApiInstance.post<{ token: string }>(
     '/auth/signin',
@@ -27,6 +29,8 @@ const signUp = async (values: {
 
   return data;
 };
+
+// ^^^ ------------------mutations------------------ ^^^
 
 const signOut = () => {
   destroyCookie(null, TOKEN_NAME, {
