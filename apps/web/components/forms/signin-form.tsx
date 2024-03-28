@@ -40,7 +40,12 @@ export const SignInForm = () => {
   const router = useRouter();
 
   const signInMutation = useMutation({
-    mutationFn: (data: z.infer<typeof formSchema>) => signIn(data)
+    mutationFn: (data: z.infer<typeof formSchema>) => signIn(data),
+    onSuccess: ({ token }) => {
+      setCookie(null, TOKEN_NAME, token, {
+        path: '/'
+      });
+    }
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,29 +56,27 @@ export const SignInForm = () => {
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      const { token } = await signInMutation.mutateAsync(data);
-
-      setCookie(null, TOKEN_NAME, token, {
-        path: '/'
-      });
-
-      toast.success('You have successfully signed in.');
-
-      startTransition(() => {
-        router.push(PAGES.NEWS);
-      });
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        toast.error(`${error.response?.data.message}`);
-      }
-    }
-  };
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={form.handleSubmit((data) => {
+          signInMutation.mutate(data, {
+            onSuccess: () => {
+              toast.success('You have successfully signed in.');
+
+              startTransition(() => {
+                router.push(PAGES.NEWS);
+              });
+            },
+            onError: (error) => {
+              if (axios.isAxiosError(error)) {
+                toast.error(`${error.response?.data.message}`);
+              }
+            }
+          });
+        })}
+        className="space-y-10"
+      >
         <FormField
           control={form.control}
           name="username"
