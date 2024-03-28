@@ -24,12 +24,6 @@
     "no-const-assign": 2,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
-    "react/hook-use-state": [
-      2,
-      {
-        "allowDestructuredState": true
-      }
-    ],
     "react-hooks/exhaustive-deps": 0,
     "react-hooks/rules-of-hooks": 2,
     "jsx-a11y/alt-text": 0,
