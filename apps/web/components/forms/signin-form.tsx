@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { setCookie } from 'nookies';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -34,11 +35,13 @@ const formSchema = z.object({
 });
 
 export const SignInForm = () => {
-  const [loading, setLoading] = useState(false);
-
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
+
+  const signInMutation = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) => signIn(data)
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,11 +53,7 @@ export const SignInForm = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      setLoading(true);
-
-      const { token } = await signIn(data);
-
-      setLoading(false);
+      const { token } = await signInMutation.mutateAsync(data);
 
       setCookie(null, TOKEN_NAME, token, {
         path: '/'
@@ -66,13 +65,9 @@ export const SignInForm = () => {
         router.push(PAGES.NEWS);
       });
     } catch (error) {
-      setLoading(false);
-
       if (axios.isAxiosError(error)) {
         toast.error(`${error.response?.data.message}`);
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -116,9 +111,9 @@ export const SignInForm = () => {
         <Button
           type="submit"
           className="w-full"
-          disabled={loading || isPending}
+          disabled={signInMutation.isPending || isPending}
         >
-          {loading || isPending ? (
+          {signInMutation.isPending || isPending ? (
             <div className="flex items-center gap-2">
               <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
