@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { z } from 'zod';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -41,11 +42,13 @@ const formSchema = z.object({
 });
 
 export const SignUpForm = () => {
-  const [loading, setLoading] = useState(false);
-
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
+
+  const signUpMutation = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) => signUp(data)
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,35 +59,34 @@ export const SignUpForm = () => {
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      setLoading(true);
-
-      const { receiver, link } = await signUp(data);
-
-      setLoading(false);
-
-      toast.success(`Activation link has been sent to ${receiver}.`, {
-        description: `Link: ${link}`
-      });
-
-      startTransition(() => {
-        router.push(PAGES.SIGN_IN);
-      });
-    } catch (error) {
-      setLoading(false);
-
-      if (axios.isAxiosError(error)) {
-        toast.error(`${error.response?.data.message}`);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={form.handleSubmit((data) => {
+          signUpMutation.mutate(data, {
+            onSuccess: ({ receiver }) => {
+              toast.success(`You've successfully signed up`, {
+                description: `Profile activation link has been sent to: ${receiver}.`
+              });
+
+              toast.info(`Profile activation via e-mail isn't impemented yet`, {
+                description:
+                  'You can sign in immediatly after successful sign up.'
+              });
+
+              startTransition(() => {
+                router.push(PAGES.SIGN_IN);
+              });
+            },
+            onError: (error) => {
+              if (axios.isAxiosError(error)) {
+                toast.error(`${error.response?.data.message}`);
+              }
+            }
+          });
+        })}
+        className="space-y-10"
+      >
         <FormField
           control={form.control}
           name="email"
@@ -139,9 +141,9 @@ export const SignUpForm = () => {
         <Button
           type="submit"
           className="w-full"
-          disabled={loading || isPending}
+          disabled={signUpMutation.isPending || isPending}
         >
-          {loading || isPending ? (
+          {signUpMutation.isPending || isPending ? (
             <div className="flex items-center gap-2">
               <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}

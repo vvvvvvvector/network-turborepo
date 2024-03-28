@@ -21,10 +21,7 @@ const signUp = async (values: {
   email: string;
 }) => {
   const { data } = await axiosApiInstance.post<{
-    message: string;
-    statusCode: number;
     receiver: string;
-    link: string;
   }>('/auth/signup', values);
 
   return data;
