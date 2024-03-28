@@ -11,6 +11,10 @@ const settings: ThemeProviderProps = {
   disableTransitionOnChange: false
 };
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export default function ThemeProvider({
+  children
+}: {
+  children: React.ReactNode;
+}) {
   return <NextThemesProvider {...settings}>{children}</NextThemesProvider>;
 }

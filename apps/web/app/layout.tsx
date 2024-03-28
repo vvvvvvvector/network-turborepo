@@ -1,7 +1,8 @@
 import type { Viewport } from 'next';
 import { Source_Code_Pro } from 'next/font/google';
 
-import { ThemeProvider } from '@/components/providers/theme-provider';
+import QueryProvider from '@/components/providers/query-provider';
+import ThemeProvider from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/toaster';
 
 import { cn } from '@/lib/utils';
@@ -27,7 +28,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn(`${globalFont.className}`)}>
         <ThemeProvider>
-          {children}
+          <QueryProvider>{children}</QueryProvider>
           <Toaster fontFamily={globalFont.style.fontFamily} />
         </ThemeProvider>
       </body>
