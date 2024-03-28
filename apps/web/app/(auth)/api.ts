@@ -9,7 +9,7 @@ const checkAuthSchema = z.object({
 const isAuthorised = async () => {
   return {
     signedInUserUsername: checkAuthSchema.parse(
-      await request('users/me/username')
+      await request<{ username: string }>('users/me/username')
     ).username
   };
 };
