@@ -16,6 +16,7 @@ import {
 import { Icons } from '@/components/icons';
 
 import { PAGES } from '@/lib/constants';
+import { capitalize } from '@/lib/utils';
 
 export default function AuthLayout({
   children
@@ -24,7 +25,7 @@ export default function AuthLayout({
 }) {
   const pathname = usePathname();
 
-  const { setTheme } = useTheme();
+  const { setTheme, themes } = useTheme();
 
   return (
     <>
@@ -40,15 +41,11 @@ export default function AuthLayout({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setTheme('light')}>
-            Light
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme('dark')}>
-            Dark
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTheme('system')}>
-            System
-          </DropdownMenuItem>
+          {themes.map((theme) => (
+            <DropdownMenuItem key={theme} onClick={() => setTheme(theme)}>
+              {capitalize(theme)}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
       <div className="grid size-full place-items-center dark:bg-neutral-900">

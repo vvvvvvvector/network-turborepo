@@ -14,9 +14,10 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
+import { getThemeIcon } from '@/components/header';
 
 import { PAGES } from '@/lib/constants';
-import { cn } from '@/lib/utils';
+import { capitalize, cn } from '@/lib/utils';
 
 import { useCommandMenuStore } from '@/zustand/command-menu.store';
 
@@ -30,7 +31,7 @@ export const CommandMenu = ({ className }: Props) => {
   const { commandMenuOpened, toogleCmdMenuOpenState, setCommandMenuOpened } =
     useCommandMenuStore();
 
-  const { setTheme } = useTheme();
+  const { setTheme, themes } = useTheme();
 
   const { push } = useRouter();
 
@@ -179,18 +180,15 @@ export const CommandMenu = ({ className }: Props) => {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <Icons.lightMode className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Light</span>
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
-              <Icons.darkMode className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Dark</span>
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
-              <Icons.systemMode className={COMMAND_ITEM_ICON_STYLE} />
-              <span>System</span>
-            </CommandItem>
+            {themes.map((theme) => (
+              <CommandItem
+                key={theme}
+                onSelect={() => runCommand(() => setTheme(theme))}
+              >
+                {getThemeIcon(theme)}
+                <span>{capitalize(theme)}</span>
+              </CommandItem>
+            ))}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Settings">

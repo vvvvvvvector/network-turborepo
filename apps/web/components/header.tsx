@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -36,47 +36,56 @@ import { getAuthorisedUserUsernameAndAvatar, url } from '@/axios/users';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
 import type { AvatarWithoutLikes, User } from '@/lib/types';
+import { capitalize } from '@/lib/utils';
 
-const ThemeMenu = [
-  {
-    text: 'Light',
-    icon: <Icons.lightMode className={DROPDOWN_MENU_ICON_STYLES} />
-  },
-  {
-    text: 'Dark',
-    icon: <Icons.darkMode className={DROPDOWN_MENU_ICON_STYLES} />
-  },
-  {
-    text: 'System',
-    icon: <Icons.systemMode className={DROPDOWN_MENU_ICON_STYLES} />
-  },
-  {
-    text: 'Error!',
-    icon: <Icons.alertTriangle className={DROPDOWN_MENU_ICON_STYLES} />
-  }
-] as const;
-
-const whatActiveTheme = (theme: string | undefined) => {
+export const getThemeIcon = (theme: string | undefined) => {
   switch (theme) {
     case 'light':
-      return ThemeMenu[0];
+      return <Icons.lightMode className={DROPDOWN_MENU_ICON_STYLES} />;
     case 'dark':
-      return ThemeMenu[1];
+      return <Icons.darkMode className={DROPDOWN_MENU_ICON_STYLES} />;
     case 'system':
-      return ThemeMenu[2];
+      return <Icons.systemMode className={DROPDOWN_MENU_ICON_STYLES} />;
     default:
-      return ThemeMenu[3];
+      return <Icons.alertTriangle className={DROPDOWN_MENU_ICON_STYLES} />;
   }
+};
+
+const ThemeSelector = () => {
+  const { theme, setTheme, themes } = useTheme();
+
+  return (
+    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+      {getThemeIcon(theme)}
+      <div className="flex flex-1 justify-between">
+        <span>Theme:</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="mr-2 flex items-center">
+              <span>{theme && capitalize(theme)}</span>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {themes.map((theme) => (
+              <DropdownMenuItem
+                key={theme}
+                onClick={() => {
+                  setTheme(theme);
+                }}
+              >
+                {getThemeIcon(theme)}
+                <span>{capitalize(theme)}</span>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </DropdownMenuItem>
+  );
 };
 
 const Header = () => {
   const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
-
-  const { theme, setTheme } = useTheme();
-
-  const [themeMenu, setThemeMenu] = useState<(typeof ThemeMenu)[number]>(
-    whatActiveTheme(theme)
-  );
 
   const { push } = useRouter();
 
@@ -84,10 +93,6 @@ const Header = () => {
     url,
     getAuthorisedUserUsernameAndAvatar
   );
-
-  useEffect(() => {
-    setThemeMenu(whatActiveTheme(theme));
-  }, [theme]);
 
   return (
     <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background">
@@ -147,34 +152,7 @@ const Header = () => {
                     <span>Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    {themeMenu.icon}
-                    <div className="flex flex-1 justify-between">
-                      <span>Theme:</span>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <div className="mr-2 flex items-center">
-                            <span>{themeMenu.text}</span>
-                          </div>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          {ThemeMenu.slice(0, 3).map((item) => (
-                            <DropdownMenuItem
-                              key={item.text}
-                              onClick={() => {
-                                setThemeMenu({ ...item });
-
-                                setTheme(item.text.toLowerCase());
-                              }}
-                            >
-                              {item.icon}
-                              <span>{item.text}</span>
-                            </DropdownMenuItem>
-                          ))}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </DropdownMenuItem>
+                  <ThemeSelector />
                   <DropdownMenuSeparator />
                   <DialogTrigger className="w-full">
                     <DropdownMenuItem>
