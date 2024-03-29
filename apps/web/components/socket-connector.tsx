@@ -7,7 +7,11 @@ import { TOKEN_NAME } from '@/lib/constants';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
-export const SocketConnector = ({ children }: { children: React.ReactNode }) => {
+export const SocketConnector = ({
+  children
+}: {
+  children: React.ReactNode;
+}) => {
   const { connect, disconnect } = useSocketStore();
 
   useEffect(() => {
