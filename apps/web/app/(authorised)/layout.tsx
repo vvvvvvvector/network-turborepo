@@ -1,4 +1,4 @@
-import { SocketConnector } from '@/components/socket';
+import { SocketConnector } from '@/components/socket-connector';
 import { Header } from '@/components/header';
 import { DesktopNav } from '@/components/desktop-nav';
 
