@@ -7,7 +7,7 @@ import { TOKEN_NAME } from '@/lib/constants';
 
 import { useSocketStore } from '@/zustand/socket.store';
 
-export const Main = ({ children }: { children: React.ReactNode }) => {
+export const SocketConnector = ({ children }: { children: React.ReactNode }) => {
   const { connect, disconnect } = useSocketStore();
 
   useEffect(() => {
@@ -18,5 +18,5 @@ export const Main = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  return <main>{children}</main>;
+  return <div className="flex min-h-screen flex-col">{children}</div>;
 };
