@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -27,7 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar } from '@/components/avatar';
 import { Icons } from '@/components/icons';
 
-import { useProfileActions } from '@/hooks/use-profile-actions';
+import { useProfileMutations } from '@/hooks/use-profile-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import type { AuthorisedUser } from '@/lib/types';
@@ -35,22 +34,21 @@ import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
 import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
+// import { toast } from 'sonner';
 
 export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);
-  const [bio, setBio] = useState('');
 
-  const { refresh } = useRouter();
+  const [bio, setBio] = useState('');
 
   const { openPhoto } = useCommonActions();
 
-  const { updateBio, updateAvatar, uploadAvatar, deleteAvatar } =
-    useProfileActions(setOpen);
+  const { updateAvatar } = useProfileMutations();
 
   return (
     <div className="rounded-lg bg-background p-5">
       <div className="flex items-center gap-5">
-        <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
+        <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger>
             <div className="relative">
               <Avatar
@@ -70,11 +68,23 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <input
-                onChange={user.profile.avatar ? updateAvatar() : uploadAvatar()}
                 id="avatar"
                 type="file"
                 accept="image/jpeg, image/png, image/jpg"
                 hidden
+                onChange={(e) => {
+                  if (e.target.files instanceof FileList) {
+                    const file = e.target.files[0];
+
+                    updateAvatar.mutate(
+                      { file },
+                      {
+                        onSuccess: () => setOpen(false),
+                        onSettled: () => (e.target.value = '')
+                      }
+                    );
+                  }
+                }}
               />
               <label
                 htmlFor="avatar"
@@ -82,8 +92,19 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               >
                 {user.profile.avatar ? (
                   <>
-                    <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
-                    <span>Update photo</span>
+                    {updateAvatar.isPending ? (
+                      <>
+                        <Icons.spinner
+                          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+                        />
+                        <span>Updating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
+                        <span>Update photo</span>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>
@@ -94,7 +115,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               </label>
             </DropdownMenuItem>
             {user.profile.avatar && (
-              <DropdownMenuItem onClick={deleteAvatar()}>
+              <DropdownMenuItem>
                 <Icons.trash
                   color="hsl(0 84.2% 60.2%)"
                   className={DROPDOWN_MENU_ICON_STYLES}
@@ -128,9 +149,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   </Button>
                 </DialogClose>
                 <DialogClose asChild>
-                  <Button onClick={updateBio(bio)}>
-                    {bio ? 'Save' : 'Empty bio'}
-                  </Button>
+                  <Button>{bio ? 'Save' : 'Empty bio'}</Button>
                 </DialogClose>
               </DialogFooter>
             </DialogContent>
@@ -159,7 +178,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               checked={!user.contacts.email.isPublic}
               onCheckedChange={async () => {
                 await toogleAuthorisedUserEmailPrivacy();
-                refresh();
+                // refresh();
               }}
             />
           </div>
