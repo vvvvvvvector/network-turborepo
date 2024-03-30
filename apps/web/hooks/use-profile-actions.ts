@@ -2,6 +2,8 @@ import { type ChangeEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { parseCookies } from 'nookies';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   updateBio,
@@ -9,7 +11,8 @@ import {
   updateAvatar,
   uploadAvatar
 } from '@/axios/profiles';
-import { useQueryClient } from '@tanstack/react-query';
+
+import { TOKEN_NAME } from '@/lib/constants';
 
 export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
@@ -21,7 +24,7 @@ export const useProfileActions = (
   const revalidate = () => {
     // update an avatar in the header
     queryClient.invalidateQueries({
-      queryKey: ['username', 'and', 'avatar']
+      queryKey: [parseCookies()[TOKEN_NAME], 'username', 'and', 'avatar'] // Is it a good idea to put the token in queryKey? 🧐
     });
 
     // update an avatar on the profile page

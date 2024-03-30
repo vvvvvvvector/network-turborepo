@@ -1,5 +1,6 @@
 'use client';
 
+import { parseCookies } from 'nookies';
 import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
@@ -34,7 +35,7 @@ import { MobileNav } from '@/components/mobile-nav';
 import { signOut } from '@/app/server';
 import { getAuthorisedUserUsernameAndAvatar } from '@/axios/users';
 
-import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
+import { DROPDOWN_MENU_ICON_STYLES, PAGES, TOKEN_NAME } from '@/lib/constants';
 import { capitalize } from '@/lib/utils';
 
 export const getThemeIcon = (theme: string | undefined) => {
@@ -90,7 +91,7 @@ const Header = () => {
 
   const { data } = useQuery({
     refetchOnWindowFocus: false,
-    queryKey: ['username', 'and', 'avatar'],
+    queryKey: [parseCookies()[TOKEN_NAME], 'username', 'and', 'avatar'], // Is it a good idea to put the token in queryKey? 🧐
     queryFn: getAuthorisedUserUsernameAndAvatar
   });
 
