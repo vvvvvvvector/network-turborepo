@@ -42,7 +42,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
 
   const { openPhoto } = useCommonActions();
 
-  const { updateAvatar, uploadAvatar } = useProfileMutations();
+  const { updateAvatar, uploadAvatar, deleteAvatar } = useProfileMutations();
 
   return (
     <div className="rounded-lg bg-background p-5">
@@ -75,21 +75,14 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   if (e.target.files instanceof FileList) {
                     const file = e.target.files[0];
 
+                    const callbacks = {
+                      onSuccess: () => setOpen(false),
+                      onSettled: () => (e.target.value = '')
+                    };
+
                     user.profile.avatar
-                      ? updateAvatar.mutate(
-                          { file },
-                          {
-                            onSuccess: () => setOpen(false),
-                            onSettled: () => (e.target.value = '')
-                          }
-                        )
-                      : uploadAvatar.mutate(
-                          { file },
-                          {
-                            onSuccess: () => setOpen(false),
-                            onSettled: () => (e.target.value = '')
-                          }
-                        );
+                      ? updateAvatar.mutate({ file }, { ...callbacks })
+                      : uploadAvatar.mutate({ file }, { ...callbacks });
                   }
                 }}
               />
@@ -133,12 +126,33 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               </label>
             </DropdownMenuItem>
             {user.profile.avatar && (
-              <DropdownMenuItem>
-                <Icons.trash
-                  color="hsl(0 84.2% 60.2%)"
-                  className={DROPDOWN_MENU_ICON_STYLES}
-                />
-                <span>Delete photo</span>
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+
+                  deleteAvatar.mutate(undefined, {
+                    onSuccess: () => setOpen(false)
+                  });
+                }}
+              >
+                {deleteAvatar.isPending ? (
+                  <>
+                    <>
+                      <Icons.spinner
+                        className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+                      />
+                      <span>Deleting...</span>
+                    </>
+                  </>
+                ) : (
+                  <>
+                    <Icons.trash
+                      color="hsl(0 84.2% 60.2%)"
+                      className={DROPDOWN_MENU_ICON_STYLES}
+                    />
+                    <span>Delete photo</span>
+                  </>
+                )}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>

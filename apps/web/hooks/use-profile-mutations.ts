@@ -5,10 +5,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   // updateBio,
-  // deleteAvatar,
+  deleteAvatar,
   updateAvatar,
   uploadAvatar
-  // uploadAvatar
 } from '@/axios/profiles';
 
 import { TOKEN_NAME } from '@/lib/constants';
@@ -46,21 +45,14 @@ export const useProfileMutations = () => {
     }
   });
 
-  // const onAvatarDelete = () => {
-  //   return async () => {
-  //     try {
-  //       await deleteAvatar();
+  const deleteAvatarMutation = useMutation({
+    mutationFn: () => deleteAvatar(),
+    onSuccess: () => {
+      revalidate();
 
-  //       toast.success('An avatar was successfully deleted.');
-
-  //       revalidate();
-  //     } catch (error) {
-  //       if (axios.isAxiosError(error)) {
-  //         toast.error(`${error.response?.data.message}`);
-  //       }
-  //     }
-  //   };
-  // };
+      toast.success('Avatar was successfully deleted.');
+    }
+  });
 
   // const onUpdateBio = (bio: string) => {
   //   return async () => {
@@ -80,6 +72,7 @@ export const useProfileMutations = () => {
 
   return {
     updateAvatar: updateAvatarMutation,
-    uploadAvatar: uploadAvatarMutation
+    uploadAvatar: uploadAvatarMutation,
+    deleteAvatar: deleteAvatarMutation
   };
 };
