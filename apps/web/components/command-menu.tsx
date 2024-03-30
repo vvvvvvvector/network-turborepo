@@ -76,8 +76,8 @@ export const CommandMenu = ({ className }: Props) => {
         onOpenChange={setCommandMenuOpened}
       >
         <CommandInput placeholder="Search for pages or commands..." />
+        <CommandEmpty>No results found 🥲</CommandEmpty>
         <CommandList>
-          <CommandEmpty>No results found 🥲</CommandEmpty>
           <CommandGroup heading="Pages">
             <CommandItem
               onSelect={() => runCommand(() => push(PAGES.MY_PROFILE))}
