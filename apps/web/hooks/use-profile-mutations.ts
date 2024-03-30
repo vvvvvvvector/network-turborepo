@@ -6,7 +6,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   // updateBio,
   // deleteAvatar,
-  updateAvatar
+  updateAvatar,
+  uploadAvatar
   // uploadAvatar
 } from '@/axios/profiles';
 
@@ -36,45 +37,14 @@ export const useProfileMutations = () => {
     }
   });
 
-  // const onAvatarUpdate = () => {
-  //   return async (e: ChangeEvent<HTMLInputElement>) => {
-  //     try {
-  //       if (e.target.files instanceof FileList) {
-  //         await updateAvatar(e.target.files[0]);
-  //       }
+  const uploadAvatarMutation = useMutation({
+    mutationFn: ({ file }: { file: File }) => uploadAvatar(file),
+    onSuccess: () => {
+      revalidate();
 
-  //       toast.success('An avatar was successfully updated.');
-
-  //       e.target.value = '';
-
-  //       revalidate();
-  //     } catch (error) {
-  //       if (axios.isAxiosError(error)) {
-  //         toast.error(`${error.response?.data.message}`);
-  //       }
-  //     }
-  //   };
-  // };
-
-  // const onAvatarUpload = () => {
-  //   return async (e: ChangeEvent<HTMLInputElement>) => {
-  //     try {
-  //       if (e.target.files instanceof FileList) {
-  //         await uploadAvatar(e.target.files[0]);
-  //       }
-
-  //       toast.success('An avatar was successfully uploaded.');
-
-  //       e.target.value = '';
-
-  //       revalidate();
-  //     } catch (error) {
-  //       if (axios.isAxiosError(error)) {
-  //         toast.error(`${error.response?.data.message}`);
-  //       }
-  //     }
-  //   };
-  // };
+      toast.success('Avatar was successfully uploaded.');
+    }
+  });
 
   // const onAvatarDelete = () => {
   //   return async () => {
@@ -109,6 +79,7 @@ export const useProfileMutations = () => {
   // };
 
   return {
-    updateAvatar: updateAvatarMutation
+    updateAvatar: updateAvatarMutation,
+    uploadAvatar: uploadAvatarMutation
   };
 };

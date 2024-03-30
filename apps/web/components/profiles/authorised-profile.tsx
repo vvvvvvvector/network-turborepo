@@ -34,7 +34,6 @@ import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
 import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
-// import { toast } from 'sonner';
 
 export const AuthorisedProfile = (user: AuthorisedUser) => {
   const [open, setOpen] = useState(false);
@@ -43,7 +42,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
 
   const { openPhoto } = useCommonActions();
 
-  const { updateAvatar } = useProfileMutations();
+  const { updateAvatar, uploadAvatar } = useProfileMutations();
 
   return (
     <div className="rounded-lg bg-background p-5">
@@ -76,13 +75,21 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   if (e.target.files instanceof FileList) {
                     const file = e.target.files[0];
 
-                    updateAvatar.mutate(
-                      { file },
-                      {
-                        onSuccess: () => setOpen(false),
-                        onSettled: () => (e.target.value = '')
-                      }
-                    );
+                    user.profile.avatar
+                      ? updateAvatar.mutate(
+                          { file },
+                          {
+                            onSuccess: () => setOpen(false),
+                            onSettled: () => (e.target.value = '')
+                          }
+                        )
+                      : uploadAvatar.mutate(
+                          { file },
+                          {
+                            onSuccess: () => setOpen(false),
+                            onSettled: () => (e.target.value = '')
+                          }
+                        );
                   }
                 }}
               />
@@ -108,8 +115,19 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   </>
                 ) : (
                   <>
-                    <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
-                    <span>Upload photo</span>
+                    {uploadAvatar.isPending ? (
+                      <>
+                        <Icons.spinner
+                          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+                        />
+                        <span>Uploading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
+                        <span>Upload photo</span>
+                      </>
+                    )}
                   </>
                 )}
               </label>
