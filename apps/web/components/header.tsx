@@ -1,10 +1,10 @@
 'use client';
 
-import useSWR from 'swr';
 import { useState } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useQuery } from '@tanstack/react-query';
 
 import {
   DropdownMenu,
@@ -32,10 +32,9 @@ import { CommandMenu } from '@/components/command-menu';
 import { MobileNav } from '@/components/mobile-nav';
 
 import { signOut } from '@/app/server';
-import { getAuthorisedUserUsernameAndAvatar, url } from '@/axios/users';
+import { getAuthorisedUserUsernameAndAvatar } from '@/axios/users';
 
 import { DROPDOWN_MENU_ICON_STYLES, PAGES } from '@/lib/constants';
-import type { AvatarWithoutLikes, User } from '@/lib/types';
 import { capitalize } from '@/lib/utils';
 
 export const getThemeIcon = (theme: string | undefined) => {
@@ -89,10 +88,11 @@ const Header = () => {
 
   const { push } = useRouter();
 
-  const { data } = useSWR<Omit<User, 'lastSeen'> & AvatarWithoutLikes>(
-    url,
-    getAuthorisedUserUsernameAndAvatar
-  );
+  const { data } = useQuery({
+    refetchOnWindowFocus: false,
+    queryKey: ['username', 'and', 'avatar'],
+    queryFn: getAuthorisedUserUsernameAndAvatar
+  });
 
   return (
     <header className="sticky top-0 z-50 flex w-full items-center justify-center border-b border-b-muted bg-background">

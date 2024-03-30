@@ -1,5 +1,4 @@
 import { type ChangeEvent } from 'react';
-import { useSWRConfig } from 'swr';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -10,17 +9,22 @@ import {
   updateAvatar,
   uploadAvatar
 } from '@/axios/profiles';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useProfileActions = (
   controlDropdown?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const { mutate } = useSWRConfig();
+  const queryClient = useQueryClient();
 
   const { refresh } = useRouter();
 
   const revalidate = () => {
-    mutate('/users/me/username-avatar');
+    // update an avatar in the header
+    queryClient.invalidateQueries({
+      queryKey: ['username', 'and', 'avatar']
+    });
 
+    // update an avatar on the profile page
     refresh();
 
     controlDropdown && controlDropdown(false);

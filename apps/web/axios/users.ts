@@ -4,12 +4,12 @@ import type { User, AvatarWithoutLikes } from '../lib/types';
 
 const ROUTE = '/users';
 
-export const url = `${ROUTE}/me/username-avatar`;
-
-const getAuthorisedUserUsernameAndAvatar = async (url: string) => {
-  const { data } = await axiosApiInstance.get<User & AvatarWithoutLikes>(url);
-
-  return data;
+const getAuthorisedUserUsernameAndAvatar = async () => {
+  return (
+    await axiosApiInstance.get<Omit<User, 'lastSeen'> & AvatarWithoutLikes>(
+      `${ROUTE}/me/username-and-avatar`
+    )
+  ).data;
 };
 
 // vvv ------------------mutations------------------ vvv
