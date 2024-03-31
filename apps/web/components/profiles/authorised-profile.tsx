@@ -191,7 +191,11 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
           >
             <DialogTrigger>
               <span className="cursor-pointer">{`bio: ${
-                user.profile.bio ?? 'no bio yet 😔'
+                updateBio.mutation.isPending || updateBio.transition
+                  ? updateBio.mutation.variables?.bio.length !== 0
+                    ? updateBio.mutation.variables?.bio
+                    : 'no bio yet 👀'
+                  : user.profile.bio ?? 'no bio yet 👀'
               }`}</span>
             </DialogTrigger>
             <DialogContent>
@@ -210,25 +214,13 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                   </Button>
                 </DialogClose>
                 <Button
-                  size={updateBio.isPending ? 'icon' : 'default'}
-                  onClick={() =>
-                    updateBio.mutate(
-                      { bio },
-                      {
-                        onSuccess: () => {
-                          setBioDialogOpen(false);
-                        }
-                      }
-                    )
-                  }
+                  onClick={() => {
+                    updateBio.mutation.mutate({ bio });
+
+                    setBioDialogOpen(false);
+                  }}
                 >
-                  {updateBio.isPending ? (
-                    <Icons.spinner className="animate-spin" />
-                  ) : bio ? (
-                    'Save'
-                  ) : (
-                    'Empty bio'
-                  )}
+                  {bio ? 'Save' : 'Empty bio'}
                 </Button>
               </DialogFooter>
             </DialogContent>

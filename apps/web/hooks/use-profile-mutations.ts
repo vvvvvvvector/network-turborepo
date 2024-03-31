@@ -1,3 +1,4 @@
+import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
@@ -30,43 +31,44 @@ export const useProfileMutations = () => {
   const updateAvatarMutation = useMutation({
     mutationFn: ({ file }: { file: File }) => updateAvatar(file),
     onSuccess: () => {
-      revalidate();
-
       toast.success('Avatar was successfully updated.');
-    }
+    },
+    onSettled: () => revalidate()
   });
 
   const uploadAvatarMutation = useMutation({
     mutationFn: ({ file }: { file: File }) => uploadAvatar(file),
     onSuccess: () => {
-      revalidate();
-
       toast.success('Avatar was successfully uploaded.');
-    }
+    },
+    onSettled: () => revalidate()
   });
 
   const deleteAvatarMutation = useMutation({
     mutationFn: () => deleteAvatar(),
     onSuccess: () => {
-      revalidate();
-
       toast.success('Avatar was successfully deleted.');
-    }
+    },
+    onSettled: () => revalidate()
   });
+
+  const [updateBioIsPending, startUpdateBioTransition] = useTransition();
 
   const updateBioMutation = useMutation({
     mutationFn: ({ bio }: { bio: string }) => updateBio(bio.trim()),
     onSuccess: () => {
-      router.refresh();
-
       toast.success('Bio was successfully updated.');
-    }
+    },
+    onSettled: () => startUpdateBioTransition(() => router.refresh())
   });
 
   return {
     updateAvatar: updateAvatarMutation,
     uploadAvatar: uploadAvatarMutation,
     deleteAvatar: deleteAvatarMutation,
-    updateBio: updateBioMutation
+    updateBio: {
+      mutation: updateBioMutation,
+      transition: updateBioIsPending
+    }
   };
 };
