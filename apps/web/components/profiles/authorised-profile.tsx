@@ -36,13 +36,11 @@ import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
-import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
-
 const schema = z.object({
   bio: z.string()
 });
 
-export const AuthorisedProfile = (user: AuthorisedUser) => {
+export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
   const [bioDialogOpen, setBioDialogOpen] = useState(false);
   const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
 
@@ -81,7 +79,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             {user.profile.avatar && (
               <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
                 <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
-                <span>{`Open photo`}</span>
+                <span>Open photo</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -178,7 +176,16 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
         </DropdownMenu>
         <div className="relative top-3 flex flex-col">
           <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
-          <Dialog open={bioDialogOpen} onOpenChange={setBioDialogOpen}>
+          <Dialog
+            open={bioDialogOpen}
+            onOpenChange={(state) => {
+              setBioDialogOpen(state);
+
+              form.resetField('bio', {
+                defaultValue: user.profile.bio ?? ''
+              });
+            }}
+          >
             <DialogTrigger>
               <span className="cursor-pointer">{`bio: ${
                 user.profile.bio ?? 'no bio yet 😔'
@@ -243,13 +250,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             user.contacts.email.isPublic ? 'public' : 'private'
           }]`}</span>
           <div className="flex items-center gap-3">
-            <Switch
-              checked={!user.contacts.email.isPublic}
-              onCheckedChange={async () => {
-                await toogleAuthorisedUserEmailPrivacy();
-                // refresh();
-              }}
-            />
+            <Switch checked={user.contacts.email.isPublic} />
           </div>
         </li>
         <li>{`for instance only for authorised user profile info here...`}</li>

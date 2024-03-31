@@ -55,7 +55,7 @@ export const useProfileMutations = () => {
   });
 
   const updateBioMutation = useMutation({
-    mutationFn: ({ bio }: { bio: string }) => updateBio(bio),
+    mutationFn: ({ bio }: { bio: string }) => updateBio(bio.trim()),
     onSuccess: () => {
       router.refresh();
 
