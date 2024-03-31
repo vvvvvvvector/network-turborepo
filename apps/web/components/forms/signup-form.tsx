@@ -2,7 +2,6 @@
 
 import { useTransition } from 'react';
 import { z } from 'zod';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -77,11 +76,6 @@ export const SignUpForm = () => {
               startTransition(() => {
                 router.push(PAGES.SIGN_IN);
               });
-            },
-            onError: (error) => {
-              if (axios.isAxiosError(error)) {
-                toast.error(`${error.response?.data.message}`);
-              }
             }
           });
         })}
