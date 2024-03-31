@@ -82,7 +82,7 @@ export type Message = {
 
 export type Chat = {
   id: string;
-  authorizedUserUsername: string;
+  authorisedUserUsername: string;
   friendUsername: string;
   friendAvatar: string | null;
   friendLastSeen: string;

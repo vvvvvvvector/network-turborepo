@@ -4,10 +4,10 @@ import { parseCookies } from 'nookies';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-  // updateBio,
-  deleteAvatar,
   updateAvatar,
-  uploadAvatar
+  uploadAvatar,
+  deleteAvatar,
+  updateBio
 } from '@/axios/profiles';
 
 import { TOKEN_NAME } from '@/lib/constants';
@@ -54,25 +54,19 @@ export const useProfileMutations = () => {
     }
   });
 
-  // const onUpdateBio = (bio: string) => {
-  //   return async () => {
-  //     try {
-  //       await updateBio(bio);
+  const updateBioMutation = useMutation({
+    mutationFn: ({ bio }: { bio: string }) => updateBio(bio),
+    onSuccess: () => {
+      router.refresh();
 
-  //       toast.success('Bio was successfully updated.');
-
-  //       refresh();
-  //     } catch (error) {
-  //       if (axios.isAxiosError(error)) {
-  //         toast.error(`${error.response?.data.message}`);
-  //       }
-  //     }
-  //   };
-  // };
+      toast.success('Bio was successfully updated.');
+    }
+  });
 
   return {
     updateAvatar: updateAvatarMutation,
     uploadAvatar: uploadAvatarMutation,
-    deleteAvatar: deleteAvatarMutation
+    deleteAvatar: deleteAvatarMutation,
+    updateBio: updateBioMutation
   };
 };

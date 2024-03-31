@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -35,19 +38,35 @@ import { formatDate } from '@/lib/utils';
 
 import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
 
-export const AuthorisedProfile = (user: AuthorisedUser) => {
-  const [open, setOpen] = useState(false);
+const schema = z.object({
+  bio: z.string()
+});
 
-  const [bio, setBio] = useState('');
+export const AuthorisedProfile = (user: AuthorisedUser) => {
+  const [bioDialogOpen, setBioDialogOpen] = useState(false);
+  const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      bio: user.profile.bio ?? ''
+    }
+  });
+
+  const bio = form.watch('bio');
 
   const { openPhoto } = useCommonActions();
 
-  const { updateAvatar, uploadAvatar, deleteAvatar } = useProfileMutations();
+  const { updateAvatar, uploadAvatar, deleteAvatar, updateBio } =
+    useProfileMutations();
 
   return (
     <div className="rounded-lg bg-background p-5">
       <div className="flex items-center gap-5">
-        <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenu
+          open={dropdownMenuOpen}
+          onOpenChange={setDropdownMenuOpen}
+        >
           <DropdownMenuTrigger>
             <div className="relative">
               <Avatar
@@ -76,7 +95,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                     const file = e.target.files[0];
 
                     const callbacks = {
-                      onSuccess: () => setOpen(false),
+                      onSuccess: () => setDropdownMenuOpen(false),
                       onSettled: () => (e.target.value = '')
                     };
 
@@ -131,7 +150,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   e.preventDefault();
 
                   deleteAvatar.mutate(undefined, {
-                    onSuccess: () => setOpen(false)
+                    onSuccess: () => setDropdownMenuOpen(false)
                   });
                 }}
               >
@@ -159,7 +178,7 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
         </DropdownMenu>
         <div className="relative top-3 flex flex-col">
           <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
-          <Dialog onOpenChange={() => setBio(user.profile.bio || '')}>
+          <Dialog open={bioDialogOpen} onOpenChange={setBioDialogOpen}>
             <DialogTrigger>
               <span className="cursor-pointer">{`bio: ${
                 user.profile.bio ?? 'no bio yet 😔'
@@ -173,16 +192,34 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   done.
                 </DialogDescription>
               </DialogHeader>
-              <Input onChange={(e) => setBio(e.target.value)} value={bio} />
+              <Input {...form.register('bio')} />
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type="button" variant="secondary">
                     Close
                   </Button>
                 </DialogClose>
-                <DialogClose asChild>
-                  <Button>{bio ? 'Save' : 'Empty bio'}</Button>
-                </DialogClose>
+                <Button
+                  size={updateBio.isPending ? 'icon' : 'default'}
+                  onClick={() =>
+                    updateBio.mutate(
+                      { bio },
+                      {
+                        onSuccess: () => {
+                          setBioDialogOpen(false);
+                        }
+                      }
+                    )
+                  }
+                >
+                  {updateBio.isPending ? (
+                    <Icons.spinner className="animate-spin" />
+                  ) : bio ? (
+                    'Save'
+                  ) : (
+                    'Empty bio'
+                  )}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
