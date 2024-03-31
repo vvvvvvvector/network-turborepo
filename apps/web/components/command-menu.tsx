@@ -1,6 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+import { signOut } from '@/app/server';
 
 import {
   CommandDialog,
@@ -195,6 +198,20 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem>
               <Icons.settings className={COMMAND_ITEM_ICON_STYLE} />
               <span>Settings</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() => {
+                  signOut();
+
+                  toast.success('You have successfully signed out.');
+
+                  push(PAGES.SIGN_IN);
+                })
+              }
+            >
+              <Icons.signOut className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Sign out</span>
             </CommandItem>
           </CommandGroup>
         </CommandList>
