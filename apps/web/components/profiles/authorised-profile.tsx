@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller } from 'react-hook-form';
 
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -37,7 +38,8 @@ import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
 const schema = z.object({
-  bio: z.string()
+  bio: z.string(),
+  emailPrivacy: z.boolean()
 });
 
 export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
@@ -47,7 +49,8 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      bio: user.profile.bio ?? ''
+      bio: user.profile.bio ?? '',
+      emailPrivacy: user.contacts.email.isPublic
     }
   });
 
@@ -250,7 +253,20 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
             user.contacts.email.isPublic ? 'public' : 'private'
           }]`}</span>
           <div className="flex items-center gap-3">
-            <Switch checked={user.contacts.email.isPublic} />
+            <Controller
+              name="emailPrivacy"
+              control={form.control}
+              render={({ field: { value, onChange } }) => (
+                <Switch
+                  checked={value}
+                  onCheckedChange={(checked) => {
+                    onChange(checked);
+
+                    // toogleAuthorisedUserEmailPrivacy mutation
+                  }}
+                />
+              )}
+            />
           </div>
         </li>
         <li>{`for instance only for authorised user profile info here...`}</li>
