@@ -19,5 +19,5 @@ export default async function ProfilePage() {
 
   const user = await getAuthorisedUserData();
 
-  return <AuthorisedProfile {...user} />;
+  return <AuthorisedProfile user={user} />;
 }

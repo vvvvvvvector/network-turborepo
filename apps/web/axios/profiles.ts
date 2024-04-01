@@ -2,6 +2,8 @@ import { axiosApiInstance } from '@/axios';
 
 const ROUTE = '/profiles';
 
+// vvv ------------------mutations------------------ vvv
+
 const updateBio = async (bio: string) => {
   await axiosApiInstance.put(`${ROUTE}/bio`, {
     bio
@@ -36,4 +38,22 @@ const deleteAvatar = async () => {
   await axiosApiInstance.delete(`${ROUTE}/avatar`);
 };
 
-export { updateBio, uploadAvatar, updateAvatar, deleteAvatar };
+const toogleAuthorisedUserEmailPrivacy = async () => {
+  return (
+    await axiosApiInstance.patch<{
+      email: {
+        isPublic: boolean;
+      };
+    }>(`/users/me/contacts/email/privacy`)
+  ).data; // todo(refactor): users route -> profiles route
+};
+
+// ^^^ ------------------mutations------------------ ^^^
+
+export {
+  updateBio,
+  uploadAvatar,
+  updateAvatar,
+  deleteAvatar,
+  toogleAuthorisedUserEmailPrivacy
+};

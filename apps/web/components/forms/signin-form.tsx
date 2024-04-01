@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { setCookie } from 'nookies';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
+
+import { setToken } from '@/app/server';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,7 +26,7 @@ import { Icons } from '@/components/icons';
 import { signIn } from '@/axios/auth';
 
 import { env } from '@/lib/env';
-import { ICON_INSIDE_BUTTON_SIZE, PAGES, TOKEN_NAME } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -34,11 +35,16 @@ const formSchema = z.object({
 });
 
 export const SignInForm = () => {
-  const [loading, setLoading] = useState(false);
-
   const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
+
+  const signInMutation = useMutation({
+    mutationFn: (data: z.infer<typeof formSchema>) => signIn(data),
+    onSuccess: ({ token }) => {
+      setToken(token);
+    }
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,37 +54,22 @@ export const SignInForm = () => {
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      setLoading(true);
-
-      const { token } = await signIn(data);
-
-      setLoading(false);
-
-      setCookie(null, TOKEN_NAME, token, {
-        path: '/'
-      });
-
-      toast.success('You have successfully signed in.');
-
-      startTransition(() => {
-        router.push(PAGES.NEWS);
-      });
-    } catch (error) {
-      setLoading(false);
-
-      if (axios.isAxiosError(error)) {
-        toast.error(`${error.response?.data.message}`);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+      <form
+        onSubmit={form.handleSubmit((data) => {
+          signInMutation.mutate(data, {
+            onSuccess: () => {
+              toast.success('You have successfully signed in.');
+
+              startTransition(() => {
+                router.push(PAGES.NEWS);
+              });
+            }
+          });
+        })}
+        className="space-y-10"
+      >
         <FormField
           control={form.control}
           name="username"
@@ -116,9 +107,9 @@ export const SignInForm = () => {
         <Button
           type="submit"
           className="w-full"
-          disabled={loading || isPending}
+          disabled={signInMutation.isPending || isPending}
         >
-          {loading || isPending ? (
+          {signInMutation.isPending || isPending ? (
             <div className="flex items-center gap-2">
               <Icons.spinner
                 className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}

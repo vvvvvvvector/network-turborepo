@@ -16,7 +16,7 @@ export class Profile {
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
 
-  @Column({ default: false })
+  @Column({ default: true })
   isActivated: boolean;
 
   @OneToOne(() => Avatar, { cascade: ['insert', 'update'] })

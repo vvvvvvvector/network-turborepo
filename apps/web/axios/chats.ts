@@ -1,16 +1,6 @@
 import { axiosApiInstance } from '@/axios';
 
-import type { Chat, ChatFromListOfChats } from '@/lib/types';
-
 export const CHATS_ROUTE = '/chats';
-
-// ------------------- swr uses this functions -------------------
-const getAutorisedUserChats = async (url: string) => {
-  const { data } = await axiosApiInstance.get<ChatFromListOfChats[]>(`${url}`);
-
-  return data;
-};
-// ------------------- swr uses this functions -------------------
 
 const initiateChat = async (addresseeUsername: string) => {
   const { data: id } = await axiosApiInstance.post<string>(`${CHATS_ROUTE}`, {
@@ -28,15 +18,4 @@ const getChatIdByAddresseeUsername = async (addresseeUsername: string) => {
   return id;
 };
 
-const getChatData = async (url: string, id: string) => {
-  const { data } = await axiosApiInstance.get<Chat>(`${url}/${id}`);
-
-  return data;
-};
-
-export {
-  getAutorisedUserChats,
-  initiateChat,
-  getChatIdByAddresseeUsername,
-  getChatData
-};
+export { initiateChat, getChatIdByAddresseeUsername };

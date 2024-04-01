@@ -1,6 +1,9 @@
 import { useEffect, useCallback } from 'react';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+import { signOut } from '@/app/server';
 
 import {
   CommandDialog,
@@ -14,9 +17,10 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { Icons } from '@/components/icons';
+import { getThemeIcon } from '@/components/header';
 
 import { PAGES } from '@/lib/constants';
-import { cn } from '@/lib/utils';
+import { capitalize, cn } from '@/lib/utils';
 
 import { useCommandMenuStore } from '@/zustand/command-menu.store';
 
@@ -30,7 +34,7 @@ export const CommandMenu = ({ className }: Props) => {
   const { commandMenuOpened, toogleCmdMenuOpenState, setCommandMenuOpened } =
     useCommandMenuStore();
 
-  const { setTheme } = useTheme();
+  const { setTheme, themes } = useTheme();
 
   const { push } = useRouter();
 
@@ -75,8 +79,8 @@ export const CommandMenu = ({ className }: Props) => {
         onOpenChange={setCommandMenuOpened}
       >
         <CommandInput placeholder="Search for pages or commands..." />
+        <CommandEmpty>No results found 🥲</CommandEmpty>
         <CommandList>
-          <CommandEmpty>No results found 🥲</CommandEmpty>
           <CommandGroup heading="Pages">
             <CommandItem
               onSelect={() => runCommand(() => push(PAGES.MY_PROFILE))}
@@ -179,24 +183,35 @@ export const CommandMenu = ({ className }: Props) => {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>
-              <Icons.lightMode className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Light</span>
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('dark'))}>
-              <Icons.darkMode className={COMMAND_ITEM_ICON_STYLE} />
-              <span>Dark</span>
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme('system'))}>
-              <Icons.systemMode className={COMMAND_ITEM_ICON_STYLE} />
-              <span>System</span>
-            </CommandItem>
+            {themes.map((theme) => (
+              <CommandItem
+                key={theme}
+                onSelect={() => runCommand(() => setTheme(theme))}
+              >
+                {getThemeIcon(theme)}
+                <span>{capitalize(theme)}</span>
+              </CommandItem>
+            ))}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Settings">
             <CommandItem>
               <Icons.settings className={COMMAND_ITEM_ICON_STYLE} />
               <span>Settings</span>
+            </CommandItem>
+            <CommandItem
+              onSelect={() =>
+                runCommand(() => {
+                  signOut();
+
+                  toast.success('You have successfully signed out.');
+
+                  push(PAGES.SIGN_IN);
+                })
+              }
+            >
+              <Icons.signOut className={COMMAND_ITEM_ICON_STYLE} />
+              <span>Sign out</span>
             </CommandItem>
           </CommandGroup>
         </CommandList>
