@@ -38,6 +38,20 @@ const deleteAvatar = async () => {
   await axiosApiInstance.delete(`${ROUTE}/avatar`);
 };
 
+const toogleAuthorisedUserEmailPrivacy = async () => {
+  await axiosApiInstance.patch<{
+    email: {
+      isPublic: boolean;
+    };
+  }>(`/users/me/contacts/email/privacy`); // todo(refactor): users route -> profiles route
+};
+
 // ^^^ ------------------mutations------------------ ^^^
 
-export { updateBio, uploadAvatar, updateAvatar, deleteAvatar };
+export {
+  updateBio,
+  uploadAvatar,
+  updateAvatar,
+  deleteAvatar,
+  toogleAuthorisedUserEmailPrivacy
+};

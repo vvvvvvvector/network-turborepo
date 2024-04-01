@@ -12,16 +12,4 @@ const getAuthorisedUserUsernameAndAvatar = async () => {
   ).data;
 };
 
-// vvv ------------------mutations------------------ vvv
-
-const toogleAuthorisedUserEmailPrivacy = async () => {
-  await axiosApiInstance.patch<{
-    email: {
-      isPublic: boolean;
-    };
-  }>(`${ROUTE}/me/contacts/email/privacy`);
-};
-
-// ^^^ ------------------mutations------------------ ^^^
-
-export { toogleAuthorisedUserEmailPrivacy, getAuthorisedUserUsernameAndAvatar };
+export { getAuthorisedUserUsernameAndAvatar };
