@@ -63,12 +63,18 @@ export const useProfileMutations = () => {
   });
 
   return {
-    updateAvatar: updateAvatarMutation,
-    uploadAvatar: uploadAvatarMutation,
-    deleteAvatar: deleteAvatarMutation,
+    updateAvatar: {
+      mutation: updateAvatarMutation
+    },
+    uploadAvatar: {
+      mutation: uploadAvatarMutation
+    },
+    deleteAvatar: {
+      mutation: deleteAvatarMutation
+    },
     updateBio: {
       mutation: updateBioMutation,
-      transition: updateBioIsPending
+      transitionIsPending: updateBioIsPending
     }
   };
 };

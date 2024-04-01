@@ -101,8 +101,11 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                     };
 
                     user.profile.avatar
-                      ? updateAvatar.mutate({ file }, { ...callbacks })
-                      : uploadAvatar.mutate({ file }, { ...callbacks });
+                      ? updateAvatar.mutation.mutate({ file }, { ...callbacks })
+                      : uploadAvatar.mutation.mutate(
+                          { file },
+                          { ...callbacks }
+                        );
                   }
                 }}
               />
@@ -112,7 +115,7 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
               >
                 {user.profile.avatar ? (
                   <>
-                    {updateAvatar.isPending ? (
+                    {updateAvatar.mutation.isPending ? (
                       <>
                         <Icons.spinner
                           className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
@@ -128,7 +131,7 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                   </>
                 ) : (
                   <>
-                    {uploadAvatar.isPending ? (
+                    {uploadAvatar.mutation.isPending ? (
                       <>
                         <Icons.spinner
                           className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
@@ -150,12 +153,12 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                 onSelect={(e) => {
                   e.preventDefault();
 
-                  deleteAvatar.mutate(undefined, {
+                  deleteAvatar.mutation.mutate(undefined, {
                     onSuccess: () => setDropdownMenuOpen(false)
                   });
                 }}
               >
-                {deleteAvatar.isPending ? (
+                {deleteAvatar.mutation.isPending ? (
                   <>
                     <>
                       <Icons.spinner
@@ -191,7 +194,7 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
           >
             <DialogTrigger>
               <span className="cursor-pointer">{`bio: ${
-                updateBio.mutation.isPending || updateBio.transition
+                updateBio.mutation.isPending || updateBio.transitionIsPending
                   ? updateBio.mutation.variables?.bio.length !== 0
                     ? updateBio.mutation.variables?.bio
                     : 'no bio yet 👀'
