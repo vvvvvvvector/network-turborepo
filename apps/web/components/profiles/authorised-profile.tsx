@@ -50,7 +50,7 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
     resolver: zodResolver(schema),
     defaultValues: {
       bio: user.profile.bio ?? '',
-      emailPrivacy: user.contacts.email.isPublic
+      emailPrivacy: !user.contacts.email.isPublic
     }
   });
 
@@ -58,8 +58,13 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
 
   const { openPhoto } = useCommonActions();
 
-  const { updateAvatar, uploadAvatar, deleteAvatar, updateBio } =
-    useProfileMutations();
+  const {
+    updateAvatar,
+    uploadAvatar,
+    deleteAvatar,
+    updateBio,
+    toogleEmailPrivacy
+  } = useProfileMutations();
 
   return (
     <div className="rounded-lg bg-background p-5">
@@ -242,12 +247,9 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
             {` ${formatDate(user.profile.createdAt)}`}
           </time>
         </li>
-        <li>{`email: ${user.contacts.email.contact}`}</li>
-        <li className="flex items-center gap-3">
-          <span>{`email privacy [${
-            user.contacts.email.isPublic ? 'public' : 'private'
-          }]`}</span>
-          <div className="flex items-center gap-3">
+        <li className="flex justify-between">
+          <span>{`email: ${user.contacts.email.contact}`}</span>
+          <span className="flex items-center gap-3">
             <Controller
               name="emailPrivacy"
               control={form.control}
@@ -256,13 +258,13 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                   checked={value}
                   onCheckedChange={(checked) => {
                     onChange(checked);
-
-                    // toogleAuthorisedUserEmailPrivacy mutation
+                    toogleEmailPrivacy.mutation.mutate();
                   }}
                 />
               )}
             />
-          </div>
+            <span>make private</span>
+          </span>
         </li>
         <li>{`for instance only for authorised user profile info here...`}</li>
       </ul>

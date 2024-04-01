@@ -8,7 +8,8 @@ import {
   updateAvatar,
   uploadAvatar,
   deleteAvatar,
-  updateBio
+  updateBio,
+  toogleAuthorisedUserEmailPrivacy
 } from '@/axios/profiles';
 
 import { TOKEN_NAME } from '@/lib/constants';
@@ -62,6 +63,14 @@ export const useProfileMutations = () => {
     onSettled: () => startUpdateBioTransition(() => router.refresh())
   });
 
+  const toogleEmailPrivacyMutation = useMutation({
+    mutationFn: () => toogleAuthorisedUserEmailPrivacy(),
+    onSuccess: () => {
+      toast.success('Email privacy was successfully toogled.');
+    },
+    onSettled: () => router.refresh()
+  });
+
   return {
     updateAvatar: {
       mutation: updateAvatarMutation
@@ -75,6 +84,9 @@ export const useProfileMutations = () => {
     updateBio: {
       mutation: updateBioMutation,
       transitionIsPending: updateBioIsPending
+    },
+    toogleEmailPrivacy: {
+      mutation: toogleEmailPrivacyMutation
     }
   };
 };
