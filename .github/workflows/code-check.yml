@@ -20,11 +20,11 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v2.2.4
+      - uses: pnpm/action-setup@v3
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.6.1
+          version: 8.9.0
           run_install: false
 
       - name: Install dependencies
@@ -45,11 +45,11 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v2.2.4
+      - uses: pnpm/action-setup@v3
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8.6.1
+          version: 8.9.0
           run_install: false
 
       - name: Install dependencies
