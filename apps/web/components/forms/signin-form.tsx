@@ -3,7 +3,6 @@
 import { useTransition } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -66,11 +65,6 @@ export const SignInForm = () => {
               startTransition(() => {
                 router.push(PAGES.NEWS);
               });
-            },
-            onError: (error) => {
-              if (axios.isAxiosError(error)) {
-                toast.error(`${error.response?.data.message}`);
-              }
             }
           });
         })}

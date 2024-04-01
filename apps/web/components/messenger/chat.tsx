@@ -175,7 +175,7 @@ export const Chat = ({ chat }: Props) => {
     if (state.messages.length > 0 && messagesListRef.current) {
       const lastMessage = state.messages[state.messages.length - 1];
 
-      if (lastMessage.sender.username === chat.authorizedUserUsername) {
+      if (lastMessage.sender.username === chat.authorisedUserUsername) {
         messagesListRef.current.scrollTop =
           messagesListRef.current.scrollHeight;
       }
@@ -272,7 +272,7 @@ export const Chat = ({ chat }: Props) => {
                   <Icons.moreVertical className={ICON_INSIDE_BUTTON_SIZE} />
                 </Button>
                 <div className="inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]">
-                  {message.sender.username !== chat.authorizedUserUsername && (
+                  {message.sender.username !== chat.authorisedUserUsername && (
                     <span className="font-semibold underline">
                       {chat.friendUsername}
                     </span>
@@ -285,7 +285,7 @@ export const Chat = ({ chat }: Props) => {
                       'text-start':
                         message.sender.username === chat.friendUsername,
                       'text-end':
-                        message.sender.username === chat.authorizedUserUsername
+                        message.sender.username === chat.authorisedUserUsername
                     })}
                   >
                     {`[${formatDate(message.createdAt)} / ${formatTime(

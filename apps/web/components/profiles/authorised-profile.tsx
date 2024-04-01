@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller } from 'react-hook-form';
 
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
@@ -27,30 +30,49 @@ import { Input } from '@/components/ui/input';
 import { Avatar } from '@/components/avatar';
 import { Icons } from '@/components/icons';
 
-import { useProfileActions } from '@/hooks/use-profile-actions';
+import { useProfileMutations } from '@/hooks/use-profile-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
-import { toogleAuthorisedUserEmailPrivacy } from '@/axios/users';
+const schema = z.object({
+  bio: z.string(),
+  emailPrivacy: z.boolean()
+});
 
-export const AuthorisedProfile = (user: AuthorisedUser) => {
-  const [open, setOpen] = useState(false);
-  const [bio, setBio] = useState('');
+export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
+  const [bioDialogOpen, setBioDialogOpen] = useState(false);
+  const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
 
-  const { refresh } = useRouter();
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      bio: user.profile.bio ?? '',
+      emailPrivacy: !user.contacts.email.isPublic
+    }
+  });
+
+  const bio = form.watch('bio');
 
   const { openPhoto } = useCommonActions();
 
-  const { updateBio, updateAvatar, uploadAvatar, deleteAvatar } =
-    useProfileActions(setOpen);
+  const {
+    updateAvatar,
+    uploadAvatar,
+    deleteAvatar,
+    updateBio,
+    toogleEmailPrivacy
+  } = useProfileMutations();
 
   return (
     <div className="rounded-lg bg-background p-5">
       <div className="flex items-center gap-5">
-        <DropdownMenu open={open} defaultOpen={open} onOpenChange={setOpen}>
+        <DropdownMenu
+          open={dropdownMenuOpen}
+          onOpenChange={setDropdownMenuOpen}
+        >
           <DropdownMenuTrigger>
             <div className="relative">
               <Avatar
@@ -65,16 +87,32 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             {user.profile.avatar && (
               <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
                 <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
-                <span>{`Open photo`}</span>
+                <span>Open photo</span>
               </DropdownMenuItem>
             )}
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <input
-                onChange={user.profile.avatar ? updateAvatar() : uploadAvatar()}
                 id="avatar"
                 type="file"
                 accept="image/jpeg, image/png, image/jpg"
                 hidden
+                onChange={(e) => {
+                  if (e.target.files instanceof FileList) {
+                    const file = e.target.files[0];
+
+                    const callbacks = {
+                      onSuccess: () => setDropdownMenuOpen(false),
+                      onSettled: () => (e.target.value = '')
+                    };
+
+                    user.profile.avatar
+                      ? updateAvatar.mutation.mutate({ file }, { ...callbacks })
+                      : uploadAvatar.mutation.mutate(
+                          { file },
+                          { ...callbacks }
+                        );
+                  }
+                }}
               />
               <label
                 htmlFor="avatar"
@@ -82,34 +120,90 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
               >
                 {user.profile.avatar ? (
                   <>
-                    <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
-                    <span>Update photo</span>
+                    {updateAvatar.mutation.isPending ? (
+                      <>
+                        <Icons.spinner
+                          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+                        />
+                        <span>Updating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
+                        <span>Update photo</span>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>
-                    <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
-                    <span>Upload photo</span>
+                    {uploadAvatar.mutation.isPending ? (
+                      <>
+                        <Icons.spinner
+                          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+                        />
+                        <span>Uploading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
+                        <span>Upload photo</span>
+                      </>
+                    )}
                   </>
                 )}
               </label>
             </DropdownMenuItem>
             {user.profile.avatar && (
-              <DropdownMenuItem onClick={deleteAvatar()}>
-                <Icons.trash
-                  color="hsl(0 84.2% 60.2%)"
-                  className={DROPDOWN_MENU_ICON_STYLES}
-                />
-                <span>Delete photo</span>
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+
+                  deleteAvatar.mutation.mutate(undefined, {
+                    onSuccess: () => setDropdownMenuOpen(false)
+                  });
+                }}
+              >
+                {deleteAvatar.mutation.isPending ? (
+                  <>
+                    <>
+                      <Icons.spinner
+                        className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+                      />
+                      <span>Deleting...</span>
+                    </>
+                  </>
+                ) : (
+                  <>
+                    <Icons.trash
+                      color="hsl(0 84.2% 60.2%)"
+                      className={DROPDOWN_MENU_ICON_STYLES}
+                    />
+                    <span>Delete photo</span>
+                  </>
+                )}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
         </DropdownMenu>
         <div className="relative top-3 flex flex-col">
           <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
-          <Dialog onOpenChange={() => setBio(user.profile.bio || '')}>
+          <Dialog
+            open={bioDialogOpen}
+            onOpenChange={(state) => {
+              setBioDialogOpen(state);
+
+              form.resetField('bio', {
+                defaultValue: user.profile.bio ?? ''
+              });
+            }}
+          >
             <DialogTrigger>
               <span className="cursor-pointer">{`bio: ${
-                user.profile.bio ?? 'no bio yet 😔'
+                updateBio.mutation.isPending || updateBio.transitionIsPending
+                  ? updateBio.mutation.variables?.bio.length !== 0
+                    ? updateBio.mutation.variables?.bio
+                    : 'no bio yet 👀'
+                  : user.profile.bio ?? 'no bio yet 👀'
               }`}</span>
             </DialogTrigger>
             <DialogContent>
@@ -120,18 +214,22 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
                   done.
                 </DialogDescription>
               </DialogHeader>
-              <Input onChange={(e) => setBio(e.target.value)} value={bio} />
+              <Input {...form.register('bio')} />
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type="button" variant="secondary">
                     Close
                   </Button>
                 </DialogClose>
-                <DialogClose asChild>
-                  <Button onClick={updateBio(bio)}>
-                    {bio ? 'Save' : 'Empty bio'}
-                  </Button>
-                </DialogClose>
+                <Button
+                  onClick={() => {
+                    updateBio.mutation.mutate({ bio });
+
+                    setBioDialogOpen(false);
+                  }}
+                >
+                  {bio ? 'Save' : 'Empty bio'}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -149,20 +247,24 @@ export const AuthorisedProfile = (user: AuthorisedUser) => {
             {` ${formatDate(user.profile.createdAt)}`}
           </time>
         </li>
-        <li>{`email: ${user.contacts.email.contact}`}</li>
-        <li className="flex items-center gap-3">
-          <span>{`email privacy [${
-            user.contacts.email.isPublic ? 'public' : 'private'
-          }]`}</span>
-          <div className="flex items-center gap-3">
-            <Switch
-              checked={!user.contacts.email.isPublic}
-              onCheckedChange={async () => {
-                await toogleAuthorisedUserEmailPrivacy();
-                refresh();
-              }}
+        <li className="flex justify-between">
+          <span>{`email: ${user.contacts.email.contact}`}</span>
+          <span className="flex items-center gap-3">
+            <Controller
+              name="emailPrivacy"
+              control={form.control}
+              render={({ field: { value, onChange } }) => (
+                <Switch
+                  checked={value}
+                  onCheckedChange={(checked) => {
+                    onChange(checked);
+                    toogleEmailPrivacy.mutation.mutate();
+                  }}
+                />
+              )}
             />
-          </div>
+            <span>make private</span>
+          </span>
         </li>
         <li>{`for instance only for authorised user profile info here...`}</li>
       </ul>
