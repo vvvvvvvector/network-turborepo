@@ -118,39 +118,13 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                 htmlFor="avatar"
                 className="flex cursor-pointer items-center"
               >
-                {user.profile.avatar ? (
-                  <>
-                    {updateAvatar.mutation.isPending ? (
-                      <>
-                        <Icons.spinner
-                          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
-                        />
-                        <span>Updating...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
-                        <span>Update photo</span>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {uploadAvatar.mutation.isPending ? (
-                      <>
-                        <Icons.spinner
-                          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
-                        />
-                        <span>Uploading...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
-                        <span>Upload photo</span>
-                      </>
-                    )}
-                  </>
-                )}
+                {user.profile.avatar
+                  ? updateAvatarButton[
+                      updateAvatar.mutation.isPending ? 'pending' : 'default'
+                    ]
+                  : uploadAvatarButton[
+                      uploadAvatar.mutation.isPending ? 'pending' : 'default'
+                    ]}
               </label>
             </DropdownMenuItem>
             {user.profile.avatar && (
@@ -163,24 +137,11 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                   });
                 }}
               >
-                {deleteAvatar.mutation.isPending ? (
-                  <>
-                    <>
-                      <Icons.spinner
-                        className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
-                      />
-                      <span>Deleting...</span>
-                    </>
-                  </>
-                ) : (
-                  <>
-                    <Icons.trash
-                      color="hsl(0 84.2% 60.2%)"
-                      className={DROPDOWN_MENU_ICON_STYLES}
-                    />
-                    <span>Delete photo</span>
-                  </>
-                )}
+                {
+                  deleteAvatarButton[
+                    deleteAvatar.mutation.isPending ? 'pending' : 'default'
+                  ]
+                }
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
@@ -271,3 +232,62 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
     </div>
   );
 };
+
+type AvatarControlsButtonState = 'default' | 'pending';
+
+const updateAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
+  {
+    default: (
+      <>
+        <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
+        <span>Update photo</span>
+      </>
+    ),
+    pending: (
+      <>
+        <Icons.spinner
+          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+        />
+        <span>Updating...</span>
+      </>
+    )
+  };
+
+const uploadAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
+  {
+    default: (
+      <>
+        <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
+        <span>Upload photo</span>
+      </>
+    ),
+    pending: (
+      <>
+        <Icons.spinner
+          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+        />
+        <span>Uploading...</span>
+      </>
+    )
+  };
+
+const deleteAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
+  {
+    default: (
+      <>
+        <Icons.trash
+          color="hsl(0 84.2% 60.2%)"
+          className={DROPDOWN_MENU_ICON_STYLES}
+        />
+        <span>Delete photo</span>
+      </>
+    ),
+    pending: (
+      <>
+        <Icons.spinner
+          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
+        />
+        <span>Deleting...</span>
+      </>
+    )
+  };
