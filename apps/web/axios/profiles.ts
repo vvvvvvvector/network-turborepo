@@ -39,11 +39,13 @@ const deleteAvatar = async () => {
 };
 
 const toogleAuthorisedUserEmailPrivacy = async () => {
-  await axiosApiInstance.patch<{
-    email: {
-      isPublic: boolean;
-    };
-  }>(`/users/me/contacts/email/privacy`); // todo(refactor): users route -> profiles route
+  return (
+    await axiosApiInstance.patch<{
+      email: {
+        isPublic: boolean;
+      };
+    }>(`/users/me/contacts/email/privacy`)
+  ).data; // todo(refactor): users route -> profiles route
 };
 
 // ^^^ ------------------mutations------------------ ^^^

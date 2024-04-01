@@ -65,8 +65,10 @@ export const useProfileMutations = () => {
 
   const toogleEmailPrivacyMutation = useMutation({
     mutationFn: () => toogleAuthorisedUserEmailPrivacy(),
-    onSuccess: () => {
-      toast.success('Email privacy was successfully toogled.');
+    onSuccess: (data) => {
+      toast.success(
+        `Email address ${data.email.isPublic ? 'is public' : 'is private'} now.`
+      );
     },
     onSettled: () => router.refresh()
   });
