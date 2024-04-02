@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback, useReducer } from 'react';
-import debounce from 'lodash.debounce';
+import { useState, useRef, useEffect, useReducer } from 'react';
 import Link from 'next/link';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -78,11 +78,7 @@ const chatReducer = (state: State, action: Action) => {
   }
 };
 
-interface Props {
-  chat: TChat;
-}
-
-export const Chat = ({ chat }: Props) => {
+export const Chat = ({ chat }: { chat: TChat }) => {
   const [messageInputValue, setMessageInputValue] = useState('');
 
   const [state, dispatch] = useReducer(chatReducer, {
@@ -92,12 +88,7 @@ export const Chat = ({ chat }: Props) => {
     friendOnlineStatus: 'offline'
   });
 
-  const wait = useCallback(
-    debounce(() => {
-      stopTyping();
-    }, 7000),
-    []
-  );
+  const wait = useDebouncedCallback(stopTyping, 7000);
 
   const messagesListRef = useRef<HTMLUListElement>(null);
   const messagesListMountedFlag = useRef(false);
