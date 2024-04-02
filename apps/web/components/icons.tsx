@@ -52,9 +52,7 @@ const Icon = ({
   type,
   children,
   ...props
-}: React.PropsWithChildren<LucideIconProps> & {
-  commandMenu?: boolean;
-}) => {
+}: React.PropsWithChildren<LucideIconProps>) => {
   if (React.isValidElement(children)) {
     return React.cloneElement(children, {
       className: cn(
