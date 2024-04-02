@@ -16,7 +16,7 @@ import { Tooltip } from '@/components/tooltip';
 import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
-import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useRequestsMutations } from '@/hooks/use-requests-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import {
@@ -119,7 +119,7 @@ export const DefaultProfile = (
 ) => {
   const { openPhoto } = useCommonActions();
 
-  const { send, cancel, accept, reject } = useRequestsActions();
+  const { send, cancel, accept, reject } = useRequestsMutations();
 
   const ON_CLICKS = (type: Exclude<ExtendedFriendRequestStatus, 'friend'>) => {
     return (username: string) => {

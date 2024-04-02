@@ -23,7 +23,7 @@ import {
 import { formatDate, formatTime } from '@/lib/utils';
 import type { NetworkUser } from '@/lib/types';
 
-import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useRequestsMutations } from '@/hooks/use-requests-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import { useSocketStore } from '@/zustand/socket.store';
@@ -37,7 +37,7 @@ export const FriendProfile = (
 
   const { writeMessage, openPhoto } = useCommonActions();
 
-  const { unfriend } = useRequestsActions();
+  const { unfriend } = useRequestsMutations();
 
   const { socket } = useSocketStore();
 

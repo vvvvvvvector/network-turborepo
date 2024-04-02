@@ -10,7 +10,7 @@ import {
   sendFriendRequest
 } from '@/axios/friends';
 
-export const useRequestsActions = () => {
+export const useRequestsMutations = () => {
   const { refresh } = useRouter();
 
   const revalidate = () => {

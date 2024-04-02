@@ -10,7 +10,7 @@ import { Tooltip } from '@/components/tooltip';
 import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
-import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useRequestsMutations } from '@/hooks/use-requests-mutations';
 import { useTab } from '@/hooks/use-tab';
 
 import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
@@ -78,7 +78,7 @@ export const RequestsList = ({ requests }: Props) => {
 
   const type = useTab<typeof types>('type');
 
-  const { accept, reject, cancel } = useRequestsActions();
+  const { accept, reject, cancel } = useRequestsMutations();
 
   const ON_CLICKS = (type: (typeof types)[number]) => {
     return (username: string) => {

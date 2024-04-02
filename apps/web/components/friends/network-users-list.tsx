@@ -16,7 +16,7 @@ import { Pagination, PaginationItem } from '@/components/friends/pagination';
 import { getNetworkUsersUsernames } from '@/app/(authorised)/friends/api';
 
 import { useFocus } from '@/hooks/use-focus';
-import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useRequestsMutations } from '@/hooks/use-requests-mutations';
 
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 
@@ -43,7 +43,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
 
   const params = new URLSearchParams(searchParams?.toString());
 
-  const { send } = useRequestsActions();
+  const { send } = useRequestsMutations();
 
   const onSearch = () => {
     if (searchValue)

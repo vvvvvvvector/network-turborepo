@@ -13,7 +13,7 @@ import { Avatar } from '@/components/avatar';
 import { Icons } from '@/components/icons';
 
 import { useCommonActions } from '@/hooks/use-common-actions';
-import { useRequestsActions } from '@/hooks/use-requests-actions';
+import { useRequestsMutations } from '@/hooks/use-requests-mutations';
 import { useTab } from '@/hooks/use-tab';
 
 import { type UserFromListOfUsers } from '@/lib/types';
@@ -32,7 +32,7 @@ interface Props {
 }
 
 export const FriendsList = ({ friends, connectionsInformation }: Props) => {
-  const { unfriend } = useRequestsActions();
+  const { unfriend } = useRequestsMutations();
 
   const { writeMessage } = useCommonActions();
 
