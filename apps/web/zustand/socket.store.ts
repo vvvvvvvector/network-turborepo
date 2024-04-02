@@ -33,13 +33,16 @@ type EmitEvents = {
 
 type TSocket = Socket<ListenEvents, EmitEvents>;
 
-type SocketState = {
+type State = {
   socket: TSocket;
+};
+
+type Actions = {
   connect: (token: string) => void;
   disconnect: () => void;
 };
 
-export const useSocketStore = create<SocketState>((set) => ({
+export const useSocketStore = create<State & Actions>((set) => ({
   socket: io('http://localhost:5120', {
     autoConnect: false
   }),

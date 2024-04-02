@@ -1,12 +1,15 @@
 import { create } from 'zustand';
 
-type CommandMenuState = {
+type State = {
   commandMenuOpened: boolean;
+};
+
+type Actions = {
   toogleCmdMenuOpenState: () => void;
   setCommandMenuOpened: (opened: boolean) => void;
 };
 
-export const useCommandMenuStore = create<CommandMenuState>((set) => ({
+export const useCommandMenuStore = create<State & Actions>((set) => ({
   commandMenuOpened: false,
   setCommandMenuOpened: (opened: boolean) =>
     set(() => {
