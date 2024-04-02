@@ -45,7 +45,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 type LucideIconProps = {
-  type?: 'command-menu' | 'dropdown-menu';
+  type?: 'command-menu' | 'dropdown-menu' | 'nav';
 } & (typeof UserCircle)['defaultProps'];
 
 const Icon = ({
@@ -57,9 +57,16 @@ const Icon = ({
 }) => {
   if (React.isValidElement(children)) {
     return React.cloneElement(children, {
-      className: cn('size-4', props.className, {
-        'mr-2': type === 'command-menu' || type === 'dropdown-menu'
-      }),
+      className: cn(
+        'size-4',
+        props.className,
+        {
+          'mr-2': type === 'command-menu' || type === 'dropdown-menu'
+        },
+        {
+          'mr-1 size-5': type === 'nav'
+        }
+      ),
       ...props
     });
   }

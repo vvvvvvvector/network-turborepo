@@ -9,15 +9,15 @@ import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
 export const icon = (type: (typeof pages)[number]) => {
   switch (type) {
     case '/profile':
-      return <Icons.myProfile className="ml-1 size-5" />;
+      return <Icons.myProfile type="nav" />;
     case '/news':
-      return <Icons.news className="ml-1 size-5" />;
+      return <Icons.news type="nav" />;
     case '/messenger':
-      return <Icons.messenger className="ml-1 size-5" />;
+      return <Icons.messenger type="nav" />;
     case '/friends':
-      return <Icons.friends className="ml-1 size-5" />;
+      return <Icons.friends type="nav" />;
     case '/photos':
-      return <Icons.photos className="ml-1 size-5" />;
+      return <Icons.photos type="nav" />;
     default:
       const _: never = type; // eslint-disable-line
       throw 'Not all cases are covered';
