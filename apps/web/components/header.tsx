@@ -110,7 +110,7 @@ const Header = () => {
               onClick={() => push(PAGES.NEWS)}
               className="mr-14 hidden cursor-pointer items-center gap-3 md:flex"
             >
-              <Icons.appLogo />
+              <Icons.appLogo className='size-5' />
               <span className="text-2xl font-bold">Network</span>
             </div>
             <CommandMenu className="md:max-w-[320px]" />
