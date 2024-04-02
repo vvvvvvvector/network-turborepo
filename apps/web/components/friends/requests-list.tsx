@@ -13,7 +13,6 @@ import { Avatar } from '@/components/avatar';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useTab } from '@/hooks/use-tab';
 
-import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
 import { type UserFromListOfUsers } from '@/lib/types';
 
 const types = ['incoming', 'outgoing', 'rejected'] as const;
@@ -33,12 +32,12 @@ const BUTTONS: Record<
       <div className="flex gap-3">
         <Tooltip text="Accept friend request">
           <Button onClick={onClicks[0]} variant="outline">
-            <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.accept />
           </Button>
         </Tooltip>
         <Tooltip text="Reject friend request">
           <Button onClick={onClicks[1]} variant="outline">
-            <Icons.reject className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.reject />
           </Button>
         </Tooltip>
       </div>
@@ -48,7 +47,7 @@ const BUTTONS: Record<
     return (
       <Tooltip text="Cancel request">
         <Button onClick={onClicks[0]} variant="outline">
-          <Icons.undo className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.undo />
         </Button>
       </Tooltip>
     );
@@ -57,7 +56,7 @@ const BUTTONS: Record<
     return (
       <Tooltip text="Add to friends">
         <Button onClick={onClicks[0]} variant="outline">
-          <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.accept />
         </Button>
       </Tooltip>
     );

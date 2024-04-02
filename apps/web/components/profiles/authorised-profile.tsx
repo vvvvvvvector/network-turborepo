@@ -34,7 +34,6 @@ import { useProfileMutations } from '@/hooks/use-profile-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
 import type { AuthorisedUser } from '@/lib/types';
-import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
 
 const schema = z.object({
@@ -86,7 +85,7 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
           <DropdownMenuContent>
             {user.profile.avatar && (
               <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
-                <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
+                <Icons.photos type="dropdown-menu" />
                 <span>Open photo</span>
               </DropdownMenuItem>
             )}
@@ -239,15 +238,13 @@ const updateAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
   {
     default: (
       <>
-        <Icons.edit className={DROPDOWN_MENU_ICON_STYLES} />
+        <Icons.edit type="dropdown-menu" />
         <span>Update photo</span>
       </>
     ),
     pending: (
       <>
-        <Icons.spinner
-          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
-        />
+        <Icons.spinner type="dropdown-menu" className="animate-spin" />
         <span>Updating...</span>
       </>
     )
@@ -257,15 +254,13 @@ const uploadAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
   {
     default: (
       <>
-        <Icons.upload className={DROPDOWN_MENU_ICON_STYLES} />
+        <Icons.upload type="dropdown-menu" />
         <span>Upload photo</span>
       </>
     ),
     pending: (
       <>
-        <Icons.spinner
-          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
-        />
+        <Icons.spinner type="dropdown-menu" className="animate-spin" />
         <span>Uploading...</span>
       </>
     )
@@ -275,18 +270,13 @@ const deleteAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
   {
     default: (
       <>
-        <Icons.trash
-          color="hsl(0 84.2% 60.2%)"
-          className={DROPDOWN_MENU_ICON_STYLES}
-        />
+        <Icons.trash color="hsl(0 84.2% 60.2%)" type="dropdown-menu" />
         <span>Delete photo</span>
       </>
     ),
     pending: (
       <>
-        <Icons.spinner
-          className={`${DROPDOWN_MENU_ICON_STYLES} animate-spin`}
-        />
+        <Icons.spinner type="dropdown-menu" className="animate-spin" />
         <span>Deleting...</span>
       </>
     )

@@ -16,10 +16,6 @@ import { Tooltip } from '@/components/tooltip';
 import { Icons } from '@/components/icons';
 import { Avatar } from '@/components/avatar';
 
-import {
-  DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE
-} from '@/lib/constants';
 import { formatDate, formatTime } from '@/lib/utils';
 import type { NetworkUser } from '@/lib/types';
 
@@ -67,11 +63,11 @@ export const FriendProfile = (
             {user.profile.avatar && (
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
-                  <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.photos />
                   <span>Open photo</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Icons.heart className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.heart />
                   <span>{`Like photo`}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -96,7 +92,7 @@ export const FriendProfile = (
               variant="outline"
               size="icon"
             >
-              <Icons.acceptUser className={ICON_INSIDE_BUTTON_SIZE} />
+              <Icons.acceptUser />
             </Button>
           </Tooltip>
         </div>

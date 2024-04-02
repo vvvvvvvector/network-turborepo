@@ -18,7 +18,7 @@ import { getNetworkUsersUsernames } from '@/app/(authorised)/friends/api';
 import { useFocus } from '@/hooks/use-focus';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 
-import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 
 import { RequestStatus } from '@/axios/friends';
 
@@ -67,7 +67,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
         />
         {!params.get('username') ? (
           <Button onClick={onSearch} size="icon" className="w-14">
-            <Icons.search className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.search />
           </Button>
         ) : (
           <Tooltip text="Reset search">
@@ -80,7 +80,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
                 setSearchValue('');
               }}
             >
-              <Icons.resetSearch className={ICON_INSIDE_BUTTON_SIZE} />
+              <Icons.resetSearch />
             </Button>
           </Tooltip>
         )}
@@ -110,7 +110,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
               {user.requestStatus === 'none' ? (
                 <Tooltip text="Send a friend request">
                   <Button onClick={send(user.username)} variant="outline">
-                    <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />
+                    <Icons.addUser />
                   </Button>
                 </Tooltip>
               ) : (

@@ -26,7 +26,7 @@ import { Icons } from '@/components/icons';
 import { signIn } from '@/axios/auth';
 
 import { env } from '@/lib/env';
-import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
@@ -111,9 +111,7 @@ export const SignInForm = () => {
         >
           {signInMutation.isPending || isPending ? (
             <div className="flex items-center gap-2">
-              <Icons.spinner
-                className={cn('animate-spin', ICON_INSIDE_BUTTON_SIZE)}
-              />
+              <Icons.spinner className={cn('animate-spin')} />
               <span>Loading...</span>
             </div>
           ) : (

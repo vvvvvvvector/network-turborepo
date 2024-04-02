@@ -24,8 +24,6 @@ import { capitalize, cn } from '@/lib/utils';
 
 import { useCommandMenuStore } from '@/zustand/command-menu.store';
 
-const COMMAND_ITEM_ICON_STYLE = 'mr-2 size-4';
-
 interface Props {
   className?: string;
 }
@@ -85,17 +83,17 @@ export const CommandMenu = ({ className }: Props) => {
             <CommandItem
               onSelect={() => runCommand(() => push(PAGES.MY_PROFILE))}
             >
-              <Icons.myProfile className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.myProfile type="command-menu" />
               <span>My profile</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => push(PAGES.NEWS))}>
-              <Icons.news className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.news type="command-menu" />
               <span>News</span>
             </CommandItem>
             <CommandItem
               onSelect={() => runCommand(() => push(PAGES.MESSENGER))}
             >
-              <Icons.messenger className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.messenger type="command-menu" />
               <span>Messenger</span>
             </CommandItem>
             <CommandItem
@@ -103,11 +101,11 @@ export const CommandMenu = ({ className }: Props) => {
                 runCommand(() => push(`${PAGES.FRIENDS}?tab=all`))
               }
             >
-              <Icons.friends className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.friends type="command-menu" />
               <span>Friends</span>
             </CommandItem>
             <CommandItem onSelect={() => runCommand(() => push(PAGES.PHOTOS))}>
-              <Icons.photos className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.photos type="command-menu" />
               <span>Photos</span>
             </CommandItem>
           </CommandGroup>
@@ -118,7 +116,7 @@ export const CommandMenu = ({ className }: Props) => {
                 runCommand(() => push(`${PAGES.FRIENDS_FIND}?page=1`))
               }
             >
-              <Icons.searchUser className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.searchUser type="command-menu" />
               <span>Find</span>
             </CommandItem>
             <CommandItem
@@ -128,7 +126,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Icons.requests className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.requests type="command-menu" />
               <span>Requests</span>
             </CommandItem>
             <CommandItem
@@ -136,7 +134,7 @@ export const CommandMenu = ({ className }: Props) => {
                 runCommand(() => push(`${PAGES.FRIENDS}?tab=all`))
               }
             >
-              <Icons.friends className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.friends type="command-menu" />
               <span>All</span>
             </CommandItem>
             <CommandItem
@@ -144,7 +142,7 @@ export const CommandMenu = ({ className }: Props) => {
                 runCommand(() => push(`${PAGES.FRIENDS}?tab=online`))
               }
             >
-              <Icons.online className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.online type="command-menu" />
               <span>Online</span>
             </CommandItem>
           </CommandGroup>
@@ -157,7 +155,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Icons.incomingRequests className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.incomingRequests type="command-menu" />
               <span>Incoming</span>
             </CommandItem>
             <CommandItem
@@ -167,7 +165,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Icons.outgoingRequests className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.outgoingRequests type="command-menu" />
               <span>Outgoing</span>
             </CommandItem>
             <CommandItem
@@ -177,7 +175,7 @@ export const CommandMenu = ({ className }: Props) => {
                 )
               }
             >
-              <Icons.rejectUser className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.rejectUser type="command-menu" />
               <span>Rejected</span>
             </CommandItem>
           </CommandGroup>
@@ -188,7 +186,7 @@ export const CommandMenu = ({ className }: Props) => {
                 key={theme}
                 onSelect={() => runCommand(() => setTheme(theme))}
               >
-                {getThemeIcon(theme)}
+                {getThemeIcon(theme, 'command-menu')}
                 <span>{capitalize(theme)}</span>
               </CommandItem>
             ))}
@@ -196,7 +194,7 @@ export const CommandMenu = ({ className }: Props) => {
           <CommandSeparator />
           <CommandGroup heading="Settings">
             <CommandItem>
-              <Icons.settings className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.settings type="command-menu" />
               <span>Settings</span>
             </CommandItem>
             <CommandItem
@@ -210,7 +208,7 @@ export const CommandMenu = ({ className }: Props) => {
                 })
               }
             >
-              <Icons.signOut className={COMMAND_ITEM_ICON_STYLE} />
+              <Icons.signOut type="command-menu" />
               <span>Sign out</span>
             </CommandItem>
           </CommandGroup>

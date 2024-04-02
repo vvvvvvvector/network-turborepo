@@ -35,19 +35,22 @@ import { MobileNav } from '@/components/mobile-nav';
 import { signOut } from '@/app/server';
 import { getAuthorisedUserUsernameAndAvatar } from '@/axios/users';
 
-import { DROPDOWN_MENU_ICON_STYLES, PAGES, TOKEN_NAME } from '@/lib/constants';
+import { PAGES, TOKEN_NAME } from '@/lib/constants';
 import { capitalize } from '@/lib/utils';
 
-export const getThemeIcon = (theme: string | undefined) => {
+export const getThemeIcon = (
+  theme: string | undefined,
+  type?: 'dropdown-menu' | 'command-menu'
+) => {
   switch (theme) {
     case 'light':
-      return <Icons.lightMode className={DROPDOWN_MENU_ICON_STYLES} />;
+      return <Icons.lightMode type={type} />;
     case 'dark':
-      return <Icons.darkMode className={DROPDOWN_MENU_ICON_STYLES} />;
+      return <Icons.darkMode type={type} />;
     case 'system':
-      return <Icons.systemMode className={DROPDOWN_MENU_ICON_STYLES} />;
+      return <Icons.systemMode type={type} />;
     default:
-      return <Icons.alertTriangle className={DROPDOWN_MENU_ICON_STYLES} />;
+      return <Icons.alertTriangle type={type} />;
   }
 };
 
@@ -56,7 +59,7 @@ const ThemeSelector = () => {
 
   return (
     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-      {getThemeIcon(theme)}
+      {getThemeIcon(theme, 'dropdown-menu')}
       <div className="flex flex-1 justify-between">
         <span>Theme:</span>
         <DropdownMenu>
@@ -73,7 +76,7 @@ const ThemeSelector = () => {
                   setTheme(theme);
                 }}
               >
-                {getThemeIcon(theme)}
+                {getThemeIcon(theme, 'dropdown-menu')}
                 <span>{capitalize(theme)}</span>
               </DropdownMenuItem>
             ))}
@@ -107,7 +110,7 @@ const Header = () => {
               onClick={() => push(PAGES.NEWS)}
               className="mr-14 hidden cursor-pointer items-center gap-3 md:flex"
             >
-              <Icons.appLogo />
+              <Icons.appLogo className="size-5" />
               <span className="text-2xl font-bold">Network</span>
             </div>
             <CommandMenu className="md:max-w-[320px]" />
@@ -149,7 +152,7 @@ const Header = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <Icons.settings className={DROPDOWN_MENU_ICON_STYLES} />
+                    <Icons.settings type="dropdown-menu" />
                     <span>Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -157,7 +160,7 @@ const Header = () => {
                   <DropdownMenuSeparator />
                   <DialogTrigger className="w-full">
                     <DropdownMenuItem>
-                      <Icons.signOut className={DROPDOWN_MENU_ICON_STYLES} />
+                      <Icons.signOut type="dropdown-menu" />
                       <span>Sign out</span>
                     </DropdownMenuItem>
                   </DialogTrigger>

@@ -9,18 +9,18 @@ import { Icons } from '@/components/icons';
 import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
 import { capitalize } from '@/lib/utils';
 
-export const icon = (type: (typeof pages)[number], size: number) => {
+export const icon = (type: (typeof pages)[number]) => {
   switch (type) {
     case '/profile':
-      return <Icons.myProfile size={size} />;
+      return <Icons.myProfile type="nav" />;
     case '/news':
-      return <Icons.news size={size} />;
+      return <Icons.news type="nav" />;
     case '/messenger':
-      return <Icons.messenger size={size} />;
+      return <Icons.messenger type="nav" />;
     case '/friends':
-      return <Icons.friends size={size} />;
+      return <Icons.friends type="nav" />;
     case '/photos':
-      return <Icons.photos size={size} />;
+      return <Icons.photos type="nav" />;
     default:
       const _: never = type; // eslint-disable-line
       throw 'Not all cases are covered';
@@ -84,8 +84,8 @@ const MobileNav = () => {
               }}
               onOpenChange={setOpen}
             >
-              {icon(page, 20)}
-              <span className="ml-2">{menuItemName(page)}</span>
+              {icon(page)}
+              <span>{menuItemName(page)}</span>
             </MobileLink>
           ))}
         </div>
