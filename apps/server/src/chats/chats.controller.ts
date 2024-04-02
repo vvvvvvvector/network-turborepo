@@ -42,8 +42,8 @@ export class ChatsController {
   }
 
   @Get()
-  async getAllAuthorizedUserChats(@Req() req) {
-    return this.chatsService.getAllAuthorizedUserChats(req.user.id);
+  async getAllAuthorisedUserChats(@Req() req) {
+    return this.chatsService.getAllAuthorisedUserChats(req.user.id);
   }
 
   @Post()

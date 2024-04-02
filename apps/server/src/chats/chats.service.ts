@@ -40,14 +40,14 @@ export class ChatsService {
   }
 
   async getChatIdByAddresseeUsername(
-    authorizedUserId: number,
+    authorisedUserId: number,
     addresseeUsername: string,
   ) {
     const chat = await this.chatsRepository.findOne({
       where: [
         {
           initiator: {
-            id: authorizedUserId,
+            id: authorisedUserId,
           },
           addressee: {
             username: addresseeUsername,
@@ -58,7 +58,7 @@ export class ChatsService {
             username: addresseeUsername,
           },
           addressee: {
-            id: authorizedUserId,
+            id: authorisedUserId,
           },
         },
       ],
@@ -67,7 +67,7 @@ export class ChatsService {
     return chat ? chat.id : '';
   }
 
-  async getChatData(authorizedUserUsername: string, id: string) {
+  async getChatData(authorisedUserUsername: string, id: string) {
     try {
       const chat = await this.chatsRepository.findOneOrFail({
         select: {
@@ -130,18 +130,18 @@ export class ChatsService {
         id: chat.id,
         messages: chat.messages,
         friendUsername:
-          chat.initiator.username === authorizedUserUsername
+          chat.initiator.username === authorisedUserUsername
             ? chat.addressee.username
             : chat.initiator.username,
         friendAvatar:
-          chat.initiator.username === authorizedUserUsername
+          chat.initiator.username === authorisedUserUsername
             ? chat.addressee.profile.avatar?.name || null
             : chat.initiator.profile.avatar?.name || null,
         friendLastSeen:
-          chat.initiator.username === authorizedUserUsername
+          chat.initiator.username === authorisedUserUsername
             ? chat.addressee.lastSeen
             : chat.initiator.lastSeen,
-        authorizedUserUsername,
+        authorisedUserUsername,
       };
     } catch (error) {
       throw new ChatNotFoundException();
@@ -193,7 +193,7 @@ export class ChatsService {
     return id;
   }
 
-  async getAllAuthorizedUserChats(signedInUserId: number) {
+  async getAllAuthorisedUserChats(signedInUserId: number) {
     const chats = await this.chatsRepository.find({
       relations: [
         'initiator',
