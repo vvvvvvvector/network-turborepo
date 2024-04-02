@@ -12,7 +12,7 @@ import { Icons } from '@/components/icons';
 import { LastSeen } from '@/components/messenger/last-seen';
 
 import type { Chat as TChat, Message } from '@/lib/types';
-import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 
 import { useFocus } from '@/hooks/use-focus';
@@ -269,7 +269,7 @@ export const Chat = ({ chat }: Props) => {
                   size="icon"
                   variant="ghost"
                 >
-                  <Icons.moreVertical className={ICON_INSIDE_BUTTON_SIZE} />
+                  <Icons.moreVertical />
                 </Button>
                 <div className="inline-flex w-[84%] max-w-max flex-col gap-3 rounded-xl bg-neutral-100 p-3 text-sm dark:bg-[hsl(0,0%,13%)]">
                   {message.sender.username !== chat.authorisedUserUsername && (
@@ -307,7 +307,7 @@ export const Chat = ({ chat }: Props) => {
       )}
       <div className="flex gap-3">
         <Button className="w-full max-w-[40px]" variant="ghost" size="icon">
-          <Icons.attach className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.attach />
         </Button>
         <Textarea
           className="min-h-full resize-none"
@@ -341,7 +341,7 @@ export const Chat = ({ chat }: Props) => {
           disabled={messageInputValue.length === 0}
           onClick={onSendMessage}
         >
-          <Icons.sendMessage className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.sendMessage />
         </Button>
       </div>
     </>

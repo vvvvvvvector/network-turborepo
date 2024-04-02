@@ -17,10 +17,6 @@ import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useTab } from '@/hooks/use-tab';
 
 import { type UserFromListOfUsers } from '@/lib/types';
-import {
-  DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE
-} from '@/lib/constants';
 
 import { tabs } from '@/components/friends/friends';
 
@@ -84,17 +80,17 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Icons.moreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
+                <Icons.moreHorizontal />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={writeMessage(user.username)}>
-                <Icons.writeMessage className={DROPDOWN_MENU_ICON_STYLES} />
+                <Icons.writeMessage type="dropdown-menu" />
                 <span>Write message</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={unfriend(user.username)}>
-                <Icons.unfriend className={DROPDOWN_MENU_ICON_STYLES} />
+                <Icons.unfriend type="dropdown-menu" />
                 <span>Unfriend</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

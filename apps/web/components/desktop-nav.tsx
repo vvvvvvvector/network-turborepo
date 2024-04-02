@@ -6,18 +6,18 @@ import { capitalize } from '@/lib/utils';
 
 import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
 
-export const icon = (type: (typeof pages)[number], size: number) => {
+export const icon = (type: (typeof pages)[number]) => {
   switch (type) {
     case '/profile':
-      return <Icons.myProfile size={size} />;
+      return <Icons.myProfile className="ml-1 size-5" />;
     case '/news':
-      return <Icons.news size={size} />;
+      return <Icons.news className="ml-1 size-5" />;
     case '/messenger':
-      return <Icons.messenger size={size} />;
+      return <Icons.messenger className="ml-1 size-5" />;
     case '/friends':
-      return <Icons.friends size={size} />;
+      return <Icons.friends className="ml-1 size-5" />;
     case '/photos':
-      return <Icons.photos size={size} />;
+      return <Icons.photos className="ml-1 size-5" />;
     default:
       const _: never = type; // eslint-disable-line
       throw 'Not all cases are covered';
@@ -57,8 +57,8 @@ export const DesktopNav = () => (
         }}
       >
         <li className="flex cursor-pointer items-center gap-2 rounded p-2 text-sm transition-[background-color] hover:bg-neutral-200 dark:hover:bg-neutral-950">
-          {icon(page, 20)}
-          <span className="ml-1">{menuItemName(page)}</span>
+          {icon(page)}
+          <span>{menuItemName(page)}</span>
         </li>
       </Link>
     ))}

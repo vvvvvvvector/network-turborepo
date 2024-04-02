@@ -19,10 +19,6 @@ import { Avatar } from '@/components/avatar';
 import { useRequestsActions } from '@/hooks/use-requests-actions';
 import { useCommonActions } from '@/hooks/use-common-actions';
 
-import {
-  DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE
-} from '@/lib/constants';
 import type { ExtendedFriendRequestStatus, NetworkUser } from '@/lib/types';
 import { formatDate, formatTime } from '@/lib/utils';
 
@@ -47,7 +43,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant="outline"
         >
-          <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.addUser />
         </Button>
       </Tooltip>
     </>
@@ -62,7 +58,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant="outline"
         >
-          <Icons.undo className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.undo />
         </Button>
       </Tooltip>
     </>
@@ -75,20 +71,20 @@ const BUTTONS: Record<
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon">
-            <Icons.moreHorizontal className={ICON_INSIDE_BUTTON_SIZE} />
+            <Icons.moreHorizontal />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
             onClick={onClicks[0] as MouseEventHandler<HTMLDivElement>}
           >
-            <Icons.accept className={DROPDOWN_MENU_ICON_STYLES} />
+            <Icons.accept type="dropdown-menu" />
             <span>Accept request</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={onClicks[1] as MouseEventHandler<HTMLDivElement>}
           >
-            <Icons.reject className={DROPDOWN_MENU_ICON_STYLES} />
+            <Icons.reject type="dropdown-menu" />
             <span>Reject request</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -105,7 +101,7 @@ const BUTTONS: Record<
           onClick={onClicks[0] as MouseEventHandler<HTMLButtonElement>}
           variant="outline"
         >
-          <Icons.accept className={ICON_INSIDE_BUTTON_SIZE} />
+          <Icons.accept />
         </Button>
       </Tooltip>
     </>
@@ -157,11 +153,11 @@ export const DefaultProfile = (
             {user.profile.avatar && (
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
-                  <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.photos type="dropdown-menu" />
                   <span>Open photo</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Icons.heart className={DROPDOWN_MENU_ICON_STYLES} />
+                  <Icons.heart type="dropdown-menu" />
                   <span>{`Like photo`}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
