@@ -7,7 +7,7 @@ export function useZodForm<TSchema extends Parameters<typeof zodResolver>[0]>(
   zodSchema: TSchema,
   props?: Omit<UseFormProps<z.infer<TSchema>>, 'resolver'>
 ) {
-  return useForm({
+  return useForm<z.infer<TSchema>>({
     resolver: zodResolver(zodSchema),
     ...props
   });
