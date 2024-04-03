@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller } from 'react-hook-form';
 
 import { Switch } from '@/components/ui/switch';
@@ -32,6 +30,7 @@ import { Icons } from '@/components/icons';
 
 import { useProfileMutations } from '@/hooks/use-profile-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
+import { useZodForm } from '@/hooks/use-zod-form';
 
 import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
@@ -46,8 +45,7 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
   const [bioDialogOpen, setBioDialogOpen] = useState(false);
   const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
 
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useZodForm(schema, {
     defaultValues: {
       bio: user.profile.bio ?? '',
       emailPrivacy: !user.contacts.email.isPublic

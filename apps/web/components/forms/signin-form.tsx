@@ -2,8 +2,6 @@
 
 import { useTransition } from 'react';
 import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
@@ -24,6 +22,8 @@ import { Input } from '@/components/ui/input';
 import { Icons } from '@/components/icons';
 
 import { signIn } from '@/axios/auth';
+
+import { useZodForm } from '@/hooks/use-zod-form';
 
 import { env } from '@/lib/env';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
@@ -46,8 +46,7 @@ export const SignInForm = () => {
     }
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useZodForm(formSchema, {
     defaultValues: {
       username: '',
       password: env.NEXT_PUBLIC_SIGN_IN_PASSWORD || ''
