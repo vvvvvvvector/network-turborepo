@@ -1,12 +1,12 @@
+import { cache } from 'react';
 import { notFound, redirect } from 'next/navigation';
 
 import { NetworkUserProfile } from '@/components/profiles/network-user-profile';
 
-import { isAuthorised } from '@/app/(auth)/api';
 import { getNetworkUserPubliclyAvailableData } from '@/app/(authorised)/[username]/api';
+import { getSignedInUserUsername } from '@/app/(auth)/auth';
 
 import { PAGES } from '@/lib/constants';
-import { cache } from 'react';
 
 const getNetworkUserData = cache(getNetworkUserPubliclyAvailableData);
 
@@ -25,11 +25,11 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function NetworkUserPage({ params }: Props) {
-  const { signedInUserUsername } = await isAuthorised();
+  const { username } = await getSignedInUserUsername();
 
-  if (!signedInUserUsername) redirect(PAGES.SIGN_IN);
+  if (!username) redirect(PAGES.SIGN_IN);
 
-  if (signedInUserUsername === params.username) redirect(PAGES.MY_PROFILE);
+  if (username === params.username) redirect(PAGES.MY_PROFILE);
 
   const user = await getNetworkUserData(params.username);
 

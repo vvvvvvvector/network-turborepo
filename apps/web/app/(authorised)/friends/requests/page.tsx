@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { Separator } from '@/components/ui/separator';
 
 import { RequestsList } from '@/components/friends/requests-list';
 
-import { isAuthorised } from '@/app/(auth)/api';
+import { auth } from '@/app/(auth)/auth';
 import {
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
@@ -30,9 +29,7 @@ export function generateMetadata({ searchParams }: Props) {
 }
 
 export default async function RequestsPage({ searchParams }: Props) {
-  const { signedInUserUsername } = await isAuthorised();
-
-  if (!signedInUserUsername) redirect(PAGES.SIGN_IN);
+  await auth();
 
   const [incoming, outgoing, rejected] = await Promise.all([
     getIncomingFriendRequests(),

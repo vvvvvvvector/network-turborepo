@@ -1,21 +1,16 @@
 import { type Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import { AuthorisedProfile } from '@/components/profiles/authorised-profile';
 
 import { getAuthorisedUserData } from '@/app/(authorised)/profile/api';
-import { isAuthorised } from '@/app/(auth)/api';
-
-import { PAGES } from '@/lib/constants';
+import { auth } from '@/app/(auth)/auth';
 
 export const metadata: Metadata = {
   title: 'Authorised / My Profile'
 };
 
 export default async function ProfilePage() {
-  const { signedInUserUsername } = await isAuthorised();
-
-  if (!signedInUserUsername) redirect(PAGES.SIGN_IN);
+  await auth();
 
   const user = await getAuthorisedUserData();
 

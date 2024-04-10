@@ -1,11 +1,8 @@
-import { redirect } from 'next/navigation';
-
 import { Friends } from '@/components/friends/friends';
 
-import { isAuthorised } from '@/app/(auth)/api';
 import { getMyFriends } from '@/app/(authorised)/friends/api';
+import { auth } from '@/app/(auth)/auth';
 
-import { PAGES } from '@/lib/constants';
 import { capitalize } from '@/lib/utils';
 
 interface Props {
@@ -21,9 +18,7 @@ export function generateMetadata({ searchParams }: Props) {
 }
 
 export default async function FriendsPage() {
-  const { signedInUserUsername } = await isAuthorised();
-
-  if (!signedInUserUsername) redirect(PAGES.SIGN_IN);
+  await auth();
 
   const users = await getMyFriends();
 

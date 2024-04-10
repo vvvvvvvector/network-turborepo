@@ -1,23 +1,18 @@
 import { type Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import { Separator } from '@/components/ui/separator';
 
 import { ListOfChats } from '@/components/messenger/list-of-chats';
 
-import { isAuthorised } from '@/app/(auth)/api';
 import { getAutorisedUserChats } from '@/app/(authorised)/messenger/api';
-
-import { PAGES } from '@/lib/constants';
+import { auth } from '@/app/(auth)/auth';
 
 export const metadata: Metadata = {
   title: 'Authorised / Messenger'
 };
 
 export default async function MessengerPage() {
-  const { signedInUserUsername } = await isAuthorised();
-
-  if (!signedInUserUsername) redirect(PAGES.SIGN_IN);
+  await auth();
 
   const chats = await getAutorisedUserChats();
 
