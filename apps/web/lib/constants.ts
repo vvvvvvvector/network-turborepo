@@ -8,7 +8,7 @@ export const ICON_INSIDE_BUTTON_SIZE = 'size-4';
 
 export const PAGES = {
   SIGN_IN: '/',
-  SIGN_UP: '/signup',
+  SIGN_UP: '/sign-up',
   MESSENGER: '/messenger',
   NEWS: '/news',
   MY_PROFILE: '/profile',
