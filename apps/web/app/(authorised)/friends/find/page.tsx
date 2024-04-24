@@ -21,7 +21,7 @@ export default async function FindPage({
 }: Props) {
   await auth();
 
-  const data = await getNetworkUsersUsernames(page, username);
-
-  return <NetworkUsersList data={data} />;
+  return (
+    <NetworkUsersList data={await getNetworkUsersUsernames(page, username)} />
+  );
 }

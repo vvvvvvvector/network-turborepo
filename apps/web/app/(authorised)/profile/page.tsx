@@ -12,7 +12,5 @@ export const metadata: Metadata = {
 export default async function ProfilePage() {
   await auth();
 
-  const user = await getAuthorisedUserData();
-
-  return <AuthorisedProfile user={user} />;
+  return <AuthorisedProfile user={await getAuthorisedUserData()} />;
 }

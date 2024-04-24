@@ -41,13 +41,10 @@ export default async function RequestsPage({ searchParams }: Props) {
     switch (type) {
       case 'incoming':
         return incoming.length;
-        break;
       case 'outgoing':
         return outgoing.length;
-        break;
       case 'rejected':
         return rejected.length;
-        break;
     }
   };
 
