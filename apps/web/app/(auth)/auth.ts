@@ -17,16 +17,15 @@ export const getSignedInUserUsername = async () => {
   };
 };
 
-type RedirectPage =
-  | typeof PAGES.SIGN_IN
-  | typeof PAGES.MY_PROFILE
-  | typeof PAGES.NEWS;
+const pages = [PAGES.SIGN_IN, PAGES.MY_PROFILE, PAGES.NEWS];
+
+type RedirectPage = (typeof pages)[number];
 
 export async function auth(
   redirectPage: RedirectPage = '/',
-  condition: 'username' | '!username' = '!username'
+  inverseRedirectCondition: boolean = false // I don't know how to name the argument and not sure if it's a good idea to have it
 ) {
   const { username } = await getSignedInUserUsername();
 
-  if (condition === 'username' ? username : !username) redirect(redirectPage);
+  if (inverseRedirectCondition ? username : !username) redirect(redirectPage);
 }

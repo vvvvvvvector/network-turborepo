@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignUpPage() {
-  await auth('/profile', 'username');
+  await auth('/profile', true);
 
   return <SignUpForm />;
 }

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignInPage() {
-  await auth('/profile', 'username');
+  await auth('/profile', true);
 
   return <SignInForm />;
 }
