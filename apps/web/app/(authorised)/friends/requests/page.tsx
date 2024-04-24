@@ -24,7 +24,7 @@ interface Props {
 
 export function generateMetadata({ searchParams }: Props) {
   return {
-    title: `Requests / ${capitalize(searchParams.type)}`
+    title: `Requests ${searchParams.type && `/ ${capitalize(searchParams.type)}`}`
   };
 }
 

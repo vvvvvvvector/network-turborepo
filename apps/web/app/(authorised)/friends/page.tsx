@@ -13,7 +13,7 @@ interface Props {
 
 export function generateMetadata({ searchParams }: Props) {
   return {
-    title: `Friend / ${capitalize(searchParams.tab)}`
+    title: `Friend ${searchParams.tab && `/ ${capitalize(searchParams.tab)}`}`
   };
 }
 
