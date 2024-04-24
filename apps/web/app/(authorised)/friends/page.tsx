@@ -20,7 +20,5 @@ export function generateMetadata({ searchParams }: Props) {
 export default async function FriendsPage() {
   await auth();
 
-  const users = await getMyFriends();
-
-  return <Friends users={users} />;
+  return <Friends users={await getMyFriends()} />;
 }
