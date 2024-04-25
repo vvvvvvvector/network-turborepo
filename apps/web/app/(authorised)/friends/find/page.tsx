@@ -1,12 +1,9 @@
 import { type Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import { NetworkUsersList } from '@/components/friends/network-users-list';
 
-import { isAuthorised } from '@/app/(auth)/api';
 import { getNetworkUsersUsernames } from '@/app/(authorised)/friends/api';
-
-import { PAGES } from '@/lib/constants';
+import { auth } from '@/app/(auth)/auth';
 
 interface Props {
   searchParams: {
@@ -22,11 +19,9 @@ export const metadata: Metadata = {
 export default async function FindPage({
   searchParams: { page, username }
 }: Props) {
-  const { signedInUserUsername } = await isAuthorised();
+  await auth();
 
-  if (!signedInUserUsername) redirect(PAGES.SIGN_IN);
-
-  const data = await getNetworkUsersUsernames(page, username);
-
-  return <NetworkUsersList data={data} />;
+  return (
+    <NetworkUsersList data={await getNetworkUsersUsernames(page, username)} />
+  );
 }
