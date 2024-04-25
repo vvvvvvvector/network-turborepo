@@ -1,5 +1,7 @@
 'use server';
 
+// TODO: rewrite the logic using middleware
+
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
 
