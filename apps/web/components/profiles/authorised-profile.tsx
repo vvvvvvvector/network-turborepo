@@ -130,9 +130,12 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                 onSelect={(e) => {
                   e.preventDefault();
 
-                  deleteAvatar.mutation.mutate(undefined, {
-                    onSuccess: () => setDropdownMenuOpen(false)
-                  });
+                  deleteAvatar.mutation.mutate(
+                    { avatarUrl: user.profile.avatar!.url },
+                    {
+                      onSuccess: () => setDropdownMenuOpen(false)
+                    }
+                  );
                 }}
               >
                 {

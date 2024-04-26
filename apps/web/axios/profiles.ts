@@ -32,16 +32,13 @@ const updateAvatar = async (avatar: File) => {
   });
 };
 
-const deleteAvatar = async () => {
+const deleteAvatar = async (avatarUrl: string) => {
   await fetch(`/api/avatar/delete`, {
     method: 'DELETE',
     body: JSON.stringify({
-      avatarUrl:
-        'https://cciqakkasanuj7gl.public.blob.vercel-storage.com/eye-uKEpXtAOmYuOfpJBdeGwaTjsTfx6I9.jpg'
+      avatarUrl
     })
   });
-
-  // await axiosApiInstance.delete(`${ROUTE}/avatar`);
 };
 
 const toogleAuthorisedUserEmailPrivacy = async () => {

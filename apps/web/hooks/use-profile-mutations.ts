@@ -46,7 +46,8 @@ export const useProfileMutations = () => {
   });
 
   const deleteAvatarMutation = useMutation({
-    mutationFn: () => deleteAvatar(),
+    mutationFn: ({ avatarUrl }: { avatarUrl: string }) =>
+      deleteAvatar(avatarUrl),
     onSuccess: () => {
       toast.success('Avatar was successfully deleted.');
     },

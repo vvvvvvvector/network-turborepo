@@ -33,12 +33,17 @@ export class ProfilesService {
   async saveAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
-    const avatar = new Avatar();
+    if (!profile.avatar) {
+      const avatar = new Avatar();
 
-    avatar.url = url;
-    avatar.likes = 0;
+      avatar.url = url;
+      avatar.likes = 0;
 
-    profile.avatar = avatar;
+      profile.avatar = avatar;
+    } else {
+      profile.avatar.url = url;
+      profile.avatar.likes = 0;
+    }
 
     return this.profilesRepository.save(profile);
   }
