@@ -5,7 +5,6 @@ import {
   Post,
   Put,
   Req,
-  UploadedFile,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -15,9 +14,8 @@ import { ROUTES, SWAGGER_API_TAGS } from 'src/utils/constants';
 
 import { ProfilesService } from './profiles.service';
 
-import { UploadAvatar } from './decorators/upload-avatar.decorator';
-
 import { UpdateBioDto } from './dtos/bio.dto';
+import { AvatarUrlDto } from './dtos/avatar-url.dto';
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -32,23 +30,13 @@ export class ProfilesController {
   }
 
   @Post('/avatar')
-  @UploadAvatar()
-  async uploadAvatar(
-    @Req() req,
-    @UploadedFile()
-    file: Express.Multer.File,
-  ) {
-    return this.profilesService.saveAvatar(req.user.id, file.filename);
+  async uploadAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
+    return this.profilesService.saveAvatar(req.user.id, dto.url);
   }
 
   @Put('/avatar')
-  @UploadAvatar()
-  async updateAvatar(
-    @Req() req,
-    @UploadedFile()
-    file: Express.Multer.File,
-  ) {
-    return this.profilesService.updateAvatar(req.user.id, file.filename);
+  async updateAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
+    return this.profilesService.updateAvatar(req.user.id, dto.url);
   }
 
   @Delete('/avatar')
@@ -56,17 +44,3 @@ export class ProfilesController {
     return this.profilesService.removeAvatar(req.user.id);
   }
 }
-
-// new ParseFilePipeBuilder()
-// .addFileTypeValidator({
-//   fileType: new RegExp('.(png|jpeg|jpg)'),
-// })
-
-// .addMaxSizeValidator({
-//   message: 'Please upload a file less than 1MB',
-//   maxSize: 1024 * 1024 * 1,
-// })
-
-// .build({
-//   errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-// }),

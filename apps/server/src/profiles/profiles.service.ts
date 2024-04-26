@@ -11,7 +11,6 @@ export class ProfilesService {
     @InjectRepository(Profile) private profilesRepository: Repository<Profile>,
   ) {}
 
-  // +++
   async updateBio(id: number, bio: string) {
     const profile = await this.getProfileByUserId(id);
 
@@ -21,7 +20,6 @@ export class ProfilesService {
     return this.profilesRepository.save(profile);
   }
 
-  // +++
   async removeAvatar(id: number) {
     const profile = await this.getProfileByUserId(id);
 
@@ -31,7 +29,6 @@ export class ProfilesService {
     return this.profilesRepository.save(profile);
   }
 
-  // +++
   async saveAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
@@ -41,7 +38,6 @@ export class ProfilesService {
     return this.profilesRepository.save(profile);
   }
 
-  // +++
   async updateAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
