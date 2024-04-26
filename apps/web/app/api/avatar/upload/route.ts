@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
   const filename = decodeURIComponent(searchParams.get('filename') as string);
 
-  const blob = await put(filename, request.body as unknown as File, {
+  const blob = await put(filename, request.body as ReadableStream, {
     access: 'public'
   });
 
