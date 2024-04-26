@@ -104,7 +104,13 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                     };
 
                     user.profile.avatar
-                      ? updateAvatar.mutation.mutate({ file }, { ...callbacks })
+                      ? updateAvatar.mutation.mutate(
+                          {
+                            newAvatar: file,
+                            oldAvatarUrl: user.profile.avatar.url
+                          },
+                          { ...callbacks }
+                        )
                       : uploadAvatar.mutation.mutate(
                           { file },
                           { ...callbacks }

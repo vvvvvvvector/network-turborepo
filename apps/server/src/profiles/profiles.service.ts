@@ -48,14 +48,14 @@ export class ProfilesService {
     return this.profilesRepository.save(profile);
   }
 
-  async updateAvatar(id: number, url: string) {
-    const profile = await this.getProfileByUserId(id);
+  // async updateAvatar(id: number, url: string) {
+  //   const profile = await this.getProfileByUserId(id);
 
-    profile.avatar.url = url;
-    profile.avatar.likes = 0;
+  //   profile.avatar.url = url;
+  //   profile.avatar.likes = 0;
 
-    return this.profilesRepository.save(profile);
-  }
+  //   return this.profilesRepository.save(profile);
+  // }
 
   async activateProfile(uuid: string) {
     try {

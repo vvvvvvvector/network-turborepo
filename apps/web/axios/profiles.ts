@@ -20,18 +20,6 @@ const uploadAvatar = async (avatar: File) => {
   );
 };
 
-const updateAvatar = async (avatar: File) => {
-  const formData = new FormData();
-
-  formData.append('file', avatar);
-
-  await axiosApiInstance.put(`${ROUTE}/avatar`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-};
-
 const deleteAvatar = async (avatarUrl: string) => {
   await fetch(`/api/avatar/delete`, {
     method: 'DELETE',
@@ -39,6 +27,11 @@ const deleteAvatar = async (avatarUrl: string) => {
       avatarUrl
     })
   });
+};
+
+const updateAvatar = async (newAvatar: File, oldAvatarUrl: string) => {
+  await deleteAvatar(oldAvatarUrl);
+  await uploadAvatar(newAvatar);
 };
 
 const toogleAuthorisedUserEmailPrivacy = async () => {

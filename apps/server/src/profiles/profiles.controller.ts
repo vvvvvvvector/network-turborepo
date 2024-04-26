@@ -34,10 +34,10 @@ export class ProfilesController {
     return this.profilesService.saveAvatar(req.user.id, dto.url);
   }
 
-  @Put('/avatar')
-  async updateAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
-    return this.profilesService.updateAvatar(req.user.id, dto.url);
-  }
+  // @Put('/avatar')
+  // async updateAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
+  //   return this.profilesService.updateAvatar(req.user.id, dto.url);
+  // }
 
   @Delete('/avatar')
   async removeAvatar(@Req() req) {
