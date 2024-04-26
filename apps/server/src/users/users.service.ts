@@ -72,8 +72,8 @@ export class UsersService {
 
       return {
         username: user.username,
-        avatar: user.profile.avatar.name
-          ? { name: user.profile.avatar.name }
+        avatar: user.profile.avatar.url
+          ? { url: user.profile.avatar.url }
           : null,
       };
     } catch (error) {
@@ -156,7 +156,7 @@ export class UsersService {
         profile: {
           uuid: true,
           avatar: {
-            name: true,
+            url: true,
           },
         },
       },
@@ -178,7 +178,7 @@ export class UsersService {
             createdAt: true,
             bio: true,
             avatar: {
-              name: true,
+              url: true,
               likes: true,
             },
           },

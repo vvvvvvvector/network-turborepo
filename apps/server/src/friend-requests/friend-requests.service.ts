@@ -103,7 +103,7 @@ export class FriendRequestsService {
           profile: {
             createdAt: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },
@@ -112,7 +112,7 @@ export class FriendRequestsService {
           profile: {
             createdAt: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },
@@ -157,7 +157,7 @@ export class FriendRequestsService {
           profile: {
             createdAt: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },
@@ -188,7 +188,7 @@ export class FriendRequestsService {
           profile: {
             createdAt: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },
@@ -219,7 +219,7 @@ export class FriendRequestsService {
           profile: {
             createdAt: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },

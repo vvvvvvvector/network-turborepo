@@ -31,49 +31,27 @@ export class ProfilesService {
   async removeAvatar(id: number) {
     const profile = await this.getProfileByUserId(id);
 
-    unlink(
-      join(__dirname, `../../uploads/avatars/${profile.avatar.name}`),
-      (err) => {
-        if (err) {
-          console.log(err);
-
-          throw new ForbiddenException('Error while removing avatar.');
-        }
-      },
-    );
-
-    profile.avatar.name = null;
+    profile.avatar.url = null;
     profile.avatar.likes = null;
 
     return this.profilesRepository.save(profile);
   }
 
   // +++
-  async saveAvatar(id: number, filename: string) {
+  async saveAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
-    profile.avatar.name = filename;
+    profile.avatar.url = url;
     profile.avatar.likes = 0;
 
     return this.profilesRepository.save(profile);
   }
 
   // +++
-  async updateAvatar(id: number, filename: string) {
+  async updateAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
-    unlink(
-      join(__dirname, `../../uploads/avatars/${profile.avatar.name}`),
-      (err) => {
-        if (err) {
-          console.log(err);
-
-          throw new ForbiddenException('Error while updating avatar.');
-        }
-      },
-    );
-
-    profile.avatar.name = filename;
+    profile.avatar.url = url;
     profile.avatar.likes = 0;
 
     return this.profilesRepository.save(profile);

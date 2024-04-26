@@ -31,7 +31,7 @@ export type User = {
 };
 
 export type Avatar = {
-  name: string;
+  url: string;
   likes: number;
 };
 
@@ -42,7 +42,7 @@ type Profile = {
   bio: string | null;
 };
 
-export type AvatarWithoutLikes = CreateAvatar<Pick<Avatar, 'name'>>;
+export type AvatarWithoutLikes = CreateAvatar<Pick<Avatar, 'url'>>;
 
 export type ProfileWithAvatarWithoutLikes = CreateProfile<AvatarWithoutLikes>;
 

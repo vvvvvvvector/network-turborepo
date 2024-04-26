@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 
 import { getChatIdByAddresseeUsername, initiateChat } from '@/axios/chats';
 
-import { env } from '@/lib/env';
 import { PAGES } from '@/lib/constants';
 
 export const useCommonActions = () => {
@@ -14,8 +13,8 @@ export const useCommonActions = () => {
     push(`/${username}`);
   };
 
-  const onClickOpenPhoto = (avatarName: string | undefined) => () => {
-    location.href = `${env.NEXT_PUBLIC_API_URL}/uploads/avatars/${avatarName}`;
+  const onClickOpenPhoto = (avatarUrl: string | undefined) => () => {
+    if (avatarUrl) location.href = avatarUrl;
   };
 
   const onClickWriteMessage = (username: string) => async () => {
