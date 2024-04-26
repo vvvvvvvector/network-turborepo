@@ -68,7 +68,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
                 <Avatar
                   size="medium"
                   username={user.username}
-                  avatar={user.profile.avatar?.name}
+                  avatar={user.profile.avatar?.url}
                 />
                 {connectionsInformation[user.username] === 'online' && (
                   <span className="absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700" />

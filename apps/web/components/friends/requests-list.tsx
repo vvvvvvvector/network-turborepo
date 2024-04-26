@@ -129,7 +129,7 @@ export const RequestsList = ({ requests }: Props) => {
               <Avatar
                 size="medium"
                 username={user.username}
-                avatar={user.profile.avatar?.name}
+                avatar={user.profile.avatar?.url}
               />
             </Link>
             <Link href={`/${user.username}`}>
