@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Profile } from './entities/profile.entity';
+import { Avatar } from './entities/avatar.entity';
 
 @Injectable()
 export class ProfilesService {
@@ -32,8 +33,12 @@ export class ProfilesService {
   async saveAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
-    profile.avatar.url = url;
-    profile.avatar.likes = 0;
+    const avatar = new Avatar();
+
+    avatar.url = url;
+    avatar.likes = 0;
+
+    profile.avatar = avatar;
 
     return this.profilesRepository.save(profile);
   }
