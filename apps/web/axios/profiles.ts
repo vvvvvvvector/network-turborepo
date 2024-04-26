@@ -11,15 +11,13 @@ const updateBio = async (bio: string) => {
 };
 
 const uploadAvatar = async (avatar: File) => {
-  const formData = new FormData();
-
-  formData.append('file', avatar);
-
-  await axiosApiInstance.post(`${ROUTE}/avatar`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
+  await fetch(
+    `/api/avatar/upload?filename=${encodeURIComponent(avatar.name)}`,
+    {
+      method: 'POST',
+      body: avatar
     }
-  });
+  );
 };
 
 const updateAvatar = async (avatar: File) => {
@@ -35,7 +33,15 @@ const updateAvatar = async (avatar: File) => {
 };
 
 const deleteAvatar = async () => {
-  await axiosApiInstance.delete(`${ROUTE}/avatar`);
+  await fetch(`/api/avatar/delete`, {
+    method: 'DELETE',
+    body: JSON.stringify({
+      avatarUrl:
+        'https://cciqakkasanuj7gl.public.blob.vercel-storage.com/eye-uKEpXtAOmYuOfpJBdeGwaTjsTfx6I9.jpg'
+    })
+  });
+
+  // await axiosApiInstance.delete(`${ROUTE}/avatar`);
 };
 
 const toogleAuthorisedUserEmailPrivacy = async () => {
