@@ -11,22 +11,32 @@ const updateBio = async (bio: string) => {
 };
 
 const uploadAvatar = async (avatar: File) => {
-  await fetch(
-    `/api/avatar/upload?filename=${encodeURIComponent(avatar.name)}`,
-    {
-      method: 'POST',
-      body: avatar
-    }
-  );
+  try {
+    const res = await fetch(
+      `/api/avatar/upload?filename=${encodeURIComponent(avatar.name)}`,
+      {
+        method: 'POST',
+        body: avatar
+      }
+    );
+    console.log(await res.json());
+  } catch (error) {
+    throw new Error('Error while uploading avatar!');
+  }
 };
 
 const deleteAvatar = async (avatarUrl: string) => {
-  await fetch(`/api/avatar/delete`, {
-    method: 'DELETE',
-    body: JSON.stringify({
-      avatarUrl
-    })
-  });
+  try {
+    const res = await fetch(`/api/avatar/delete`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        avatarUrl
+      })
+    });
+    console.log(await res.json());
+  } catch (error) {
+    throw new Error('Error while deleting avatar!');
+  }
 };
 
 const updateAvatar = async (newAvatar: File, oldAvatarUrl: string) => {
