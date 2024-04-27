@@ -23,7 +23,7 @@ import { EventsModule } from './events/events.module';
     ChatsModule,
     EventsModule,
     ConfigModule.forRoot({
-      envFilePath: ['.development.env'],
+      envFilePath: ['.env'],
       cache: true,
     }),
     TypeOrmModule.forRoot({
