@@ -4,7 +4,7 @@ const nextConfig = {
   crons: [
     {
       path: '/api/cron',
-      schedule: '0 0/1 * 1/1 * ? *'
+      schedule: '*/5 * * * *' // every 5 minutes
     }
   ]
 };
