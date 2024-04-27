@@ -5,13 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
-import * as express from 'express';
-import { join } from 'path';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: false });
-
-  app.use('/uploads', express.static(join(__dirname, '..', 'uploads'))); // https://loclahost:5173/uploads/avatars/* -> will show the image because of this
 
   app.enableCors({
     credentials: true,
@@ -20,7 +15,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe()); // i can validate dtos because of this (in gerneral classes i guess) with class-validator
 
-  // swagger
   const config = new DocumentBuilder()
     .setTitle('Network API')
     .setVersion('0.1')
