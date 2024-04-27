@@ -64,7 +64,7 @@ export class AuthService {
     });
 
     // Todo: send email with the activation link
-    const link = `${process.env.API_URL}/auth/activate/${uuid}`; // eslint-disable-line
+    const link = `${process.env.BASE_URL}/auth/activate/${uuid}`; // eslint-disable-line
 
     return {
       receiver: email,
