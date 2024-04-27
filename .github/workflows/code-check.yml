@@ -20,12 +20,8 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 8.9.0
-          run_install: false
+      - name: Enable pnpm
+        run: corepack enable pnpm
 
       - name: Install dependencies
         run: pnpm install
@@ -45,12 +41,8 @@ jobs:
         with:
           node-version: 20
 
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 8.9.0
-          run_install: false
+      - name: Enable pnpm
+        run: corepack enable pnpm
 
       - name: Install dependencies
         run: pnpm install

@@ -213,7 +213,7 @@ export const Chat = ({ chat }: { chat: TChat }) => {
               <div className="flex items-baseline justify-center gap-2">
                 {state.friendTyping ? (
                   <span className="flex items-baseline gap-[5px]">
-                    <span className="size-[3px] animate-friend-typing rounded-full bg-foreground" />
+                    <span className=" animate-friend-typing  size-[3px] rounded-full bg-foreground" />
                     <span className="size-[3px] animate-friend-typing rounded-full bg-foreground delay-300" />
                     <span className="size-[3px] animate-friend-typing rounded-full bg-foreground delay-500" />
                     <span className="ml-1">typing</span>
