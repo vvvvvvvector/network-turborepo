@@ -13,7 +13,7 @@ This Turborepo includes the following apps:
 ### Apps
 
 - `web`: a [Next.js](https://nextjs.org/) app, deployed on _Vercel_. The app was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-client)
-- `server`: a [NestJS](https://nestjs.com/) app, depoyed on _Render_ (**free tier**). 🚨 **WebSockets** don't work in **production**! 🚨 **User profile activation via email** (profile is activated by default now) feature isn't implemented **yet** 🚨. The app was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-server)
+- `server`: a [NestJS](https://nestjs.com/) app, deployed on _Render_ using _Docker Runtime_. I use **free tier** on _Render_ - this means that app will spin down with inactivity, which can delay requests by **50 seconds** or **more**, so user can experience **serverless function timeout** error on a client. 🚨 **WebSockets** don't work in **production**! 🚨 **User profile activation via email** (profile is activated by default now) feature isn't implemented **yet** 🚨. The app was located here previously: [the old repo 🚧](https://github.com/vvvvvvvector/social-network-server)
 
 ### Develop
 
