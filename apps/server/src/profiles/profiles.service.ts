@@ -1,15 +1,10 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
-import { unlink } from 'fs';
-import { join } from 'path';
 
 import { Profile } from './entities/profile.entity';
+import { Avatar } from './entities/avatar.entity';
 
 @Injectable()
 export class ProfilesService {
@@ -17,7 +12,6 @@ export class ProfilesService {
     @InjectRepository(Profile) private profilesRepository: Repository<Profile>,
   ) {}
 
-  // +++
   async updateBio(id: number, bio: string) {
     const profile = await this.getProfileByUserId(id);
 
@@ -27,57 +21,41 @@ export class ProfilesService {
     return this.profilesRepository.save(profile);
   }
 
-  // +++
   async removeAvatar(id: number) {
     const profile = await this.getProfileByUserId(id);
 
-    unlink(
-      join(__dirname, `../../uploads/avatars/${profile.avatar.name}`),
-      (err) => {
-        if (err) {
-          console.log(err);
-
-          throw new ForbiddenException('Error while removing avatar.');
-        }
-      },
-    );
-
-    profile.avatar.name = null;
+    profile.avatar.url = null;
     profile.avatar.likes = null;
 
     return this.profilesRepository.save(profile);
   }
 
-  // +++
-  async saveAvatar(id: number, filename: string) {
+  async saveAvatar(id: number, url: string) {
     const profile = await this.getProfileByUserId(id);
 
-    profile.avatar.name = filename;
-    profile.avatar.likes = 0;
+    if (!profile.avatar) {
+      const avatar = new Avatar();
+
+      avatar.url = url;
+      avatar.likes = 0;
+
+      profile.avatar = avatar;
+    } else {
+      profile.avatar.url = url;
+      profile.avatar.likes = 0;
+    }
 
     return this.profilesRepository.save(profile);
   }
 
-  // +++
-  async updateAvatar(id: number, filename: string) {
-    const profile = await this.getProfileByUserId(id);
+  // async updateAvatar(id: number, url: string) {
+  //   const profile = await this.getProfileByUserId(id);
 
-    unlink(
-      join(__dirname, `../../uploads/avatars/${profile.avatar.name}`),
-      (err) => {
-        if (err) {
-          console.log(err);
+  //   profile.avatar.url = url;
+  //   profile.avatar.likes = 0;
 
-          throw new ForbiddenException('Error while updating avatar.');
-        }
-      },
-    );
-
-    profile.avatar.name = filename;
-    profile.avatar.likes = 0;
-
-    return this.profilesRepository.save(profile);
-  }
+  //   return this.profilesRepository.save(profile);
+  // }
 
   async activateProfile(uuid: string) {
     try {

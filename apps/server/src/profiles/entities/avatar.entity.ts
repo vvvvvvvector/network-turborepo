@@ -9,7 +9,7 @@ export class Avatar {
   id: number;
 
   @Column({ nullable: true })
-  name?: string;
+  url?: string;
 
   @Column({ nullable: true })
   likes?: number;

@@ -5,15 +5,15 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo dev",
     "server:dev": "turbo --filter=server dev",
     "web:dev": "turbo --filter=web dev",
     "build": "turbo build",
     "server:build": "turbo --filter=server build",
     "web:build": "turbo --filter=web build",
     "lint": "turbo lint",
-    "format:check": "turbo run format:check",
-    "format:write": "turbo run format:write"
+    "format:check": "turbo format:check",
+    "format:write": "turbo format:write"
   },
   "packageManager": "pnpm@9.0.0",
   "devDependencies": {

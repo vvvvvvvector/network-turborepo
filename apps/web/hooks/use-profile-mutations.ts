@@ -30,7 +30,13 @@ export const useProfileMutations = () => {
   };
 
   const updateAvatarMutation = useMutation({
-    mutationFn: ({ file }: { file: File }) => updateAvatar(file),
+    mutationFn: ({
+      newAvatar,
+      oldAvatarUrl
+    }: {
+      newAvatar: File;
+      oldAvatarUrl: string;
+    }) => updateAvatar(newAvatar, oldAvatarUrl),
     onSuccess: () => {
       toast.success('Avatar was successfully updated.');
     },
@@ -46,7 +52,8 @@ export const useProfileMutations = () => {
   });
 
   const deleteAvatarMutation = useMutation({
-    mutationFn: () => deleteAvatar(),
+    mutationFn: ({ avatarUrl }: { avatarUrl: string }) =>
+      deleteAvatar(avatarUrl),
     onSuccess: () => {
       toast.success('Avatar was successfully deleted.');
     },

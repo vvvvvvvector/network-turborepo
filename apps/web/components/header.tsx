@@ -126,7 +126,7 @@ const Header = () => {
                   >
                     <Avatar
                       username={data?.username || 'Unknown'}
-                      avatar={data?.avatar?.name}
+                      avatar={data?.avatar?.url}
                     />
                     <Icons.arrowDown className="size-4" />
                   </div>

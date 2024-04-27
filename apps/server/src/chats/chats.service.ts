@@ -86,7 +86,7 @@ export class ChatsService {
             profile: {
               isActivated: true,
               avatar: {
-                name: true,
+                url: true,
               },
             },
           },
@@ -96,7 +96,7 @@ export class ChatsService {
             profile: {
               isActivated: true,
               avatar: {
-                name: true,
+                url: true,
               },
             },
           },
@@ -135,8 +135,8 @@ export class ChatsService {
             : chat.initiator.username,
         friendAvatar:
           chat.initiator.username === authorisedUserUsername
-            ? chat.addressee.profile.avatar?.name || null
-            : chat.initiator.profile.avatar?.name || null,
+            ? chat.addressee.profile.avatar?.url || null
+            : chat.initiator.profile.avatar?.url || null,
         friendLastSeen:
           chat.initiator.username === authorisedUserUsername
             ? chat.addressee.lastSeen
@@ -211,7 +211,7 @@ export class ChatsService {
           profile: {
             uuid: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },
@@ -221,7 +221,7 @@ export class ChatsService {
           profile: {
             uuid: true,
             avatar: {
-              name: true,
+              url: true,
             },
           },
         },
@@ -254,8 +254,8 @@ export class ChatsService {
           : chat.initiator.username,
       friendAvatar:
         chat.initiator.id === signedInUserId
-          ? chat.addressee.profile.avatar?.name || null
-          : chat.initiator.profile.avatar?.name || null,
+          ? chat.addressee.profile.avatar?.url || null
+          : chat.initiator.profile.avatar?.url || null,
       lastMessageContent: chat.lastMessageContent,
       lastMessageSentAt: chat.lastMessageSentAt,
     }));

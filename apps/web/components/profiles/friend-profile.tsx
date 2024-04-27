@@ -57,7 +57,7 @@ export const FriendProfile = (
                 <Avatar
                   size="large"
                   username={user.username}
-                  avatar={user.profile.avatar?.name}
+                  avatar={user.profile.avatar?.url}
                 />
                 {onlineStatus === 'online' && (
                   <span className="absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400" />
@@ -66,7 +66,7 @@ export const FriendProfile = (
             </DropdownMenuTrigger>
             {user.profile.avatar && (
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
+                <DropdownMenuItem onClick={openPhoto(user.profile.avatar.url)}>
                   <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>

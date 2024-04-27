@@ -76,14 +76,14 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
               <Avatar
                 size="large"
                 username={user.username}
-                avatar={user.profile.avatar?.name}
+                avatar={user.profile.avatar?.url}
               />
               <span className="absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {user.profile.avatar && (
-              <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
+              <DropdownMenuItem onClick={openPhoto(user.profile.avatar.url)}>
                 <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
                 <span>Open photo</span>
               </DropdownMenuItem>
@@ -104,7 +104,13 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                     };
 
                     user.profile.avatar
-                      ? updateAvatar.mutation.mutate({ file }, { ...callbacks })
+                      ? updateAvatar.mutation.mutate(
+                          {
+                            newAvatar: file,
+                            oldAvatarUrl: user.profile.avatar.url
+                          },
+                          { ...callbacks }
+                        )
                       : uploadAvatar.mutation.mutate(
                           { file },
                           { ...callbacks }
@@ -130,9 +136,12 @@ export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
                 onSelect={(e) => {
                   e.preventDefault();
 
-                  deleteAvatar.mutation.mutate(undefined, {
-                    onSuccess: () => setDropdownMenuOpen(false)
-                  });
+                  deleteAvatar.mutation.mutate(
+                    { avatarUrl: user.profile.avatar!.url },
+                    {
+                      onSuccess: () => setDropdownMenuOpen(false)
+                    }
+                  );
                 }}
               >
                 {

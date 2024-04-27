@@ -151,12 +151,12 @@ export const DefaultProfile = (
               <Avatar
                 size="large"
                 username={user.username}
-                avatar={user.profile.avatar?.name}
+                avatar={user.profile.avatar?.url}
               />
             </DropdownMenuTrigger>
             {user.profile.avatar && (
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={openPhoto(user.profile.avatar.name)}>
+                <DropdownMenuItem onClick={openPhoto(user.profile.avatar.url)}>
                   <Icons.photos className={DROPDOWN_MENU_ICON_STYLES} />
                   <span>Open photo</span>
                 </DropdownMenuItem>

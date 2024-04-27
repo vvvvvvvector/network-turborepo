@@ -22,6 +22,10 @@ export default function QueryProvider({
             if (axios.isAxiosError(error)) {
               toast.error(`${error.response?.data.message}`);
             }
+
+            if (error instanceof Error) {
+              toast.error(error.message);
+            }
           }
         })
       })

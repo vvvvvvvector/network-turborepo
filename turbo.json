@@ -5,10 +5,12 @@
       "outputs": [".next/**", "dist/**"]
     },
     "dev": {
-      "cache": false
+      "cache": false,
+      "persistent": true
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "cache": false,
+      "outputs": []
     },
     "format:check": {
       "cache": false,

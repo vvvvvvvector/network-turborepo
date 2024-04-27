@@ -11,31 +11,37 @@ const updateBio = async (bio: string) => {
 };
 
 const uploadAvatar = async (avatar: File) => {
-  const formData = new FormData();
-
-  formData.append('file', avatar);
-
-  await axiosApiInstance.post(`${ROUTE}/avatar`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
+  try {
+    const res = await fetch(
+      `/api/avatar/upload?filename=${encodeURIComponent(avatar.name)}`,
+      {
+        method: 'POST',
+        body: avatar
+      }
+    );
+    console.log(await res.json());
+  } catch (error) {
+    throw new Error('Error while uploading avatar!');
+  }
 };
 
-const updateAvatar = async (avatar: File) => {
-  const formData = new FormData();
-
-  formData.append('file', avatar);
-
-  await axiosApiInstance.put(`${ROUTE}/avatar`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
+const deleteAvatar = async (avatarUrl: string) => {
+  try {
+    const res = await fetch(`/api/avatar/delete`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        avatarUrl
+      })
+    });
+    console.log(await res.json());
+  } catch (error) {
+    throw new Error('Error while deleting avatar!');
+  }
 };
 
-const deleteAvatar = async () => {
-  await axiosApiInstance.delete(`${ROUTE}/avatar`);
+const updateAvatar = async (newAvatar: File, oldAvatarUrl: string) => {
+  await deleteAvatar(oldAvatarUrl);
+  await uploadAvatar(newAvatar);
 };
 
 const toogleAuthorisedUserEmailPrivacy = async () => {
