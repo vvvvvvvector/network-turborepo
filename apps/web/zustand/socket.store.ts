@@ -24,7 +24,7 @@ type EmitEvents = {
     cb: (responseFromServer: Message) => void
   ) => void;
   'which-friends-online': (
-    users: string[],
+    users: Array<string>,
     cb: (connectionsInformation: {
       [username: string]: 'online' | 'offline';
     }) => void

@@ -17,7 +17,7 @@ import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 export const tabs = ['all', 'online'] as const;
 
-export const Friends = ({ users }: { users: UserFromListOfUsers[] }) => {
+export const Friends = ({ users }: { users: Array<UserFromListOfUsers> }) => {
   const router = useRouter();
 
   const tab = useTab<typeof tabs>('tab');
