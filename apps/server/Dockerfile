@@ -6,12 +6,13 @@ RUN corepack enable pnpm
 
 COPY package.json .
 
-RUN pnpm install
-
 COPY . .
+
+RUN pnpm install
 
 RUN pnpm build
 
-EXPOSE 5173
+# Just metadata on which port the app is running on
+EXPOSE 5173 
 
 CMD ["pnpm", "start:prod"]
