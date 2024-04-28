@@ -25,7 +25,7 @@ import {
 import { tabs } from '@/components/friends/friends';
 
 interface Props {
-  friends: UserFromListOfUsers[];
+  friends: Array<UserFromListOfUsers>;
   connectionsInformation: {
     [username: string]: 'online' | 'offline';
   };

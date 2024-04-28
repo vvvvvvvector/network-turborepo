@@ -11,7 +11,7 @@ import { PAGES } from '@/lib/constants';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
 interface Props {
-  chats: ChatFromListOfChats[];
+  chats: Array<ChatFromListOfChats>;
 }
 
 export const ListOfChats = ({ chats }: Props) => {

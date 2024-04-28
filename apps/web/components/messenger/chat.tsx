@@ -20,14 +20,14 @@ import { useFocus } from '@/hooks/use-focus';
 import { useSocketStore } from '@/zustand/socket.store';
 
 type State = {
-  messages: Message[];
+  messages: Array<Message>;
   lastSeen: string;
   friendTyping: boolean;
   friendOnlineStatus: 'online' | 'offline';
 };
 
 type Action =
-  | { type: 'SYNC_MESSAGES'; payload: Message[] }
+  | { type: 'SYNC_MESSAGES'; payload: Array<Message> }
   | { type: 'ADD_NEW_MESSAGE'; payload: Message }
   | { type: 'UPDATE_LAST_SEEN_DATE' }
   | { type: 'FRIEND_IS_ONLINE' }

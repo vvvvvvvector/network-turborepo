@@ -5,7 +5,7 @@ import type { RequestStatus } from '@/axios/friends';
 import type { UserFromListOfUsers } from '@/lib/types';
 
 export async function getMyFriends() {
-  return request<UserFromListOfUsers[]>(`friend-requests/accepted`);
+  return request<Array<UserFromListOfUsers>>(`friend-requests/accepted`);
 }
 
 export async function getNetworkUsersUsernames(
@@ -16,18 +16,18 @@ export async function getNetworkUsersUsernames(
   return request<{
     limit: number;
     pages: number;
-    users: (UserFromListOfUsers & { requestStatus: RequestStatus })[];
+    users: Array<UserFromListOfUsers & { requestStatus: RequestStatus }>;
   }>(`friend-requests/find?page=${page}` + searchQuery);
 }
 
 export async function getIncomingFriendRequests() {
-  return request<UserFromListOfUsers[]>(`friend-requests/incoming`);
+  return request<Array<UserFromListOfUsers>>(`friend-requests/incoming`);
 }
 
 export async function getOutgoingFriendRequests() {
-  return request<UserFromListOfUsers[]>(`friend-requests/sent`);
+  return request<Array<UserFromListOfUsers>>(`friend-requests/sent`);
 }
 
 export async function getRejectedFriendRequests() {
-  return request<UserFromListOfUsers[]>(`friend-requests/rejected`);
+  return request<Array<UserFromListOfUsers>>(`friend-requests/rejected`);
 }

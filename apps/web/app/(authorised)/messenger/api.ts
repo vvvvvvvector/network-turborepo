@@ -3,7 +3,7 @@ import { request } from '@/app/server';
 import type { Chat, ChatFromListOfChats } from '@/lib/types';
 
 export async function getAutorisedUserChats() {
-  return request<ChatFromListOfChats[]>('chats');
+  return request<Array<ChatFromListOfChats>>('chats');
 }
 
 export async function getChatData(chatId: string) {
