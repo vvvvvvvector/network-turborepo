@@ -18,12 +18,14 @@ export type ExtendedFriendRequestStatus =
 export type UserFromListOfUsers = User & ProfileWithAvatarWithoutLikes;
 
 export type NetworkUser = NetworkUserProfile &
-  Contacts &
+  NetworkUserContacts &
   User & {
     extendedFriendRequestStatus: ExtendedFriendRequestStatus;
   };
 
-export type AuthorisedUser = AuthorisedUserProfile & Contacts & User;
+export type AuthorisedUser = AuthorisedUserProfile &
+  AuthorisedUserContacts &
+  User;
 
 export type User = {
   username: string;
@@ -52,16 +54,26 @@ type NetworkUserProfile = CreateProfile<
 
 type AuthorisedUserProfile = CreateProfile<Profile & CreateAvatar<Avatar>>;
 
-type Contacts = {
+type Contacts<TEmail> = {
   contacts: {
-    email: Email;
+    email: TEmail;
   };
 };
 
-type Email = {
+type NetworkUserContacts = Contacts<
+  | {
+      isPublic: true;
+      contact: string;
+    }
+  | {
+      isPublic: false;
+    }
+>;
+
+type AuthorisedUserContacts = Contacts<{
   isPublic: boolean;
-  contact: string | undefined;
-};
+  contact: string;
+}>;
 
 export type ChatFromListOfChats = {
   id: string;
