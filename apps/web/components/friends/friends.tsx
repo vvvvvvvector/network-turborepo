@@ -8,16 +8,21 @@ import { Separator } from '@/components/ui/separator';
 
 import { FriendsList } from '@/components/friends/friends-list';
 
-import { type UserFromListOfUsers } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
 import { useTab } from '@/hooks/use-tab';
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
+import { getMyFriends } from '@/app/(authorised)/friends/api';
+
 export const tabs = ['all', 'online'] as const;
 
-export const Friends = ({ users }: { users: Array<UserFromListOfUsers> }) => {
+export const Friends = ({
+  users
+}: {
+  users: Awaited<ReturnType<typeof getMyFriends>>;
+}) => {
   const router = useRouter();
 
   const tab = useTab<typeof tabs>('tab');

@@ -32,16 +32,21 @@ import { useProfileMutations } from '@/hooks/use-profile-mutations';
 import { useCommonActions } from '@/hooks/use-common-actions';
 import { useZodForm } from '@/hooks/use-zod-form';
 
-import type { AuthorisedUser } from '@/lib/types';
 import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
 import { formatDate } from '@/lib/utils';
+
+import { getAuthorisedUserData } from '@/app/(authorised)/profile/api';
 
 const schema = z.object({
   bio: z.string(),
   emailPrivacy: z.boolean()
 });
 
-export const AuthorisedProfile = ({ user }: { user: AuthorisedUser }) => {
+export const AuthorisedProfile = ({
+  user
+}: {
+  user: Awaited<ReturnType<typeof getAuthorisedUserData>>;
+}) => {
   const [bioDialogOpen, setBioDialogOpen] = useState(false);
   const [dropdownMenuOpen, setDropdownMenuOpen] = useState(false);
 

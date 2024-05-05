@@ -64,15 +64,11 @@ const BUTTONS: Record<
   }
 };
 
-interface Props {
-  requests: {
-    incoming: Array<UserFromListOfUsers>;
-    outgoing: Array<UserFromListOfUsers>;
-    rejected: Array<UserFromListOfUsers>;
-  };
-}
-
-export const RequestsList = ({ requests }: Props) => {
+export const RequestsList = ({
+  requests
+}: {
+  requests: Record<(typeof types)[number], Array<UserFromListOfUsers>>;
+}) => {
   const router = useRouter();
   const pathname = usePathname();
 
