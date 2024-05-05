@@ -11,13 +11,14 @@ import { Avatar } from '@/components/avatar';
 import { Icons } from '@/components/icons';
 import { LastSeen } from '@/components/messenger/last-seen';
 
-import type { Chat as TChat, Message } from '@/lib/types';
+import { type Message } from '@/lib/types';
 import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
 import { cn, formatDate, formatTime } from '@/lib/utils';
 
 import { useFocus } from '@/hooks/use-focus';
 
 import { useSocketStore } from '@/zustand/socket.store';
+import { getChatData } from '@/app/(authorised)/messenger/api';
 
 type State = {
   messages: Array<Message>;
@@ -78,7 +79,11 @@ const chatReducer = (state: State, action: Action) => {
   }
 };
 
-export const Chat = ({ chat }: { chat: TChat }) => {
+export const Chat = ({
+  chat
+}: {
+  chat: Awaited<ReturnType<typeof getChatData>>;
+}) => {
   const [messageInputValue, setMessageInputValue] = useState('');
 
   const [state, dispatch] = useReducer(chatReducer, {

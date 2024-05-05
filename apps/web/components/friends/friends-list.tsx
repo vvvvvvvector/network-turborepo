@@ -16,7 +16,6 @@ import { useCommonActions } from '@/hooks/use-common-actions';
 import { useRequestsMutations } from '@/hooks/use-requests-mutations';
 import { useTab } from '@/hooks/use-tab';
 
-import { type UserFromListOfUsers } from '@/lib/types';
 import {
   DROPDOWN_MENU_ICON_STYLES,
   ICON_INSIDE_BUTTON_SIZE
@@ -24,8 +23,10 @@ import {
 
 import { tabs } from '@/components/friends/friends';
 
+import { getMyFriends } from '@/app/(authorised)/friends/api';
+
 interface Props {
-  friends: Array<UserFromListOfUsers>;
+  friends: Awaited<ReturnType<typeof getMyFriends>>;
   connectionsInformation: {
     [username: string]: 'online' | 'offline';
   };

@@ -4,17 +4,18 @@ import Link from 'next/link';
 
 import { Avatar } from '@/components/avatar';
 
-import type { ChatFromListOfChats } from '@/lib/types';
 import { formatDate, formatTime } from '@/lib/utils';
 import { PAGES } from '@/lib/constants';
 
 import { useConnectionsInformation } from '@/hooks/use-connections-information';
 
-interface Props {
-  chats: Array<ChatFromListOfChats>;
-}
+import { getAutorisedUserChats } from '@/app/(authorised)/messenger/api';
 
-export const ListOfChats = ({ chats }: Props) => {
+export const ListOfChats = ({
+  chats
+}: {
+  chats: Awaited<ReturnType<typeof getAutorisedUserChats>>;
+}) => {
   const connectionsInformation = useConnectionsInformation(
     chats.reduce(
       (accumulator, currentValue) =>
