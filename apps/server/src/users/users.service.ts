@@ -67,7 +67,11 @@ export class UsersService {
       // eslint-disable-next-line
       const { password, ...user } = await this.usersRepository.findOneOrFail({
         where: { id },
-        relations: ['profile', 'profile.avatar'],
+        relations: {
+          profile: {
+            avatar: true,
+          },
+        },
       });
 
       return {
@@ -139,17 +143,21 @@ export class UsersService {
   }
 
   async findUserByUsername(username: string) {
-    const user = await this.usersRepository.findOne({
+    return this.usersRepository.findOne({
       where: { username },
-      relations: ['profile'],
+      relations: {
+        profile: true,
+      },
     });
-
-    return user;
   }
 
   async getAllUsersUsernamesWithIds() {
-    const users = await this.usersRepository.find({
-      relations: ['profile', 'profile.avatar'],
+    return this.usersRepository.find({
+      relations: {
+        profile: {
+          avatar: true,
+        },
+      },
       select: {
         id: true,
         username: true,
@@ -161,14 +169,19 @@ export class UsersService {
         },
       },
     });
-
-    return users;
   }
 
   async getUserPublicAvailableData(signedInUserId: number, username: string) {
     try {
       const user = await this.usersRepository.findOneOrFail({
-        relations: ['profile', 'profile.avatar', 'contacts', 'contacts.email'],
+        relations: {
+          profile: {
+            avatar: true,
+          },
+          contacts: {
+            email: true,
+          },
+        },
         select: {
           id: true,
           username: true,
@@ -237,7 +250,11 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOneOrFail({
         where: { id },
-        relations: ['contacts', 'contacts.email'],
+        relations: {
+          contacts: {
+            email: true,
+          },
+        },
       });
 
       user.contacts.email.isPublic = !user.contacts.email.isPublic;
@@ -262,7 +279,7 @@ export class UsersService {
 
       user.lastSeen = new Date();
 
-      await this.usersRepository.save(user);
+      return this.usersRepository.save(user);
     } catch (error) {
       throw new BadRequestException('User not found.');
     }

@@ -73,9 +73,12 @@ export class ProfilesService {
 
   private async getProfileByUserId(id: number) {
     try {
-      const profile = await this.profilesRepository.findOneOrFail({
+      return this.profilesRepository.findOneOrFail({
         where: { user: { id } },
-        relations: ['user', 'avatar'],
+        relations: {
+          user: true,
+          avatar: true,
+        },
         select: {
           user: {
             id: true,
@@ -83,8 +86,6 @@ export class ProfilesService {
           },
         },
       });
-
-      return profile;
     } catch (error) {
       throw new BadRequestException('Profile not found.');
     }

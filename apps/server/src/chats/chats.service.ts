@@ -195,12 +195,18 @@ export class ChatsService {
 
   async getAllAuthorisedUserChats(signedInUserId: number) {
     const chats = await this.chatsRepository.find({
-      relations: [
-        'initiator',
-        'initiator.profile.avatar',
-        'addressee',
-        'addressee.profile.avatar',
-      ],
+      relations: {
+        initiator: {
+          profile: {
+            avatar: true,
+          },
+        },
+        addressee: {
+          profile: {
+            avatar: true,
+          },
+        },
+      },
       select: {
         id: true,
         lastMessageSentAt: true,
