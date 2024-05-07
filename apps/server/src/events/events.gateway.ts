@@ -5,21 +5,21 @@ import {
   SubscribeMessage,
   MessageBody,
   ConnectedSocket,
-} from '@nestjs/websockets';
-import { JwtService } from '@nestjs/jwt';
+} from "@nestjs/websockets";
+import { JwtService } from "@nestjs/jwt";
 
-import { MessagesService } from 'src/messages/messages.service';
-import { ChatsService } from 'src/chats/chats.service';
-import { UsersService } from 'src/users/users.service';
+import { MessagesService } from "src/messages/messages.service";
+import { ChatsService } from "src/chats/chats.service";
+import { UsersService } from "src/users/users.service";
 
-import { SendMessageDto } from './dtos/send-message.dto';
+import { SendMessageDto } from "./dtos/send-message.dto";
 
-import type { UserTokenPayload } from 'src/auth/auth.service';
+import type { UserTokenPayload } from "src/auth/auth.service";
 type SocketId = string;
 
 @WebSocketGateway(5120, {
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: ["http://localhost:3000"],
   },
 })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -27,7 +27,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly jwtService: JwtService,
     private readonly messagesService: MessagesService,
     private readonly chatsService: ChatsService,
-    private readonly usersService: UsersService,
+    private readonly usersService: UsersService
   ) {}
 
   private activeConnections = new Map<SocketId, UserTokenPayload>();
@@ -41,17 +41,17 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleConnection(client) {
     try {
       const user = this.jwtService.verify<UserTokenPayload>(
-        client.handshake.auth.token as string | undefined,
+        client.handshake.auth.token as string | undefined
       ); // to do: handle error if token is not provided or expired?
 
-      client.broadcast.emit('network-user-online', user.username);
+      client.broadcast.emit("network-user-online", user.username);
 
       client.join(user.username);
       this.activeConnections.set(client.id, user);
 
       console.log(`A client has connected: ${user.username}`);
     } catch (error) {
-      console.log('token is not provided or expired. disconnecting...');
+      console.log("token is not provided or expired. disconnecting...");
 
       client.disconnect();
     }
@@ -60,13 +60,13 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleDisconnect(client) {
     try {
       const user = this.jwtService.verify<UserTokenPayload>(
-        client.handshake.auth.token as string | undefined,
+        client.handshake.auth.token as string | undefined
       ); // to do: handle error if token is not provided or expired?
 
-      client.broadcast.emit('network-user-offline', user.username);
+      client.broadcast.emit("network-user-offline", user.username);
 
       await this.usersService.updateLastSeenDateAndTime(
-        this.activeConnections.get(client.id).id,
+        this.activeConnections.get(client.id).id
       );
 
       client.leave(user.username);
@@ -74,72 +74,72 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       console.log(`A client has disconnected: ${user.username}`);
     } catch (error) {
-      console.log('token is not provided or expired. disconnecting...');
+      console.log("token is not provided or expired. disconnecting...");
 
       client.disconnect();
     }
   }
 
-  @SubscribeMessage('which-friends-online')
+  @SubscribeMessage("which-friends-online")
   isFriendsInMessengerOnline(@MessageBody() friends: string[]) {
     return friends.reduce(
       (accumulator, currentValue) =>
         Object.assign(accumulator, {
           [currentValue]: this.getSocketIdByUsername(currentValue)
-            ? 'online'
-            : 'offline',
+            ? "online"
+            : "offline",
         }),
-      {},
+      {}
     );
   }
 
-  @SubscribeMessage('is-friend-online')
+  @SubscribeMessage("is-friend-online")
   isFriendOnline(@MessageBody() username: string) {
     return !!this.getSocketIdByUsername(username);
   }
 
-  @SubscribeMessage('typing')
+  @SubscribeMessage("typing")
   userTyping(
     @MessageBody()
     data: {
       to: string;
     },
-    @ConnectedSocket() client,
+    @ConnectedSocket() client
   ) {
-    client.to(data.to).emit('typing');
+    client.to(data.to).emit("typing");
   }
 
-  @SubscribeMessage('typing-stop')
+  @SubscribeMessage("typing-stop")
   userStopTyping(
     @MessageBody()
     data: {
       to: string;
     },
-    @ConnectedSocket() client,
+    @ConnectedSocket() client
   ) {
-    client.to(data.to).emit('typing-stop');
+    client.to(data.to).emit("typing-stop");
   }
 
-  @SubscribeMessage('send-private-message')
+  @SubscribeMessage("send-private-message")
   async sendMessage(
     @MessageBody() data: SendMessageDto,
-    @ConnectedSocket() client,
+    @ConnectedSocket() client
   ) {
     const senderUsername = this.activeConnections.get(client.id).username;
 
     const message = await this.messagesService.createMessage(
       data.content,
       data.chatId,
-      this.activeConnections.get(client.id).id,
+      this.activeConnections.get(client.id).id
     );
 
     await this.chatsService.updateChatLastMessage(
       message.chat.id,
       message.content,
-      message.createdAt,
+      message.createdAt
     );
 
-    client.to(data.receiver).emit('receive-private-message', {
+    client.to(data.receiver).emit("receive-private-message", {
       ...message,
       sender: {
         username: senderUsername,

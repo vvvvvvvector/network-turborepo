@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
   unfriend,
   acceptFriendRequest,
   rejectFriendRequest,
   cancelFriendRequest,
-  sendFriendRequest
-} from '@/axios/friends';
+  sendFriendRequest,
+} from "@/axios/friends";
 
 export const useRequestsMutations = () => {
   const { refresh } = useRouter();
@@ -42,7 +42,7 @@ export const useRequestsMutations = () => {
       try {
         await acceptFriendRequest(username);
 
-        toast.success('Friend request was successfully accepted.');
+        toast.success("Friend request was successfully accepted.");
 
         revalidate();
       } catch (error) {
@@ -62,7 +62,7 @@ export const useRequestsMutations = () => {
       try {
         await rejectFriendRequest(username);
 
-        toast.success('Friend request was successfully rejected.');
+        toast.success("Friend request was successfully rejected.");
 
         revalidate();
       } catch (error) {
@@ -80,7 +80,7 @@ export const useRequestsMutations = () => {
       try {
         await cancelFriendRequest(username);
 
-        toast.success('Friend request was successfully canceled.');
+        toast.success("Friend request was successfully canceled.");
 
         revalidate();
       } catch (error) {
@@ -100,7 +100,7 @@ export const useRequestsMutations = () => {
       try {
         await sendFriendRequest(username);
 
-        toast.success('Friend request was successfully sent.');
+        toast.success("Friend request was successfully sent.");
 
         revalidate();
       } catch (error) {
@@ -116,6 +116,6 @@ export const useRequestsMutations = () => {
     unfriend: onClickUnfriend,
     reject: onClickRejectFriendRequest,
     cancel: onClickCancelRequest,
-    send: onClickSendFriendRequest
+    send: onClickSendFriendRequest,
   };
 };

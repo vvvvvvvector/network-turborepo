@@ -1,9 +1,9 @@
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 
-import { NetworkUsersList } from '@/components/friends/network-users-list';
+import { NetworkUsersList } from "@/components/friends/network-users-list";
 
-import { getNetworkUsersUsernames } from '@/app/(authorised)/friends/api';
-import { auth } from '@/app/(auth)/auth';
+import { getNetworkUsersUsernames } from "@/app/(authorised)/friends/api";
+import { auth } from "@/app/(auth)/auth";
 
 interface Props {
   searchParams: {
@@ -13,11 +13,11 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-  title: 'Friends / Find'
+  title: "Friends / Find",
 };
 
 export default async function FindPage({
-  searchParams: { page, username }
+  searchParams: { page, username },
 }: Props) {
   await auth();
 

@@ -1,24 +1,24 @@
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 import {
   Avatar as AvatarFromUI,
   AvatarFallback,
-  AvatarImage
-} from '@/components/ui/avatar';
+  AvatarImage,
+} from "@/components/ui/avatar";
 
-const avatarVariants = cva('', {
+const avatarVariants = cva("", {
   variants: {
     size: {
-      small: 'size-10',
-      medium: 'size-[4.5rem]',
-      large: 'size-36'
-    }
+      small: "size-10",
+      medium: "size-[4.5rem]",
+      large: "size-36",
+    },
   },
   defaultVariants: {
-    size: 'small'
-  }
+    size: "small",
+  },
 });
 
 interface AvatarProps extends VariantProps<typeof avatarVariants> {

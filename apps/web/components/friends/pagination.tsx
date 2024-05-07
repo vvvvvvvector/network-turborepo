@@ -1,12 +1,12 @@
-import { type ComponentProps, useContext, createContext } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { type ComponentProps, useContext, createContext } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from "@/components/ui/button";
 
-import { Icons } from '@/components/icons';
+import { Icons } from "@/components/icons";
 
-import { cn } from '@/lib/utils';
-import { PAGES } from '@/lib/constants';
+import { cn } from "@/lib/utils";
+import { PAGES } from "@/lib/constants";
 
 const PagesContext = createContext<{
   totalPages: number;
@@ -17,7 +17,7 @@ const usePages = () => {
   const context = useContext(PagesContext);
 
   if (!context) {
-    throw new Error('usePages must be used within a PagesProvider');
+    throw new Error("usePages must be used within a PagesProvider");
   }
 
   return context;
@@ -28,7 +28,7 @@ const Pagination = ({
   className,
   children,
   ...props
-}: { totalPages: number } & ComponentProps<'nav'>) => {
+}: { totalPages: number } & ComponentProps<"nav">) => {
   const searchParams = useSearchParams();
 
   const params = new URLSearchParams(searchParams?.toString());
@@ -37,16 +37,16 @@ const Pagination = ({
 
   return (
     <PagesContext.Provider
-      value={{ currentPage: Number(params.get('page')), totalPages }}
+      value={{ currentPage: Number(params.get("page")), totalPages }}
     >
-      <nav className={cn('mt-4', className)} {...props}>
+      <nav className={cn("mt-4", className)} {...props}>
         {children}
       </nav>
     </PagesContext.Provider>
   );
 };
 
-const PaginationContent = ({ children, ...props }: ComponentProps<'ul'>) => {
+const PaginationContent = ({ children, ...props }: ComponentProps<"ul">) => {
   return (
     <ul className="flex items-center justify-center gap-1" {...props}>
       {children}
@@ -59,7 +59,7 @@ Pagination.Content = PaginationContent;
 type PaginationItemProps = {
   disabled?: boolean;
   selected?: number;
-} & ComponentProps<'li'>;
+} & ComponentProps<"li">;
 
 const PaginationItem = ({
   disabled = false,
@@ -76,13 +76,13 @@ const PaginationItem = ({
     <li
       onClick={() => push(`${PAGES.FRIENDS_FIND}?page=${selected}`)}
       className={cn(
-        'cursor-pointer',
+        "cursor-pointer",
         buttonVariants({
-          variant: currentPage === selected ? 'secondary' : 'ghost',
-          size: 'icon'
+          variant: currentPage === selected ? "secondary" : "ghost",
+          size: "icon",
         }),
         {
-          'pointer-events-none opacity-50': disabled
+          "pointer-events-none opacity-50": disabled,
         },
         className
       )}
@@ -119,7 +119,7 @@ const PaginationPrevious = () => {
 
   const params = new URLSearchParams(searchParams?.toString());
 
-  const disabled = params.get('page') === '1';
+  const disabled = params.get("page") === "1";
 
   return (
     <PaginationItem

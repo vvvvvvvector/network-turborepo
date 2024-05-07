@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 type State = {
   commandMenuOpened: boolean;
@@ -18,5 +18,5 @@ export const useCommandMenuStore = create<State & Actions>((set) => ({
   toogleCmdMenuOpenState: () =>
     set((state) => {
       return { commandMenuOpened: !state.commandMenuOpened };
-    })
+    }),
 }));

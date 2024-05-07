@@ -1,13 +1,13 @@
-import { z } from 'zod';
-import { cookies } from 'next/headers';
-import { del } from '@vercel/blob';
+import { z } from "zod";
+import { cookies } from "next/headers";
+import { del } from "@vercel/blob";
 
-import { TOKEN_NAME } from '@/lib/constants';
+import { TOKEN_NAME } from "@/lib/constants";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 const bodySchema = z.object({
-  avatarUrl: z.string()
+  avatarUrl: z.string(),
 });
 
 export async function DELETE(request: Request) {
@@ -20,18 +20,18 @@ export async function DELETE(request: Request) {
     await del(body.avatarUrl);
 
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profiles/avatar`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token?.value}`
-      }
+        Authorization: `Bearer ${token?.value}`,
+      },
     });
 
     return Response.json({
-      message: 'Avatar was successfully deleted!'
+      message: "Avatar was successfully deleted!",
     });
   } catch (error) {
     return new Response(`Error while deleting avatar!`, {
-      status: 500
+      status: 500,
     });
   }
 }

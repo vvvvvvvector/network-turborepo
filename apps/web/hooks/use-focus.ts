@@ -1,9 +1,9 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
 
-import { useCommandMenuStore } from '@/zustand/command-menu.store';
+import { useCommandMenuStore } from "@/zustand/command-menu.store";
 
 export const useFocus = <
-  T extends HTMLTextAreaElement | HTMLInputElement
+  T extends HTMLTextAreaElement | HTMLInputElement,
 >() => {
   const { commandMenuOpened } = useCommandMenuStore();
 
@@ -15,24 +15,24 @@ export const useFocus = <
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         ref.current?.blur();
-      } else if (e.key === 'Backspace' || e.key === 'Delete') {
+      } else if (e.key === "Backspace" || e.key === "Delete") {
         ref.current?.focus();
       }
     };
 
     if (commandMenuOpened) {
-      document.removeEventListener('keypress', onKeyPress);
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("keypress", onKeyPress);
+      document.removeEventListener("keydown", onKeyDown);
     } else {
-      document.addEventListener('keypress', onKeyPress);
-      document.addEventListener('keydown', onKeyDown);
+      document.addEventListener("keypress", onKeyPress);
+      document.addEventListener("keydown", onKeyDown);
     }
 
     return () => {
-      document.removeEventListener('keypress', onKeyPress);
-      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener("keypress", onKeyPress);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [commandMenuOpened]);
 

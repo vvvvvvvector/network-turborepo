@@ -1,20 +1,20 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Separator } from '@/components/ui/separator';
+import { Separator } from "@/components/ui/separator";
 
-import { RequestsList } from '@/components/friends/requests-list';
+import { RequestsList } from "@/components/friends/requests-list";
 
-import { auth } from '@/app/(auth)/auth';
+import { auth } from "@/app/(auth)/auth";
 import {
   getIncomingFriendRequests,
   getOutgoingFriendRequests,
-  getRejectedFriendRequests
-} from '@/app/(authorised)/friends/api';
+  getRejectedFriendRequests,
+} from "@/app/(authorised)/friends/api";
 
-import { PAGES } from '@/lib/constants';
-import { capitalize, cn } from '@/lib/utils';
+import { PAGES } from "@/lib/constants";
+import { capitalize, cn } from "@/lib/utils";
 
-const types = ['incoming', 'outgoing', 'rejected'] as const;
+const types = ["incoming", "outgoing", "rejected"] as const;
 
 interface Props {
   searchParams: {
@@ -24,7 +24,7 @@ interface Props {
 
 export function generateMetadata({ searchParams }: Props) {
   return {
-    title: `Requests ${searchParams.type && `/ ${capitalize(searchParams.type)}`}`
+    title: `Requests ${searchParams.type && `/ ${capitalize(searchParams.type)}`}`,
   };
 }
 
@@ -34,16 +34,16 @@ export default async function RequestsPage({ searchParams }: Props) {
   const [incoming, outgoing, rejected] = await Promise.all([
     getIncomingFriendRequests(),
     getOutgoingFriendRequests(),
-    getRejectedFriendRequests()
+    getRejectedFriendRequests(),
   ]);
 
   const getLength = (type: (typeof types)[number]) => {
     switch (type) {
-      case 'incoming':
+      case "incoming":
         return incoming.length;
-      case 'outgoing':
+      case "outgoing":
         return outgoing.length;
-      case 'rejected':
+      case "rejected":
         return rejected.length;
     }
   };
@@ -56,9 +56,9 @@ export default async function RequestsPage({ searchParams }: Props) {
             <Link key={type} href={`${PAGES.FRIENDS_REQUESTS}?type=${type}`}>
               <li
                 className={cn(
-                  'cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] transition-[background-color] hover:bg-accent',
+                  "cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] transition-[background-color] hover:bg-accent",
                   {
-                    'bg-accent': searchParams.type === type
+                    "bg-accent": searchParams.type === type,
                   }
                 )}
               >
@@ -73,7 +73,7 @@ export default async function RequestsPage({ searchParams }: Props) {
         requests={{
           incoming,
           outgoing,
-          rejected
+          rejected,
         }}
       />
     </>

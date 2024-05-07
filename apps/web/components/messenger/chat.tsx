@@ -1,96 +1,96 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect, useReducer } from 'react';
-import Link from 'next/link';
-import { useDebouncedCallback } from 'use-debounce';
+import { useState, useRef, useEffect, useReducer } from "react";
+import Link from "next/link";
+import { useDebouncedCallback } from "use-debounce";
 
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
-import { Avatar } from '@/components/avatar';
-import { Icons } from '@/components/icons';
-import { LastSeen } from '@/components/messenger/last-seen';
+import { Avatar } from "@/components/avatar";
+import { Icons } from "@/components/icons";
+import { LastSeen } from "@/components/messenger/last-seen";
 
-import { type Message } from '@/lib/types';
-import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
-import { cn, formatDate, formatTime } from '@/lib/utils';
+import { type Message } from "@/lib/types";
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from "@/lib/constants";
+import { cn, formatDate, formatTime } from "@/lib/utils";
 
-import { useFocus } from '@/hooks/use-focus';
+import { useFocus } from "@/hooks/use-focus";
 
-import { useSocketStore } from '@/zustand/socket.store';
-import { getChatData } from '@/app/(authorised)/messenger/api';
+import { useSocketStore } from "@/zustand/socket.store";
+import { getChatData } from "@/app/(authorised)/messenger/api";
 
 type State = {
   messages: Array<Message>;
   lastSeen: string;
   friendTyping: boolean;
-  friendOnlineStatus: 'online' | 'offline';
+  friendOnlineStatus: "online" | "offline";
 };
 
 type Action =
-  | { type: 'SYNC_MESSAGES'; payload: Array<Message> }
-  | { type: 'ADD_NEW_MESSAGE'; payload: Message }
-  | { type: 'UPDATE_LAST_SEEN_DATE' }
-  | { type: 'FRIEND_IS_ONLINE' }
-  | { type: 'FRIEND_IS_OFFLINE' }
-  | { type: 'FRIEND_IS_TYPING' }
-  | { type: 'FRIEND_FINISHED_TYPING' };
+  | { type: "SYNC_MESSAGES"; payload: Array<Message> }
+  | { type: "ADD_NEW_MESSAGE"; payload: Message }
+  | { type: "UPDATE_LAST_SEEN_DATE" }
+  | { type: "FRIEND_IS_ONLINE" }
+  | { type: "FRIEND_IS_OFFLINE" }
+  | { type: "FRIEND_IS_TYPING" }
+  | { type: "FRIEND_FINISHED_TYPING" };
 
 const chatReducer = (state: State, action: Action) => {
   switch (action.type) {
-    case 'SYNC_MESSAGES':
+    case "SYNC_MESSAGES":
       return {
         ...state,
-        messages: action.payload
+        messages: action.payload,
       };
-    case 'ADD_NEW_MESSAGE':
+    case "ADD_NEW_MESSAGE":
       return {
         ...state,
-        messages: [...state.messages, action.payload]
+        messages: [...state.messages, action.payload],
       };
-    case 'UPDATE_LAST_SEEN_DATE':
+    case "UPDATE_LAST_SEEN_DATE":
       return {
         ...state,
-        lastSeen: new Date().toString()
+        lastSeen: new Date().toString(),
       };
-    case 'FRIEND_IS_ONLINE':
+    case "FRIEND_IS_ONLINE":
       return {
         ...state,
-        friendOnlineStatus: 'online' as const
+        friendOnlineStatus: "online" as const,
       };
-    case 'FRIEND_IS_OFFLINE':
+    case "FRIEND_IS_OFFLINE":
       return {
         ...state,
-        friendOnlineStatus: 'offline' as const
+        friendOnlineStatus: "offline" as const,
       };
-    case 'FRIEND_IS_TYPING':
+    case "FRIEND_IS_TYPING":
       return {
         ...state,
-        friendTyping: true
+        friendTyping: true,
       };
-    case 'FRIEND_FINISHED_TYPING':
+    case "FRIEND_FINISHED_TYPING":
       return {
         ...state,
-        friendTyping: false
+        friendTyping: false,
       };
     default:
       const _: never = action; // eslint-disable-line
-      throw 'Not all cases are covered';
+      throw "Not all cases are covered";
   }
 };
 
 export const Chat = ({
-  chat
+  chat,
 }: {
   chat: Awaited<ReturnType<typeof getChatData>>;
 }) => {
-  const [messageInputValue, setMessageInputValue] = useState('');
+  const [messageInputValue, setMessageInputValue] = useState("");
 
   const [state, dispatch] = useReducer(chatReducer, {
     messages: [],
     lastSeen: chat.friendLastSeen, // not sure about setting props to a state, but it works well 🤔🤔🤔
     friendTyping: false,
-    friendOnlineStatus: 'offline'
+    friendOnlineStatus: "offline",
   });
 
   const wait = useDebouncedCallback(stopTyping, 7000);
@@ -104,57 +104,57 @@ export const Chat = ({
 
   useEffect(() => {
     const onMessageReceive = (message: Message) => {
-      dispatch({ type: 'ADD_NEW_MESSAGE', payload: message });
+      dispatch({ type: "ADD_NEW_MESSAGE", payload: message });
     };
 
     const onUserConnection = (username: string) => {
       if (chat.friendUsername === username) {
-        dispatch({ type: 'FRIEND_IS_ONLINE' });
+        dispatch({ type: "FRIEND_IS_ONLINE" });
       }
     };
 
     const onUserDisconnection = (username: string) => {
       if (chat.friendUsername === username) {
-        dispatch({ type: 'FRIEND_IS_OFFLINE' });
+        dispatch({ type: "FRIEND_IS_OFFLINE" });
 
-        dispatch({ type: 'UPDATE_LAST_SEEN_DATE' });
+        dispatch({ type: "UPDATE_LAST_SEEN_DATE" });
       }
     };
 
-    const onFriendTyping = () => dispatch({ type: 'FRIEND_IS_TYPING' });
+    const onFriendTyping = () => dispatch({ type: "FRIEND_IS_TYPING" });
 
     const onFriendFinishedTyping = () =>
-      dispatch({ type: 'FRIEND_FINISHED_TYPING' });
+      dispatch({ type: "FRIEND_FINISHED_TYPING" });
 
-    socket.emit('is-friend-online', chat.friendUsername, (online: boolean) => {
+    socket.emit("is-friend-online", chat.friendUsername, (online: boolean) => {
       if (online) {
-        dispatch({ type: 'FRIEND_IS_ONLINE' });
+        dispatch({ type: "FRIEND_IS_ONLINE" });
       } else {
-        dispatch({ type: 'FRIEND_IS_OFFLINE' });
+        dispatch({ type: "FRIEND_IS_OFFLINE" });
       }
     });
 
-    socket.on('receive-private-message', onMessageReceive);
+    socket.on("receive-private-message", onMessageReceive);
 
-    socket.on('network-user-online', onUserConnection);
-    socket.on('network-user-offline', onUserDisconnection);
+    socket.on("network-user-online", onUserConnection);
+    socket.on("network-user-offline", onUserDisconnection);
 
-    socket.on('typing', onFriendTyping);
-    socket.on('typing-stop', onFriendFinishedTyping);
+    socket.on("typing", onFriendTyping);
+    socket.on("typing-stop", onFriendFinishedTyping);
 
     return () => {
-      socket.off('receive-private-message', onMessageReceive);
+      socket.off("receive-private-message", onMessageReceive);
 
-      socket.off('network-user-offline', onUserConnection);
-      socket.off('network-user-offline', onUserDisconnection);
+      socket.off("network-user-offline", onUserConnection);
+      socket.off("network-user-offline", onUserDisconnection);
 
-      socket.off('typing', onFriendTyping);
-      socket.off('typing-stop', onFriendFinishedTyping);
+      socket.off("typing", onFriendTyping);
+      socket.off("typing-stop", onFriendFinishedTyping);
     };
   }, []);
 
   useEffect(() => {
-    dispatch({ type: 'SYNC_MESSAGES', payload: chat.messages }); // todo: without it there isn't ?sync between messages in db and state? and bugs appear. im not sure why i did it recently, im going to figure it out later
+    dispatch({ type: "SYNC_MESSAGES", payload: chat.messages }); // todo: without it there isn't ?sync between messages in db and state? and bugs appear. im not sure why i did it recently, im going to figure it out later
 
     messagesListMountedFlag.current = true;
   }, [chat]);
@@ -179,24 +179,24 @@ export const Chat = ({
   }, [state.messages]);
 
   function stopTyping() {
-    socket.emit('typing-stop', {
-      to: chat.friendUsername
+    socket.emit("typing-stop", {
+      to: chat.friendUsername,
     });
   }
 
   const onSendMessage = () => {
     socket.emit(
-      'send-private-message',
+      "send-private-message",
       {
         chatId: chat.id,
         receiver: chat.friendUsername,
-        content: messageInputValue.trim()
+        content: messageInputValue.trim(),
       },
       (message: Message) =>
-        dispatch({ type: 'ADD_NEW_MESSAGE', payload: message })
+        dispatch({ type: "ADD_NEW_MESSAGE", payload: message })
     );
 
-    setMessageInputValue('');
+    setMessageInputValue("");
 
     stopTyping();
   };
@@ -214,7 +214,7 @@ export const Chat = ({
             <b>{`${chat.friendUsername}`}</b>
           </Link>
           <div>
-            {state.friendOnlineStatus === 'online' ? (
+            {state.friendOnlineStatus === "online" ? (
               <div className="flex items-baseline justify-center gap-2">
                 {state.friendTyping ? (
                   <span className="flex items-baseline gap-[5px]">
@@ -253,10 +253,10 @@ export const Chat = ({
               <li
                 key={message.id}
                 className={cn(
-                  'group inline-flex items-center justify-end gap-2',
+                  "group inline-flex items-center justify-end gap-2",
                   {
-                    'flex-row-reverse':
-                      message.sender.username === chat.friendUsername
+                    "flex-row-reverse":
+                      message.sender.username === chat.friendUsername,
                   }
                 )}
               >
@@ -277,11 +277,11 @@ export const Chat = ({
                     {message.content}
                   </p>
                   <time
-                    className={cn('text-xs', {
-                      'text-start':
+                    className={cn("text-xs", {
+                      "text-start":
                         message.sender.username === chat.friendUsername,
-                      'text-end':
-                        message.sender.username === chat.authorisedUserUsername
+                      "text-end":
+                        message.sender.username === chat.authorisedUserUsername,
                     })}
                   >
                     {`[${formatDate(message.createdAt)} / ${formatTime(
@@ -314,15 +314,15 @@ export const Chat = ({
           onChange={(e) => {
             setMessageInputValue(e.target.value);
 
-            socket.emit('typing', {
-              to: chat.friendUsername
+            socket.emit("typing", {
+              to: chat.friendUsername,
             });
 
             wait();
           }}
           onKeyDown={(e) => {
             const commandOrCtrlPlusEnter =
-              (e.metaKey || e.ctrlKey) && e.key === 'Enter';
+              (e.metaKey || e.ctrlKey) && e.key === "Enter";
 
             if (commandOrCtrlPlusEnter && messageInputValue) {
               e.preventDefault();

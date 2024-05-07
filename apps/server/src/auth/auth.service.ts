@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
 
-import { ProfileNotActivatedException } from './exceptions/profile-not-activated';
-import { UsernameExistsException } from './exceptions/username-exists';
-import { EmailExistsException } from './exceptions/email-exists';
+import { ProfileNotActivatedException } from "./exceptions/profile-not-activated";
+import { UsernameExistsException } from "./exceptions/username-exists";
+import { EmailExistsException } from "./exceptions/email-exists";
 
-import { SignUpUserDto } from 'src/users/dtos/auth.dto';
-import { UsersService } from 'src/users/users.service';
-import { ProfilesService } from 'src/profiles/profiles.service';
+import { SignUpUserDto } from "src/users/dtos/auth.dto";
+import { UsersService } from "src/users/users.service";
+import { ProfilesService } from "src/profiles/profiles.service";
 
 export type UserTokenPayload = {
   id: number;
@@ -21,12 +21,12 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly profilesService: ProfilesService,
+    private readonly profilesService: ProfilesService
   ) {}
 
   async validateUser(
     username: string,
-    password: string,
+    password: string
   ): Promise<UserTokenPayload> {
     const user = await this.usersService.findUserByUsername(username);
 

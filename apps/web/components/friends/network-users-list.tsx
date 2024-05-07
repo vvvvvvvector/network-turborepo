@@ -1,39 +1,39 @@
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
 
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
-import { Icons } from '@/components/icons';
-import { Avatar } from '@/components/avatar';
-import { Tooltip } from '@/components/tooltip';
-import { Pagination, PaginationItem } from '@/components/friends/pagination';
+import { Icons } from "@/components/icons";
+import { Avatar } from "@/components/avatar";
+import { Tooltip } from "@/components/tooltip";
+import { Pagination, PaginationItem } from "@/components/friends/pagination";
 
-import { getNetworkUsersUsernames } from '@/app/(authorised)/friends/api';
+import { getNetworkUsersUsernames } from "@/app/(authorised)/friends/api";
 
-import { useFocus } from '@/hooks/use-focus';
-import { useRequestsMutations } from '@/hooks/use-requests-mutations';
+import { useFocus } from "@/hooks/use-focus";
+import { useRequestsMutations } from "@/hooks/use-requests-mutations";
 
-import { ICON_INSIDE_BUTTON_SIZE, PAGES } from '@/lib/constants';
+import { ICON_INSIDE_BUTTON_SIZE, PAGES } from "@/lib/constants";
 
-import { RequestStatus } from '@/axios/friends';
+import { RequestStatus } from "@/axios/friends";
 
 interface Props {
   data: Awaited<ReturnType<typeof getNetworkUsersUsernames>>;
 }
 
-const REQUEST_INFO: Record<Exclude<RequestStatus, 'none'>, string> = {
-  rejected: 'Request already exists',
-  accepted: 'Already friends',
-  pending: 'Request already exists'
+const REQUEST_INFO: Record<Exclude<RequestStatus, "none">, string> = {
+  rejected: "Request already exists",
+  accepted: "Already friends",
+  pending: "Request already exists",
 };
 
 export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const inputRef = useFocus<HTMLInputElement>();
 
@@ -62,10 +62,10 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
           placeholder="Search..."
           onChange={(e) => setSearchValue(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') onSearch();
+            if (e.key === "Enter") onSearch();
           }}
         />
-        {!params.get('username') ? (
+        {!params.get("username") ? (
           <Button onClick={onSearch} size="icon" className="w-14">
             <Icons.search className={ICON_INSIDE_BUTTON_SIZE} />
           </Button>
@@ -77,7 +77,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
               onClick={() => {
                 replace(`${PAGES.FRIENDS_FIND}?page=1`);
 
-                setSearchValue('');
+                setSearchValue("");
               }}
             >
               <Icons.resetSearch className={ICON_INSIDE_BUTTON_SIZE} />
@@ -107,7 +107,7 @@ export const NetworkUsersList = ({ data: { users, pages } }: Props) => {
                   </span>
                 </Link>
               </div>
-              {user.requestStatus === 'none' ? (
+              {user.requestStatus === "none" ? (
                 <Tooltip text="Send a friend request">
                   <Button onClick={send(user.username)} variant="outline">
                     <Icons.addUser className={ICON_INSIDE_BUTTON_SIZE} />

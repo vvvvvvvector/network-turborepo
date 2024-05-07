@@ -1,22 +1,22 @@
-import * as _ from 'lodash';
+import * as _ from "lodash";
 import {
   BadRequestException,
   Inject,
   Injectable,
   forwardRef,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+} from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
-import { parseUserContacts } from './utils';
+import { parseUserContacts } from "./utils";
 
-import { User } from './entities/user.entity';
+import { User } from "./entities/user.entity";
 
-import { SignUpUserDto } from './dtos/auth.dto';
+import { SignUpUserDto } from "./dtos/auth.dto";
 
-import { Profile } from 'src/profiles/entities/profile.entity';
-import { FriendRequestsService } from 'src/friend-requests/friend-requests.service';
-import { Avatar } from 'src/profiles/entities/avatar.entity';
+import { Profile } from "src/profiles/entities/profile.entity";
+import { FriendRequestsService } from "src/friend-requests/friend-requests.service";
+import { Avatar } from "src/profiles/entities/avatar.entity";
 
 @Injectable()
 export class UsersService {
@@ -24,7 +24,7 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @Inject(forwardRef(() => FriendRequestsService))
-    private readonly friendRequestsService: FriendRequestsService,
+    private readonly friendRequestsService: FriendRequestsService
   ) {}
 
   async getMyUsernameById(id: number) {
@@ -37,7 +37,7 @@ export class UsersService {
         username,
       };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -76,9 +76,9 @@ export class UsersService {
         },
       });
 
-      return _.pick(data, ['username', 'profile', 'contacts.email']);
+      return _.pick(data, ["username", "profile", "contacts.email"]);
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -101,7 +101,7 @@ export class UsersService {
           : null,
       };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -158,7 +158,7 @@ export class UsersService {
 
       return id;
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -230,39 +230,39 @@ export class UsersService {
 
       const friendRequest = await this.friendRequestsService.alreadyFriends(
         signedInUserId,
-        user.id,
+        user.id
       );
 
-      let extendedFriendRequestStatus = '';
+      let extendedFriendRequestStatus = "";
 
       switch (friendRequest?.status) {
-        case 'accepted':
-          extendedFriendRequestStatus = 'friend';
+        case "accepted":
+          extendedFriendRequestStatus = "friend";
 
           break;
-        case 'pending':
+        case "pending":
           extendedFriendRequestStatus =
             friendRequest.sender.id === signedInUserId
-              ? 'pending:receiver'
-              : 'pending:sender';
+              ? "pending:receiver"
+              : "pending:sender";
 
           break;
-        case 'rejected':
+        case "rejected":
           extendedFriendRequestStatus =
             friendRequest.sender.id === signedInUserId
-              ? 'pending:receiver'
-              : 'rejected:sender';
+              ? "pending:receiver"
+              : "rejected:sender";
 
           break;
         default:
-          extendedFriendRequestStatus = 'none';
+          extendedFriendRequestStatus = "none";
 
           break;
       }
 
       return { extendedFriendRequestStatus, ...parseUserContacts(user) };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -287,7 +287,7 @@ export class UsersService {
         },
       };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -301,7 +301,7 @@ export class UsersService {
 
       return this.usersRepository.save(user);
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 }

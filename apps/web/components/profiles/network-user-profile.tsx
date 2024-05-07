@@ -1,10 +1,10 @@
-import { FriendProfile } from '@/components/profiles/friend-profile';
-import { DefaultProfile } from '@/components/profiles/default-profile';
+import { FriendProfile } from "@/components/profiles/friend-profile";
+import { DefaultProfile } from "@/components/profiles/default-profile";
 
-import { getNetworkUserPubliclyAvailableData } from '@/app/(authorised)/[username]/api';
+import { getNetworkUserPubliclyAvailableData } from "@/app/(authorised)/[username]/api";
 
 export const NetworkUserProfile = ({
-  user
+  user,
 }: {
   user: Awaited<ReturnType<typeof getNetworkUserPubliclyAvailableData>>;
 }) => {
@@ -12,10 +12,10 @@ export const NetworkUserProfile = ({
     username: user.username,
     profile: user.profile,
     lastSeen: user.lastSeen,
-    contacts: user.contacts
+    contacts: user.contacts,
   };
 
-  return user.extendedFriendRequestStatus === 'friend' ? (
+  return user.extendedFriendRequestStatus === "friend" ? (
     <FriendProfile {...intersectingProps} />
   ) : (
     <DefaultProfile

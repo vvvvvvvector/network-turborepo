@@ -1,9 +1,9 @@
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 
-import { auth } from '@/app/(auth)/auth';
+import { auth } from "@/app/(auth)/auth";
 
 export const metadata: Metadata = {
-  title: 'Authorised / News'
+  title: "Authorised / News",
 };
 
 export default async function NewsPage() {

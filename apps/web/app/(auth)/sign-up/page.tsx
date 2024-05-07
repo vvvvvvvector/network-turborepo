@@ -1,15 +1,15 @@
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 
-import { auth } from '@/app/(auth)/auth';
+import { auth } from "@/app/(auth)/auth";
 
-import { SignUpForm } from '@/components/forms/sign-up-form';
+import { SignUpForm } from "@/components/forms/sign-up-form";
 
 export const metadata: Metadata = {
-  title: 'Auth / Sign Up'
+  title: "Auth / Sign Up",
 };
 
 export default async function SignUpPage() {
-  await auth('/profile', true);
+  await auth("/profile", true);
 
   return <SignUpForm />;
 }

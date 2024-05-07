@@ -1,23 +1,23 @@
-import { type PropsWithChildren } from 'react';
+import { type PropsWithChildren } from "react";
 
 import {
   Tooltip as ShadcnTooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger
-} from '@/components/ui/tooltip';
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   text: string;
-  side?: 'top' | 'bottom' | 'left' | 'right';
-  align?: 'start' | 'center' | 'end';
+  side?: "top" | "bottom" | "left" | "right";
+  align?: "start" | "center" | "end";
 }
 
 const Tooltip = ({
-  side = 'top',
-  align = 'center',
+  side = "top",
+  align = "center",
   children,
-  text
+  text,
 }: PropsWithChildren<Props>) => {
   return (
     <TooltipProvider>

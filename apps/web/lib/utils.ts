@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: Array<ClassValue>) {
   return twMerge(clsx(inputs));
@@ -16,7 +16,7 @@ export function prettifyLastSeenDate(date: string) {
   // console.log('inSeconds: ', inSeconds);
 
   if (inSeconds < 60) {
-    return 'just now';
+    return "just now";
   }
 
   const inMinutes = inSeconds / 60;
@@ -25,7 +25,7 @@ export function prettifyLastSeenDate(date: string) {
   if (inMinutes < 60) {
     const minutes = Math.floor(inMinutes);
 
-    return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+    return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
   }
 
   const inHours = inMinutes / 60;
@@ -34,23 +34,23 @@ export function prettifyLastSeenDate(date: string) {
   if (inHours < 21) {
     const hours = Math.floor(inHours);
 
-    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+    return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
   }
 
   return `${formatDate(date)} at ${formatTime(date)}`;
 }
 
-export function formatDate(date: string, month: 'short' | 'long' = 'long') {
+export function formatDate(date: string, month: "short" | "long" = "long") {
   return new Date(date).toLocaleDateString(undefined, {
-    day: 'numeric',
+    day: "numeric",
     month,
-    year: 'numeric'
+    year: "numeric",
   });
 }
 
 export function formatTime(date: string) {
   return new Date(date).toLocaleTimeString(undefined, {
-    hour: '2-digit',
-    minute: '2-digit'
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }

@@ -1,10 +1,10 @@
-import { axiosApiInstance } from '@/axios';
+import { axiosApiInstance } from "@/axios";
 
-export const CHATS_ROUTE = '/chats';
+export const CHATS_ROUTE = "/chats";
 
 const initiateChat = async (addresseeUsername: string) => {
   const { data: id } = await axiosApiInstance.post<string>(`${CHATS_ROUTE}`, {
-    addresseeUsername
+    addresseeUsername,
   });
 
   return id;
