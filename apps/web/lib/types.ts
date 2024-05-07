@@ -15,7 +15,8 @@ export type ExtendedFriendRequestStatus =
   | 'rejected:sender'
   | 'none';
 
-export type UserFromListOfUsers = User & ProfileWithAvatarWithoutLikes;
+export type UserFromListOfUsers = Pick<User, 'username'> &
+  ProfileWithAvatarWithoutLikes;
 
 export type NetworkUser = NetworkUserProfile &
   NetworkUserContacts &
