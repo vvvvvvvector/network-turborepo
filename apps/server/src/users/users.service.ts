@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import {
   BadRequestException,
   Inject,
@@ -5,10 +6,9 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
 
-import { getSignedInUserDataQueryBuilder, parseUserContacts } from './utils';
+import { parseUserContacts } from './utils';
 
 import { User } from './entities/user.entity';
 
@@ -43,20 +43,40 @@ export class UsersService {
 
   async getUserById(id: number) {
     try {
-      const qb = getSignedInUserDataQueryBuilder(
-        this.usersRepository.createQueryBuilder('user'),
-      );
-
-      const user = await qb.where('user.id = :id', { id }).getOneOrFail();
-
-      const { contacts, ...rest } = user;
-
-      return {
-        ...rest,
-        contacts: {
-          email: contacts.email,
+      const data = await this.usersRepository.findOneOrFail({
+        where: { id },
+        relations: {
+          profile: {
+            avatar: true,
+          },
+          contacts: {
+            email: true,
+          },
         },
-      };
+        select: {
+          id: true,
+          username: true,
+          profile: {
+            uuid: true,
+            isActivated: true,
+            bio: true,
+            createdAt: true,
+            avatar: {
+              url: true,
+              likes: true,
+            },
+          },
+          contacts: {
+            id: true,
+            email: {
+              contact: true,
+              isPublic: true,
+            },
+          },
+        },
+      });
+
+      return _.pick(data, ['username', 'profile', 'contacts.email']);
     } catch (error) {
       throw new BadRequestException('User not found.');
     }
