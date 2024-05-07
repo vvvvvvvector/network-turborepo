@@ -1,26 +1,26 @@
-import type { Viewport } from 'next';
-import { Source_Code_Pro } from 'next/font/google';
+import type { Viewport } from "next";
+import { Source_Code_Pro } from "next/font/google";
 
-import QueryProvider from '@/components/providers/query-provider';
-import ThemeProvider from '@/components/providers/theme-provider';
-import { Toaster } from '@/components/toaster';
+import QueryProvider from "@/components/providers/query-provider";
+import ThemeProvider from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/toaster";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-import '@/styles/globals.css';
+import "@/styles/globals.css";
 
 const globalFont = Source_Code_Pro({
-  subsets: ['latin']
+  subsets: ["latin"],
 });
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
-  userScalable: false
+  userScalable: false,
 };
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {

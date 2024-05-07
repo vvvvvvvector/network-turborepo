@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-import { getChatIdByAddresseeUsername, initiateChat } from '@/axios/chats';
+import { getChatIdByAddresseeUsername, initiateChat } from "@/axios/chats";
 
-import { PAGES } from '@/lib/constants';
+import { PAGES } from "@/lib/constants";
 
 export const useCommonActions = () => {
   const { push } = useRouter();
@@ -38,6 +38,6 @@ export const useCommonActions = () => {
   return {
     goToProfile: onClickGoToProfile,
     writeMessage: onClickWriteMessage,
-    openPhoto: onClickOpenPhoto
+    openPhoto: onClickOpenPhoto,
   };
 };

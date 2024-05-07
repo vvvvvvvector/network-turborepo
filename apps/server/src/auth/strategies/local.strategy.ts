@@ -1,9 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PassportStrategy } from '@nestjs/passport';
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
 
-import { Strategy } from 'passport-local';
+import { Strategy } from "passport-local";
 
-import { AuthService } from '../auth.service';
+import { AuthService } from "../auth.service";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -17,7 +17,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const user = await this.authService.validateUser(username, password);
 
     if (!user) {
-      throw new UnauthorizedException('Wrong username or password.');
+      throw new UnauthorizedException("Wrong username or password.");
     }
 
     return user; // this object will be saved in the @Req() req.user

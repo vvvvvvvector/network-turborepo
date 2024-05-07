@@ -1,8 +1,8 @@
-import { FormsWrapper } from '@/app/(auth)/forms-wrapper';
-import { ThemePicker } from '@/app/(auth)/theme-picker';
+import { FormsWrapper } from "@/app/(auth)/forms-wrapper";
+import { ThemePicker } from "@/app/(auth)/theme-picker";
 
 export default function AuthLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {

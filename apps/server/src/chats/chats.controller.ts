@@ -7,15 +7,15 @@ import {
   Body,
   UseGuards,
   Query,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+} from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { ChatsService } from './chats.service';
+import { ChatsService } from "./chats.service";
 
-import { ROUTES, SWAGGER_API_TAGS } from 'src/utils/constants';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
+import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
 
-import { InitiateChatDto } from './dtos/initate-chat.dto';
+import { InitiateChatDto } from "./dtos/initate-chat.dto";
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -24,20 +24,20 @@ import { InitiateChatDto } from './dtos/initate-chat.dto';
 export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 
-  @Get('/between-users-chat-id')
+  @Get("/between-users-chat-id")
   async getChatIdByAddresseeUsername(
     @Req() req,
-    @Query('addressee')
-    addressee: string,
+    @Query("addressee")
+    addressee: string
   ) {
     return this.chatsService.getChatIdByAddresseeUsername(
       req.user.id,
-      addressee,
+      addressee
     );
   }
 
-  @Get(':id')
-  async getChatData(@Req() req, @Param('id') id: string) {
+  @Get(":id")
+  async getChatData(@Req() req, @Param("id") id: string) {
     return this.chatsService.getChatData(req.user.username, id);
   }
 
@@ -50,7 +50,7 @@ export class ChatsController {
   async initiateChat(
     @Req() req,
     @Body()
-    dto: InitiateChatDto,
+    dto: InitiateChatDto
   ) {
     return this.chatsService.initiateChat(req.user.id, dto.addresseeUsername);
   }

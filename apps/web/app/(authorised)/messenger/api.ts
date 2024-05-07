@@ -1,9 +1,9 @@
-import { request } from '@/app/server';
+import { request } from "@/app/server";
 
-import type { Chat, ChatFromListOfChats } from '@/lib/types';
+import type { Chat, ChatFromListOfChats } from "@/lib/types";
 
 export async function getAutorisedUserChats() {
-  return request<Array<ChatFromListOfChats>>('chats');
+  return request<Array<ChatFromListOfChats>>("chats");
 }
 
 export async function getChatData(chatId: string) {

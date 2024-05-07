@@ -1,10 +1,10 @@
-import { axiosApiInstance } from '@/axios';
+import { axiosApiInstance } from "@/axios";
 
-import type { BaseFriendRequestStatus } from '@/lib/types';
+import type { BaseFriendRequestStatus } from "@/lib/types";
 
-export type RequestStatus = BaseFriendRequestStatus | 'none';
+export type RequestStatus = BaseFriendRequestStatus | "none";
 
-const ROUTE = '/friend-requests';
+const ROUTE = "/friend-requests";
 
 // vvv ------------------mutations------------------ vvv
 
@@ -27,8 +27,8 @@ const rejectFriendRequest = async (username: string) => {
 const cancelFriendRequest = async (username: string) => {
   await axiosApiInstance.delete(`${ROUTE}/cancel`, {
     data: {
-      username
-    }
+      username,
+    },
   });
 };
 
@@ -39,5 +39,5 @@ export {
   acceptFriendRequest,
   rejectFriendRequest,
   unfriend,
-  cancelFriendRequest
+  cancelFriendRequest,
 };

@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from "class-validator";
 
 export class CreateFriendRequestDto {
   @ApiProperty()

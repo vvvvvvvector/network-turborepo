@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Avatar } from '@/components/avatar';
+import { Avatar } from "@/components/avatar";
 
-import { formatDate, formatTime } from '@/lib/utils';
-import { PAGES } from '@/lib/constants';
+import { formatDate, formatTime } from "@/lib/utils";
+import { PAGES } from "@/lib/constants";
 
-import { useConnectionsInformation } from '@/hooks/use-connections-information';
+import { useConnectionsInformation } from "@/hooks/use-connections-information";
 
-import { getAutorisedUserChats } from '@/app/(authorised)/messenger/api';
+import { getAutorisedUserChats } from "@/app/(authorised)/messenger/api";
 
 export const ListOfChats = ({
-  chats
+  chats,
 }: {
   chats: Awaited<ReturnType<typeof getAutorisedUserChats>>;
 }) => {
@@ -20,7 +20,7 @@ export const ListOfChats = ({
     chats.reduce(
       (accumulator, currentValue) =>
         Object.assign(accumulator, {
-          [currentValue.friendUsername]: 'offline'
+          [currentValue.friendUsername]: "offline",
         }),
       {}
     )
@@ -45,7 +45,7 @@ export const ListOfChats = ({
                 username={chat.friendUsername}
                 avatar={chat.friendAvatar || undefined}
               />
-              {connectionsInformation[chat.friendUsername] === 'online' && (
+              {connectionsInformation[chat.friendUsername] === "online" && (
                 <span className="absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700" />
               )}
             </div>
@@ -56,14 +56,14 @@ export const ListOfChats = ({
                   {(chat.lastMessageSentAt &&
                     `${formatDate(
                       chat.lastMessageSentAt,
-                      'short'
+                      "short"
                     )} / ${formatTime(chat.lastMessageSentAt)}`) ||
-                    ''}
+                    ""}
                 </time>
               </div>
               <span className="overflow-hidden text-ellipsis whitespace-nowrap">
                 {chat.lastMessageContent ??
-                  'There are no messages in this chat yet 😗'}
+                  "There are no messages in this chat yet 😗"}
               </span>
             </div>
           </li>

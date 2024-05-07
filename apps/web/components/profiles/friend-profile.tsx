@@ -1,38 +1,38 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-import { Tooltip } from '@/components/tooltip';
-import { Icons } from '@/components/icons';
-import { Avatar } from '@/components/avatar';
+import { Tooltip } from "@/components/tooltip";
+import { Icons } from "@/components/icons";
+import { Avatar } from "@/components/avatar";
 
 import {
   DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE
-} from '@/lib/constants';
-import { formatDate, formatTime } from '@/lib/utils';
-import type { NetworkUser } from '@/lib/types';
+  ICON_INSIDE_BUTTON_SIZE,
+} from "@/lib/constants";
+import { formatDate, formatTime } from "@/lib/utils";
+import type { NetworkUser } from "@/lib/types";
 
-import { useRequestsMutations } from '@/hooks/use-requests-mutations';
-import { useCommonActions } from '@/hooks/use-common-actions';
+import { useRequestsMutations } from "@/hooks/use-requests-mutations";
+import { useCommonActions } from "@/hooks/use-common-actions";
 
-import { useSocketStore } from '@/zustand/socket.store';
+import { useSocketStore } from "@/zustand/socket.store";
 
 export const FriendProfile = (
-  user: Omit<NetworkUser, 'extendedFriendRequestStatus'>
+  user: Omit<NetworkUser, "extendedFriendRequestStatus">
 ) => {
-  const [onlineStatus, setOnlineStatus] = useState<'online' | 'offline'>(
-    'offline'
+  const [onlineStatus, setOnlineStatus] = useState<"online" | "offline">(
+    "offline"
   );
 
   const { writeMessage, openPhoto } = useCommonActions();
@@ -42,8 +42,8 @@ export const FriendProfile = (
   const { socket } = useSocketStore();
 
   useEffect(() => {
-    socket.emit('is-friend-online', user.username, (online: boolean) => {
-      setOnlineStatus(online ? 'online' : 'offline');
+    socket.emit("is-friend-online", user.username, (online: boolean) => {
+      setOnlineStatus(online ? "online" : "offline");
     });
   }, []);
 
@@ -59,7 +59,7 @@ export const FriendProfile = (
                   username={user.username}
                   avatar={user.profile.avatar?.url}
                 />
-                {onlineStatus === 'online' && (
+                {onlineStatus === "online" && (
                   <span className="absolute bottom-2 right-2 size-6 rounded-full border-[3px] border-background bg-emerald-400" />
                 )}
               </div>
@@ -79,11 +79,11 @@ export const FriendProfile = (
           </DropdownMenu>
           <div className="relative top-3 flex flex-col">
             <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
-            <span>{`bio: ${user.profile.bio ?? 'no bio yet 😔'}`}</span>
+            <span>{`bio: ${user.profile.bio ?? "no bio yet 😔"}`}</span>
           </div>
         </div>
         <div className="absolute -right-0 -top-0 flex gap-2">
-          {onlineStatus === 'online' && (
+          {onlineStatus === "online" && (
             <Badge className="bg-emerald-400">{`Online 👋`}</Badge>
           )}
           <Badge>{`Friend 🎉`}</Badge>
@@ -103,7 +103,7 @@ export const FriendProfile = (
       </div>
       <Separator className="my-4" />
       <ul className="flex flex-col gap-5">
-        {onlineStatus === 'offline' && (
+        {onlineStatus === "offline" && (
           <li>
             <time suppressHydrationWarning>
               {`last seen: ${formatDate(user.lastSeen)} at ${formatTime(
@@ -113,7 +113,7 @@ export const FriendProfile = (
           </li>
         )}
         <li>{`avatar likes: ${
-          user.profile.avatar?.likes ?? 'no photo yet'
+          user.profile.avatar?.likes ?? "no photo yet"
         } ❤️`}</li>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
         <li>
@@ -123,9 +123,9 @@ export const FriendProfile = (
           </time>
         </li>
         <li>{`email: ${
-          user.contacts.email.isPublic ? user.contacts.email.contact : 'private'
+          user.contacts.email.isPublic ? user.contacts.email.contact : "private"
         }`}</li>
-        <li>{'for instance, only for friends content here...'}</li>
+        <li>{"for instance, only for friends content here..."}</li>
       </ul>
     </div>
   );

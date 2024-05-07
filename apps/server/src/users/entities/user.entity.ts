@@ -6,13 +6,13 @@ import {
   JoinColumn,
   OneToMany,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
-import { Contacts } from './contacts.entity';
+import { Contacts } from "./contacts.entity";
 
-import { Profile } from 'src/profiles/entities/profile.entity';
-import { TABLES } from 'src/utils/constants';
-import { Message } from 'src/messages/entities/message.entity';
+import { Profile } from "src/profiles/entities/profile.entity";
+import { TABLES } from "src/utils/constants";
+import { Message } from "src/messages/entities/message.entity";
 
 @Entity({ name: TABLES.USERS })
 export class User {
@@ -34,12 +34,12 @@ export class User {
   // first arg: target relation type | second arg: inverse relation
   // if relation is not bi-directional, you can't use relations on profilesRepository (relations: ['user']), but you can use relations on usersRepository (relations: ['profile'])
   @OneToOne(() => Profile, (profile) => profile.user, {
-    cascade: ['insert'],
+    cascade: ["insert"],
   }) // with 'cascade: true' i can save this relation with only one save call
-  @JoinColumn({ name: 'profileUuid' }) // add column with foreign keys called 'profileUuid'
+  @JoinColumn({ name: "profileUuid" }) // add column with foreign keys called 'profileUuid'
   profile: Profile;
 
-  @OneToOne(() => Contacts, { cascade: ['insert', 'update'] })
-  @JoinColumn({ name: 'contactsId' })
+  @OneToOne(() => Contacts, { cascade: ["insert", "update"] })
+  @JoinColumn({ name: "contactsId" })
   contacts: Contacts;
 }

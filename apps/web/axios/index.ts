@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { parseCookies } from 'nookies';
+import axios from "axios";
+import { parseCookies } from "nookies";
 
-import { env } from '@/lib/env';
-import { TOKEN_NAME } from '@/lib/constants';
+import { env } from "@/lib/env";
+import { TOKEN_NAME } from "@/lib/constants";
 
 const axiosApiInstance = axios.create();
 

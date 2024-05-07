@@ -38,8 +38,8 @@ import {
   UserX,
   ArrowUpRight,
   ArrowDownLeft,
-  MonitorSmartphone
-} from 'lucide-react';
+  MonitorSmartphone,
+} from "lucide-react";
 
 export const Icons = {
   myProfile: UserCircle,
@@ -81,5 +81,5 @@ export const Icons = {
   requests: Mailbox,
   outgoingRequests: ArrowUpRight,
   incomingRequests: ArrowDownLeft,
-  online: MonitorSmartphone
+  online: MonitorSmartphone,
 };

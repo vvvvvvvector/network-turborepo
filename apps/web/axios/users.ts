@@ -1,12 +1,12 @@
-import { axiosApiInstance } from '@/axios';
+import { axiosApiInstance } from "@/axios";
 
-import type { User, AvatarWithoutLikes } from '../lib/types';
+import type { User, AvatarWithoutLikes } from "../lib/types";
 
-const ROUTE = '/users';
+const ROUTE = "/users";
 
 const getAuthorisedUserUsernameAndAvatar = async () => {
   return (
-    await axiosApiInstance.get<Omit<User, 'lastSeen'> & AvatarWithoutLikes>(
+    await axiosApiInstance.get<Omit<User, "lastSeen"> & AvatarWithoutLikes>(
       `${ROUTE}/me/username-and-avatar`
     )
   ).data;

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { parseCookies } from 'nookies';
-import { useState } from 'react';
-import { useTheme } from 'next-themes';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { useQuery } from '@tanstack/react-query';
+import { parseCookies } from "nookies";
+import { useState } from "react";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 
 import {
   DropdownMenu,
@@ -13,8 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -23,28 +23,28 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-import { Icons } from '@/components/icons';
-import { Avatar } from '@/components/avatar';
-import { CommandMenu } from '@/components/command-menu';
-import { MobileNav } from '@/components/mobile-nav';
+import { Icons } from "@/components/icons";
+import { Avatar } from "@/components/avatar";
+import { CommandMenu } from "@/components/command-menu";
+import { MobileNav } from "@/components/mobile-nav";
 
-import { signOut } from '@/app/server';
-import { getAuthorisedUserUsernameAndAvatar } from '@/axios/users';
+import { signOut } from "@/app/server";
+import { getAuthorisedUserUsernameAndAvatar } from "@/axios/users";
 
-import { DROPDOWN_MENU_ICON_STYLES, PAGES, TOKEN_NAME } from '@/lib/constants';
-import { capitalize } from '@/lib/utils';
+import { DROPDOWN_MENU_ICON_STYLES, PAGES, TOKEN_NAME } from "@/lib/constants";
+import { capitalize } from "@/lib/utils";
 
 export const getThemeIcon = (theme: string | undefined) => {
   switch (theme) {
-    case 'light':
+    case "light":
       return <Icons.lightMode className={DROPDOWN_MENU_ICON_STYLES} />;
-    case 'dark':
+    case "dark":
       return <Icons.darkMode className={DROPDOWN_MENU_ICON_STYLES} />;
-    case 'system':
+    case "system":
       return <Icons.systemMode className={DROPDOWN_MENU_ICON_STYLES} />;
     default:
       return <Icons.alertTriangle className={DROPDOWN_MENU_ICON_STYLES} />;
@@ -91,8 +91,8 @@ const Header = () => {
 
   const { data } = useQuery({
     refetchOnWindowFocus: false,
-    queryKey: [parseCookies()[TOKEN_NAME], 'username', 'and', 'avatar'], // Is it a good idea to put the token in queryKey? 🧐
-    queryFn: getAuthorisedUserUsernameAndAvatar
+    queryKey: [parseCookies()[TOKEN_NAME], "username", "and", "avatar"], // Is it a good idea to put the token in queryKey? 🧐
+    queryFn: getAuthorisedUserUsernameAndAvatar,
   });
 
   return (
@@ -125,7 +125,7 @@ const Header = () => {
                     className="flex h-full w-[80px] cursor-pointer items-center justify-center gap-2 transition-[background-color] hover:bg-accent md:w-[100px]"
                   >
                     <Avatar
-                      username={data?.username || 'Unknown'}
+                      username={data?.username || "Unknown"}
                       avatar={data?.avatar?.url}
                     />
                     <Icons.arrowDown className="size-4" />
@@ -143,7 +143,7 @@ const Header = () => {
                         }}
                         className="cursor-pointer hover:underline"
                       >
-                        {data?.username || 'Unknown'}
+                        {data?.username || "Unknown"}
                       </span>
                     </div>
                   </DropdownMenuLabel>
@@ -179,7 +179,7 @@ const Header = () => {
                       onClick={() => {
                         signOut();
 
-                        toast.success('You have successfully signed out.');
+                        toast.success("You have successfully signed out.");
 
                         push(PAGES.SIGN_IN);
                       }}

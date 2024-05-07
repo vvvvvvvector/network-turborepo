@@ -1,12 +1,12 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module, forwardRef } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
-import { FriendRequestsService } from './friend-requests.service';
-import { FriendRequestsController } from './friend-requests.controller';
+import { FriendRequestsService } from "./friend-requests.service";
+import { FriendRequestsController } from "./friend-requests.controller";
 
-import { FriendRequest } from './entities/friend-request.entity';
+import { FriendRequest } from "./entities/friend-request.entity";
 
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from "src/users/users.module";
 
 @Module({
   imports: [

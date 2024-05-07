@@ -1,20 +1,20 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class SignInUserDto {
-  @ApiProperty({ default: 'helloworld' })
+  @ApiProperty({ default: "helloworld" })
   username: string;
 
-  @ApiProperty({ default: 'helloworld' })
+  @ApiProperty({ default: "helloworld" })
   password: string;
 }
 
 export class SignUpUserDto {
-  @ApiProperty({ default: 'helloworld' })
+  @ApiProperty({ default: "helloworld" })
   username: string;
 
-  @ApiProperty({ default: 'helloworld@gmail.com' })
+  @ApiProperty({ default: "helloworld@gmail.com" })
   email: string;
 
-  @ApiProperty({ default: 'helloworld' })
+  @ApiProperty({ default: "helloworld" })
   password: string;
 }

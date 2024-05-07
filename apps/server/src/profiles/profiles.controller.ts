@@ -6,16 +6,16 @@ import {
   Put,
   Req,
   UseGuards,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+} from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { ROUTES, SWAGGER_API_TAGS } from 'src/utils/constants';
+import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
+import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
 
-import { ProfilesService } from './profiles.service';
+import { ProfilesService } from "./profiles.service";
 
-import { UpdateBioDto } from './dtos/bio.dto';
-import { AvatarUrlDto } from './dtos/avatar-url.dto';
+import { UpdateBioDto } from "./dtos/bio.dto";
+import { AvatarUrlDto } from "./dtos/avatar-url.dto";
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -24,12 +24,12 @@ import { AvatarUrlDto } from './dtos/avatar-url.dto';
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
-  @Put('/bio')
+  @Put("/bio")
   async updateBio(@Req() req, @Body() dto: UpdateBioDto) {
     return this.profilesService.updateBio(req.user.id, dto.bio);
   }
 
-  @Post('/avatar')
+  @Post("/avatar")
   async uploadAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
     return this.profilesService.saveAvatar(req.user.id, dto.url);
   }
@@ -39,7 +39,7 @@ export class ProfilesController {
   //   return this.profilesService.updateAvatar(req.user.id, dto.url);
   // }
 
-  @Delete('/avatar')
+  @Delete("/avatar")
   async removeAvatar(@Req() req) {
     return this.profilesService.removeAvatar(req.user.id);
   }

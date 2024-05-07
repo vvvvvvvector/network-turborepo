@@ -1,16 +1,16 @@
-import * as _ from 'lodash';
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import * as _ from "lodash";
+import { Inject, Injectable, forwardRef } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { In, Repository } from "typeorm";
 
-import { FriendRequest } from './entities/friend-request.entity';
+import { FriendRequest } from "./entities/friend-request.entity";
 
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from "src/users/users.service";
 
-import { RequestHasAlreadyBeenCreatedException } from './exceptions/request-has-already-been-created';
-import { MyselfFriendRequestException } from './exceptions/myself-friend-request';
-import { NotReceiverRejectException } from './exceptions/not-receiver-reject';
-import { NotReceiverAcceptException } from './exceptions/not-receiver-accept';
+import { RequestHasAlreadyBeenCreatedException } from "./exceptions/request-has-already-been-created";
+import { MyselfFriendRequestException } from "./exceptions/myself-friend-request";
+import { NotReceiverRejectException } from "./exceptions/not-receiver-reject";
+import { NotReceiverAcceptException } from "./exceptions/not-receiver-accept";
 
 @Injectable()
 export class FriendRequestsService {
@@ -18,23 +18,23 @@ export class FriendRequestsService {
     @InjectRepository(FriendRequest)
     private friendRequestsRepository: Repository<FriendRequest>,
     @Inject(forwardRef(() => UsersService))
-    private readonly usersService: UsersService,
+    private readonly usersService: UsersService
   ) {}
 
   async networkUsersUsernames(
     signedInUserId: number,
     pageFromQuery: string,
-    usernameFromQuery: string,
+    usernameFromQuery: string
   ) {
     let users = (await this.usersService.getAllUsersUsernamesWithIds()).filter(
-      (user) => user.id !== signedInUserId,
+      (user) => user.id !== signedInUserId
     );
 
     if (usernameFromQuery) {
       users = users.filter((user) =>
         user.username
           .toLowerCase()
-          .includes(usernameFromQuery.toLocaleLowerCase()),
+          .includes(usernameFromQuery.toLocaleLowerCase())
       );
     }
 
@@ -63,7 +63,7 @@ export class FriendRequestsService {
       users: users
         .slice((page - 1) * usersPerPage, usersPerPage * page)
         .map((user) => {
-          let requestStatus = 'none';
+          let requestStatus = "none";
 
           for (let i = 0; i < requests.length; i++) {
             if (
@@ -76,7 +76,7 @@ export class FriendRequestsService {
           }
 
           return {
-            ..._.pick(user, ['username', 'profile.avatar']),
+            ..._.pick(user, ["username", "profile.avatar"]),
             requestStatus,
           };
         }),
@@ -85,7 +85,7 @@ export class FriendRequestsService {
 
   async acceptedFriendRequests(
     signedInUserId: number,
-    signedInUserUsername: string,
+    signedInUserUsername: string
   ) {
     const accepted = await this.friendRequestsRepository.find({
       relations: {
@@ -126,21 +126,21 @@ export class FriendRequestsService {
           sender: {
             id: signedInUserId,
           },
-          status: 'accepted',
+          status: "accepted",
         },
         {
           receiver: {
             id: signedInUserId,
           },
-          status: 'accepted',
+          status: "accepted",
         },
       ],
     });
 
     return accepted.map(({ sender, receiver }) =>
       sender.username === signedInUserUsername
-        ? _.pick(receiver, ['username', 'profile.avatar'])
-        : _.pick(sender, ['username', 'profile.avatar']),
+        ? _.pick(receiver, ["username", "profile.avatar"])
+        : _.pick(sender, ["username", "profile.avatar"])
     );
   }
 
@@ -169,12 +169,12 @@ export class FriendRequestsService {
         receiver: {
           id: signedInUserId,
         },
-        status: 'pending',
+        status: "pending",
       },
     });
 
     return incoming.map(({ sender }) =>
-      _.pick(sender, ['username', 'profile.avatar']),
+      _.pick(sender, ["username", "profile.avatar"])
     );
   }
 
@@ -201,12 +201,12 @@ export class FriendRequestsService {
         sender: {
           id: signedInUserId,
         },
-        status: In(['pending', 'rejected']),
+        status: In(["pending", "rejected"]),
       },
     });
 
     return sent.map(({ receiver }) =>
-      _.pick(receiver, ['username', 'profile.avatar']),
+      _.pick(receiver, ["username", "profile.avatar"])
     );
   }
 
@@ -235,12 +235,12 @@ export class FriendRequestsService {
         receiver: {
           id: signedInUserId,
         },
-        status: 'rejected',
+        status: "rejected",
       },
     });
 
     return rejected.map(({ sender }) =>
-      _.pick(sender, ['username', 'profile.avatar']),
+      _.pick(sender, ["username", "profile.avatar"])
     );
   }
 
@@ -257,7 +257,7 @@ export class FriendRequestsService {
         },
       });
 
-      friendRequest.status = 'accepted';
+      friendRequest.status = "accepted";
 
       return this.friendRequestsRepository.save(friendRequest);
     } catch (error) {
@@ -278,7 +278,7 @@ export class FriendRequestsService {
         },
       });
 
-      friendRequest.status = 'rejected';
+      friendRequest.status = "rejected";
 
       return this.friendRequestsRepository.save(friendRequest);
     } catch (error) {
@@ -317,7 +317,7 @@ export class FriendRequestsService {
 
     friendRequest.sender.id = receiverId;
     friendRequest.receiver.id = senderId;
-    friendRequest.status = 'rejected';
+    friendRequest.status = "rejected";
 
     return this.friendRequestsRepository.save(friendRequest);
   }
@@ -360,7 +360,7 @@ export class FriendRequestsService {
       receiver: {
         id: receiverId,
       },
-      status: 'pending',
+      status: "pending",
     });
 
     return this.friendRequestsRepository.save(friendRequest);
