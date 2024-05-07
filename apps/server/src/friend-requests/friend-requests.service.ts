@@ -1,6 +1,6 @@
+import * as _ from 'lodash';
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { In, Repository } from 'typeorm';
 
 import { FriendRequest } from './entities/friend-request.entity';
@@ -76,10 +76,7 @@ export class FriendRequestsService {
           }
 
           return {
-            username: user.username,
-            profile: {
-              avatar: { ...user.profile.avatar },
-            },
+            ..._.pick(user, ['username', 'profile.avatar']),
             requestStatus,
           };
         }),
@@ -140,18 +137,11 @@ export class FriendRequestsService {
       ],
     });
 
-    return accepted.map((req) => ({
-      username:
-        req.sender.username === signedInUserUsername
-          ? req.receiver.username
-          : req.sender.username,
-      profile: {
-        avatar:
-          req.sender.username === signedInUserUsername
-            ? req.receiver.profile.avatar
-            : req.sender.profile.avatar,
-      },
-    }));
+    return accepted.map(({ sender, receiver }) =>
+      sender.username === signedInUserUsername
+        ? _.pick(receiver, ['username', 'profile.avatar'])
+        : _.pick(sender, ['username', 'profile.avatar']),
+    );
   }
 
   async incomingFriendRequests(signedInUserId: number) {
@@ -183,12 +173,9 @@ export class FriendRequestsService {
       },
     });
 
-    return incoming.map((req) => ({
-      username: req.sender.username,
-      profile: {
-        avatar: req.sender.profile.avatar,
-      },
-    }));
+    return incoming.map(({ sender }) =>
+      _.pick(sender, ['username', 'profile.avatar']),
+    );
   }
 
   async sentFriendRequests(signedInUserId: number) {
@@ -218,12 +205,9 @@ export class FriendRequestsService {
       },
     });
 
-    return sent.map((req) => ({
-      username: req.receiver.username,
-      profile: {
-        avatar: req.receiver.profile.avatar,
-      },
-    }));
+    return sent.map(({ receiver }) =>
+      _.pick(receiver, ['username', 'profile.avatar']),
+    );
   }
 
   async rejectedFriendRequests(signedInUserId: number) {
@@ -255,12 +239,9 @@ export class FriendRequestsService {
       },
     });
 
-    return rejected.map((req) => ({
-      username: req.sender.username,
-      profile: {
-        avatar: req.sender.profile.avatar,
-      },
-    }));
+    return rejected.map(({ sender }) =>
+      _.pick(sender, ['username', 'profile.avatar']),
+    );
   }
 
   async accept(signedInUserUsername: string, requestSenderUsername: string) {
@@ -278,10 +259,7 @@ export class FriendRequestsService {
 
       friendRequest.status = 'accepted';
 
-      const acceptedFriendRequest =
-        await this.friendRequestsRepository.save(friendRequest);
-
-      return acceptedFriendRequest;
+      return this.friendRequestsRepository.save(friendRequest);
     } catch (error) {
       throw new NotReceiverAcceptException();
     }
@@ -302,10 +280,7 @@ export class FriendRequestsService {
 
       friendRequest.status = 'rejected';
 
-      const rejectedFriendRequest =
-        await this.friendRequestsRepository.save(friendRequest);
-
-      return rejectedFriendRequest;
+      return this.friendRequestsRepository.save(friendRequest);
     } catch (error) {
       throw new NotReceiverRejectException();
     }
@@ -388,14 +363,11 @@ export class FriendRequestsService {
       status: 'pending',
     });
 
-    const newFriendRequest =
-      await this.friendRequestsRepository.save(friendRequest);
-
-    return newFriendRequest;
+    return this.friendRequestsRepository.save(friendRequest);
   }
 
   async alreadyFriends(senderId: number, receiverId: number) {
-    const friendRequest = await this.friendRequestsRepository.findOne({
+    return this.friendRequestsRepository.findOne({
       relations: {
         receiver: true,
         sender: true,
@@ -429,7 +401,5 @@ export class FriendRequestsService {
         },
       ],
     });
-
-    return friendRequest;
   }
 }
