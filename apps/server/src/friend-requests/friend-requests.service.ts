@@ -39,7 +39,10 @@ export class FriendRequestsService {
     }
 
     const requests = await this.friendRequestsRepository.find({
-      relations: ['sender', 'receiver'],
+      relations: {
+        sender: true,
+        receiver: true,
+      },
       select: {
         status: true,
         sender: {
@@ -88,14 +91,18 @@ export class FriendRequestsService {
     signedInUserUsername: string,
   ) {
     const accepted = await this.friendRequestsRepository.find({
-      relations: [
-        'sender',
-        'receiver',
-        'sender.profile',
-        'receiver.profile',
-        'sender.profile.avatar',
-        'receiver.profile.avatar',
-      ],
+      relations: {
+        sender: {
+          profile: {
+            avatar: true,
+          },
+        },
+        receiver: {
+          profile: {
+            avatar: true,
+          },
+        },
+      },
       select: {
         createdAt: true,
         sender: {
@@ -149,7 +156,13 @@ export class FriendRequestsService {
 
   async incomingFriendRequests(signedInUserId: number) {
     const incoming = await this.friendRequestsRepository.find({
-      relations: ['sender.profile', 'sender.profile.avatar'],
+      relations: {
+        sender: {
+          profile: {
+            avatar: true,
+          },
+        },
+      },
       select: {
         createdAt: true,
         sender: {
@@ -180,7 +193,11 @@ export class FriendRequestsService {
 
   async sentFriendRequests(signedInUserId: number) {
     const sent = await this.friendRequestsRepository.find({
-      relations: ['receiver.profile', 'receiver.profile.avatar'],
+      relations: {
+        receiver: {
+          profile: { avatar: true },
+        },
+      },
       select: {
         createdAt: true,
         receiver: {
@@ -211,7 +228,13 @@ export class FriendRequestsService {
 
   async rejectedFriendRequests(signedInUserId: number) {
     const rejected = await this.friendRequestsRepository.find({
-      relations: ['sender.profile', 'sender.profile.avatar'],
+      relations: {
+        sender: {
+          profile: {
+            avatar: true,
+          },
+        },
+      },
       select: {
         createdAt: true,
         sender: {
@@ -293,7 +316,10 @@ export class FriendRequestsService {
       await this.usersService.findUserIdByUsername(receiverUsername);
 
     const friendRequest = await this.friendRequestsRepository.findOne({
-      relations: ['receiver', 'sender'],
+      relations: {
+        receiver: true,
+        sender: true,
+      },
       where: [
         {
           sender: {
@@ -323,7 +349,10 @@ export class FriendRequestsService {
 
   async cancel(signedInUserUsername: string, receiverUsername: string) {
     const friendRequest = await this.friendRequestsRepository.findOne({
-      relations: ['receiver', 'sender'],
+      relations: {
+        receiver: true,
+        sender: true,
+      },
       where: [
         {
           sender: {
@@ -367,7 +396,10 @@ export class FriendRequestsService {
 
   async alreadyFriends(senderId: number, receiverId: number) {
     const friendRequest = await this.friendRequestsRepository.findOne({
-      relations: ['sender', 'receiver'],
+      relations: {
+        receiver: true,
+        sender: true,
+      },
       select: {
         id: true,
         status: true,
