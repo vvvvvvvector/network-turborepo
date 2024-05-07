@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { TABLES } from "src/utils/constants";
+import { TABLES } from "src/lib/constants";
 import { User } from "src/users/entities/user.entity";
 import { Chat } from "src/chats/entities/chat.entity";
 

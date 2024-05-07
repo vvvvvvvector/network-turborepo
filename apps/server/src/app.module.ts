@@ -11,7 +11,7 @@ import { ProfilesModule } from "./profiles/profiles.module";
 import { FriendRequestsModule } from "./friend-requests/friend-requests.module";
 import { MessagesModule } from "./messages/messages.module";
 import { ChatsModule } from "./chats/chats.module";
-import { EventsModule } from "./events/events.module";
+import { EventsModule } from "./ws/events.module";
 
 @Module({
   imports: [

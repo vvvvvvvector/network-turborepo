@@ -15,7 +15,7 @@ import { FriendRequestDto } from "./dtos/friend-request.dto";
 
 import { FriendRequestsService } from "./friend-requests.service";
 
-import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
+import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
 
 @UseGuards(JwtAuthGuard)

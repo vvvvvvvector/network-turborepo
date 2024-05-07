@@ -2,7 +2,7 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { Contacts } from "./contacts.entity";
 
-import { TABLES } from "src/utils/constants";
+import { TABLES } from "src/lib/constants";
 
 @Entity({ name: TABLES.EMAILS })
 export class Email {

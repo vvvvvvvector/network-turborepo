@@ -10,7 +10,7 @@ import {
 import { RequestStatus } from "../types";
 
 import { User } from "src/users/entities/user.entity";
-import { TABLES } from "src/utils/constants";
+import { TABLES } from "src/lib/constants";
 
 // createForeignKeyConstraints: false -> allows insertions of same foreign keys in one column ->
 // -> because one user can send multiple friend requests

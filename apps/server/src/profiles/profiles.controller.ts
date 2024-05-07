@@ -10,7 +10,7 @@ import {
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
-import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
+import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 
 import { ProfilesService } from "./profiles.service";
 

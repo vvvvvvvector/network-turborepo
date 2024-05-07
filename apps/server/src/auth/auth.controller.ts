@@ -13,7 +13,7 @@ import { AuthService } from "./auth.service";
 
 import { LocalAuthGuard } from "./guards/local.guard";
 
-import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
+import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 import { SignInUserDto, SignUpUserDto } from "src/users/dtos/auth.dto";
 
 @ApiTags(SWAGGER_API_TAGS.AUTH)

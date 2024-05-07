@@ -3,7 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { MessagesService } from "./messages.service";
 
-import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
+import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 
 @Controller(ROUTES.MESSAGES)
 @ApiTags(SWAGGER_API_TAGS.MESSAGES)

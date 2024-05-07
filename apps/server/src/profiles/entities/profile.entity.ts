@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 
 import { User } from "src/users/entities/user.entity";
-import { TABLES } from "src/utils/constants";
+import { TABLES } from "src/lib/constants";
 import { Avatar } from "./avatar.entity";
 
 @Entity({ name: TABLES.PROFILES })

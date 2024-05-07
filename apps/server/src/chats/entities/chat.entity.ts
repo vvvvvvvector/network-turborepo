@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from "typeorm";
 
-import { TABLES } from "src/utils/constants";
+import { TABLES } from "src/lib/constants";
 import { Message } from "src/messages/entities/message.entity";
 import { User } from "src/users/entities/user.entity";
 

@@ -12,7 +12,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { ChatsService } from "./chats.service";
 
-import { ROUTES, SWAGGER_API_TAGS } from "src/utils/constants";
+import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
 
 import { InitiateChatDto } from "./dtos/initate-chat.dto";

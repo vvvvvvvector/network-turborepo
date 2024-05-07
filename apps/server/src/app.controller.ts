@@ -3,7 +3,7 @@ import { ApiTags } from "@nestjs/swagger";
 
 import { AppService } from "./app.service";
 
-import { SWAGGER_API_TAGS } from "./utils/constants";
+import { SWAGGER_API_TAGS } from "./lib/constants";
 
 @ApiTags(SWAGGER_API_TAGS.ROOT)
 @Controller()

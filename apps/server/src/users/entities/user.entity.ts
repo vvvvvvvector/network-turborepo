@@ -11,7 +11,7 @@ import {
 import { Contacts } from "./contacts.entity";
 
 import { Profile } from "src/profiles/entities/profile.entity";
-import { TABLES } from "src/utils/constants";
+import { TABLES } from "src/lib/constants";
 import { Message } from "src/messages/entities/message.entity";
 
 @Entity({ name: TABLES.USERS })
