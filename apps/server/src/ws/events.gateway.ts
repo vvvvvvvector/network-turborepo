@@ -12,7 +12,7 @@ import { MessagesService } from "src/messages/messages.service";
 import { ChatsService } from "src/chats/chats.service";
 import { UsersService } from "src/users/users.service";
 
-import { SendMessageDto } from "./dtos/send-message.dto";
+import { SendMessageDto } from "./dtos";
 
 import type { UserTokenPayload } from "src/auth/auth.service";
 type SocketId = string;
