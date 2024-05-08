@@ -3,9 +3,11 @@ import { JwtService } from "@nestjs/jwt";
 
 import * as bcrypt from "bcrypt";
 
-import { ProfileNotActivatedException } from "./exceptions/profile-not-activated";
-import { UsernameExistsException } from "./exceptions/username-exists";
-import { EmailExistsException } from "./exceptions/email-exists";
+import {
+  ProfileNotActivatedException,
+  UsernameExistsException,
+  EmailExistsException,
+} from "./exceptions";
 
 import { SignUpUserDto } from "src/users/dtos/auth.dto";
 import { UsersService } from "src/users/users.service";
