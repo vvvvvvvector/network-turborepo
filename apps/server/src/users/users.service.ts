@@ -12,7 +12,7 @@ import { parseUserContacts } from "./utils";
 
 import { User } from "./entities/user.entity";
 
-import { SignUpUserDto } from "./dtos/auth.dto";
+import { SignUpUserDto } from "./dtos";
 
 import { Profile } from "src/profiles/entities/profile.entity";
 import { FriendRequestsService } from "src/friend-requests/friend-requests.service";

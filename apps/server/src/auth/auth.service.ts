@@ -9,7 +9,7 @@ import {
   EmailExistsException,
 } from "./exceptions";
 
-import { SignUpUserDto } from "src/users/dtos/auth.dto";
+import { SignUpUserDto } from "src/users/dtos";
 import { UsersService } from "src/users/users.service";
 import { ProfilesService } from "src/profiles/profiles.service";
 
