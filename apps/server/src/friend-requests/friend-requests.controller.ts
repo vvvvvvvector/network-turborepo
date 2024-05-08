@@ -11,7 +11,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
-import { FriendRequestDto } from "./dtos/friend-request.dto";
+import { RequestActionDto } from "./dtos";
 
 import { FriendRequestsService } from "./friend-requests.service";
 
@@ -30,7 +30,7 @@ export class FriendRequestsController {
     description: "Sends a friend request to a user",
   })
   @Post("create")
-  async create(@Req() req, @Body() dto: FriendRequestDto) {
+  async create(@Req() req, @Body() dto: RequestActionDto) {
     return this.friendRequestsService.create(req.user.id, dto.username);
   }
 
@@ -99,7 +99,7 @@ export class FriendRequestsController {
     summary: "Allow you to accept a friend request",
   })
   @Patch("accept")
-  async accept(@Req() req, @Body() dto: FriendRequestDto) {
+  async accept(@Req() req, @Body() dto: RequestActionDto) {
     return this.friendRequestsService.accept(req.user.username, dto.username);
   }
 
@@ -107,7 +107,7 @@ export class FriendRequestsController {
     summary: "Allow you to reject a friend request",
   })
   @Patch("reject")
-  async reject(@Req() req, @Body() dto: FriendRequestDto) {
+  async reject(@Req() req, @Body() dto: RequestActionDto) {
     return this.friendRequestsService.reject(req.user.username, dto.username);
   }
 
@@ -115,7 +115,7 @@ export class FriendRequestsController {
     summary: "Allow you to unfriend a friend :D",
   })
   @Patch("unfriend")
-  async unfriend(@Req() req, @Body() dto: FriendRequestDto) {
+  async unfriend(@Req() req, @Body() dto: RequestActionDto) {
     return this.friendRequestsService.unfriend(req.user.id, dto.username);
   }
 
@@ -124,7 +124,7 @@ export class FriendRequestsController {
     description: "Delete from database a friend request sent by you",
   })
   @Delete("cancel")
-  async cancel(@Req() req, @Body() dto: FriendRequestDto) {
+  async cancel(@Req() req, @Body() dto: RequestActionDto) {
     return this.friendRequestsService.cancel(req.user.username, dto.username);
   }
 }
