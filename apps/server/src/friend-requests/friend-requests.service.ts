@@ -7,10 +7,10 @@ import { FriendRequest } from "./entities/friend-request.entity";
 
 import { UsersService } from "src/users/users.service";
 
-import { RequestHasAlreadyBeenCreatedException } from "./exceptions/request-has-already-been-created";
-import { MyselfFriendRequestException } from "./exceptions/myself-friend-request";
-import { NotReceiverRejectException } from "./exceptions/not-receiver-reject";
-import { NotReceiverAcceptException } from "./exceptions/not-receiver-accept";
+import { RequestHasAlreadyBeenCreatedException } from "./exceptions";
+import { MyselfFriendRequestException } from "./exceptions";
+import { NotReceiverRejectException } from "./exceptions";
+import { NotReceiverAcceptException } from "./exceptions";
 
 @Injectable()
 export class FriendRequestsService {
