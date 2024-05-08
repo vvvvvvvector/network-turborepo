@@ -7,9 +7,11 @@ import { Chat } from "./entities/chat.entity";
 
 import { UsersService } from "src/users/users.service";
 
-import { ChatAlreadyExistsException } from "./exceptions/chat-already-exists";
-import { ChatWithYourselfException } from "./exceptions/chat-with-yourself";
-import { ChatNotFoundException } from "./exceptions/chat-not-found";
+import {
+  ChatAlreadyExistsException,
+  ChatWithYourselfException,
+  ChatNotFoundException,
+} from "./exceptions";
 
 @Injectable()
 export class ChatsService {
