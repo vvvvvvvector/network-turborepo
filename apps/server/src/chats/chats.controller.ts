@@ -15,7 +15,7 @@ import { ChatsService } from "./chats.service";
 import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 import { JwtAuthGuard } from "src/auth/guards/jwt.guard";
 
-import { InitiateChatDto } from "./dtos/initate-chat.dto";
+import { InitiateChatDto } from "./dtos";
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
