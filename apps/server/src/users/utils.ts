@@ -1,24 +1,21 @@
-import { User } from "./entities/user.entity";
+import { FriendRequest } from "src/friend-requests/entities/friend-request.entity";
 
-export const parseUserContacts = (user: User) => {
-  const { contacts, ...profileAndUsername } = user;
-
-  // eslint-disable-next-line
-  const { id, ...rest } = profileAndUsername;
-
-  return contacts.email.isPublic
-    ? {
-        ...rest,
-        contacts: {
-          email: contacts.email,
-        },
-      }
-    : {
-        ...rest,
-        contacts: {
-          email: {
-            isPublic: contacts.email.isPublic,
-          },
-        },
-      };
-};
+export async function getExtendedFriendRequestStatus(
+  friendRequest: FriendRequest,
+  signedInUserId: number
+) {
+  switch (friendRequest?.status) {
+    case "accepted":
+      return "friend";
+    case "pending":
+      return friendRequest.sender.id === signedInUserId
+        ? "pending:receiver"
+        : "pending:sender";
+    case "rejected":
+      return friendRequest.sender.id === signedInUserId
+        ? "pending:receiver"
+        : "rejected:sender";
+    default:
+      return "none";
+  }
+}
