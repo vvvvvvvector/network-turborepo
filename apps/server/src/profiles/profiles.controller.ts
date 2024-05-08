@@ -14,8 +14,7 @@ import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
 
 import { ProfilesService } from "./profiles.service";
 
-import { UpdateBioDto } from "./dtos/bio.dto";
-import { AvatarUrlDto } from "./dtos/avatar-url.dto";
+import { UpdateBioDto, UploadAvatarDto } from "./dtos";
 
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -30,12 +29,12 @@ export class ProfilesController {
   }
 
   @Post("/avatar")
-  async uploadAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
+  async uploadAvatar(@Req() req, @Body() dto: UploadAvatarDto) {
     return this.profilesService.saveAvatar(req.user.id, dto.url);
   }
 
   // @Put('/avatar')
-  // async updateAvatar(@Req() req, @Body() dto: AvatarUrlDto) {
+  // async updateAvatar(@Req() req, @Body() dto: UploadAvatarDto) {
   //   return this.profilesService.updateAvatar(req.user.id, dto.url);
   // }
 
