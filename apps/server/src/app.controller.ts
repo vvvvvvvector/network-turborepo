@@ -1,9 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 
-import { AppService } from './app.service';
+import { AppService } from "./app.service";
 
-import { SWAGGER_API_TAGS } from './utils/constants';
+import { SWAGGER_API_TAGS } from "./lib/constants";
 
 @ApiTags(SWAGGER_API_TAGS.ROOT)
 @Controller()
@@ -12,6 +12,6 @@ export class AppController {
 
   @Get()
   root() {
-    return 'Social Network Server is running...';
+    return "Social Network Server is running...";
   }
 }

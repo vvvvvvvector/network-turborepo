@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { z } from 'zod';
-import { Controller } from 'react-hook-form';
+import { useState } from "react";
+import { z } from "zod";
+import { Controller } from "react-hook-form";
 
-import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -20,30 +20,30 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-import { Avatar } from '@/components/avatar';
-import { Icons } from '@/components/icons';
+import { Avatar } from "@/components/avatar";
+import { Icons } from "@/components/icons";
 
-import { useProfileMutations } from '@/hooks/use-profile-mutations';
-import { useCommonActions } from '@/hooks/use-common-actions';
-import { useZodForm } from '@/hooks/use-zod-form';
+import { useProfileMutations } from "@/hooks/use-profile-mutations";
+import { useCommonActions } from "@/hooks/use-common-actions";
+import { useZodForm } from "@/hooks/use-zod-form";
 
-import { DROPDOWN_MENU_ICON_STYLES } from '@/lib/constants';
-import { formatDate } from '@/lib/utils';
+import { DROPDOWN_MENU_ICON_STYLES } from "@/lib/constants";
+import { formatDate } from "@/lib/utils";
 
-import { getAuthorisedUserData } from '@/app/(authorised)/profile/api';
+import { getAuthorisedUserData } from "@/app/(authorised)/profile/api";
 
 const schema = z.object({
   bio: z.string(),
-  emailPrivacy: z.boolean()
+  emailPrivacy: z.boolean(),
 });
 
 export const AuthorisedProfile = ({
-  user
+  user,
 }: {
   user: Awaited<ReturnType<typeof getAuthorisedUserData>>;
 }) => {
@@ -52,12 +52,12 @@ export const AuthorisedProfile = ({
 
   const form = useZodForm(schema, {
     defaultValues: {
-      bio: user.profile.bio ?? '',
-      emailPrivacy: !user.contacts.email.isPublic
-    }
+      bio: user.profile.bio ?? "",
+      emailPrivacy: !user.contacts.email.isPublic,
+    },
   });
 
-  const bio = form.watch('bio');
+  const bio = form.watch("bio");
 
   const { openPhoto } = useCommonActions();
 
@@ -66,7 +66,7 @@ export const AuthorisedProfile = ({
     uploadAvatar,
     deleteAvatar,
     updateBio,
-    toogleEmailPrivacy
+    toogleEmailPrivacy,
   } = useProfileMutations();
 
   return (
@@ -105,14 +105,14 @@ export const AuthorisedProfile = ({
 
                     const callbacks = {
                       onSuccess: () => setDropdownMenuOpen(false),
-                      onSettled: () => (e.target.value = '')
+                      onSettled: () => (e.target.value = ""),
                     };
 
                     user.profile.avatar
                       ? updateAvatar.mutation.mutate(
                           {
                             newAvatar: file,
-                            oldAvatarUrl: user.profile.avatar.url
+                            oldAvatarUrl: user.profile.avatar.url,
                           },
                           { ...callbacks }
                         )
@@ -129,10 +129,10 @@ export const AuthorisedProfile = ({
               >
                 {user.profile.avatar
                   ? updateAvatarButton[
-                      updateAvatar.mutation.isPending ? 'pending' : 'default'
+                      updateAvatar.mutation.isPending ? "pending" : "default"
                     ]
                   : uploadAvatarButton[
-                      uploadAvatar.mutation.isPending ? 'pending' : 'default'
+                      uploadAvatar.mutation.isPending ? "pending" : "default"
                     ]}
               </label>
             </DropdownMenuItem>
@@ -144,14 +144,14 @@ export const AuthorisedProfile = ({
                   deleteAvatar.mutation.mutate(
                     { avatarUrl: user.profile.avatar!.url },
                     {
-                      onSuccess: () => setDropdownMenuOpen(false)
+                      onSuccess: () => setDropdownMenuOpen(false),
                     }
                   );
                 }}
               >
                 {
                   deleteAvatarButton[
-                    deleteAvatar.mutation.isPending ? 'pending' : 'default'
+                    deleteAvatar.mutation.isPending ? "pending" : "default"
                   ]
                 }
               </DropdownMenuItem>
@@ -165,8 +165,8 @@ export const AuthorisedProfile = ({
             onOpenChange={(state) => {
               setBioDialogOpen(state);
 
-              form.resetField('bio', {
-                defaultValue: user.profile.bio ?? ''
+              form.resetField("bio", {
+                defaultValue: user.profile.bio ?? "",
               });
             }}
           >
@@ -175,8 +175,8 @@ export const AuthorisedProfile = ({
                 updateBio.mutation.isPending || updateBio.transitionIsPending
                   ? updateBio.mutation.variables?.bio.length !== 0
                     ? updateBio.mutation.variables?.bio
-                    : 'no bio yet 👀'
-                  : user.profile.bio ?? 'no bio yet 👀'
+                    : "no bio yet 👀"
+                  : user.profile.bio ?? "no bio yet 👀"
               }`}</span>
             </DialogTrigger>
             <DialogContent>
@@ -187,7 +187,7 @@ export const AuthorisedProfile = ({
                   done.
                 </DialogDescription>
               </DialogHeader>
-              <Input {...form.register('bio')} />
+              <Input {...form.register("bio")} />
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type="button" variant="secondary">
@@ -201,7 +201,7 @@ export const AuthorisedProfile = ({
                     setBioDialogOpen(false);
                   }}
                 >
-                  {bio ? 'Save' : 'Empty bio'}
+                  {bio ? "Save" : "Empty bio"}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -211,7 +211,7 @@ export const AuthorisedProfile = ({
       <Separator className="my-4" />
       <ul className="flex flex-col gap-5">
         <li>{`Your avatar likes: ${
-          user.profile.avatar?.likes ?? 'no photo yet'
+          user.profile.avatar?.likes ?? "no photo yet"
         } ❤️`}</li>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
         <li>
@@ -245,7 +245,7 @@ export const AuthorisedProfile = ({
   );
 };
 
-type AvatarControlsButtonState = 'default' | 'pending';
+type AvatarControlsButtonState = "default" | "pending";
 
 const updateAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
   {
@@ -262,7 +262,7 @@ const updateAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
         />
         <span>Updating...</span>
       </>
-    )
+    ),
   };
 
 const uploadAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
@@ -280,7 +280,7 @@ const uploadAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
         />
         <span>Uploading...</span>
       </>
-    )
+    ),
   };
 
 const deleteAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
@@ -301,5 +301,5 @@ const deleteAvatarButton: Record<AvatarControlsButtonState, React.JSX.Element> =
         />
         <span>Deleting...</span>
       </>
-    )
+    ),
   };

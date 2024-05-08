@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-import { cn } from '@/lib/utils';
-import { PAGES } from '@/lib/constants';
+import { cn } from "@/lib/utils";
+import { PAGES } from "@/lib/constants";
 
 export const FriendsOrRequestsNav = () => {
   const pathname = usePathname();
@@ -16,15 +16,15 @@ export const FriendsOrRequestsNav = () => {
           href={{
             pathname: PAGES.FRIENDS,
             query: {
-              tab: 'all'
-            }
+              tab: "all",
+            },
           }}
         >
           <li
             className={cn(
-              'cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent',
+              "cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent",
               {
-                'bg-accent': pathname === PAGES.FRIENDS
+                "bg-accent": pathname === PAGES.FRIENDS,
               }
             )}
           >
@@ -35,15 +35,15 @@ export const FriendsOrRequestsNav = () => {
           href={{
             pathname: PAGES.FRIENDS_REQUESTS,
             query: {
-              type: 'incoming'
-            }
+              type: "incoming",
+            },
           }}
         >
           <li
             className={cn(
-              'cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent',
+              "cursor-pointer rounded p-2 text-sm transition-[background-color] hover:bg-accent",
               {
-                'bg-accent': pathname === PAGES.FRIENDS_REQUESTS
+                "bg-accent": pathname === PAGES.FRIENDS_REQUESTS,
               }
             )}
           >

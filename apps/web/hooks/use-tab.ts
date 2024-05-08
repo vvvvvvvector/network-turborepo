@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 
 export function useTab<T extends Readonly<Array<string>>>(tabName: string) {
   const searchParams = useSearchParams();

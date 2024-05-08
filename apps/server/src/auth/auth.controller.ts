@@ -6,15 +6,15 @@ import {
   UseGuards,
   Get,
   Param,
-} from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+} from "@nestjs/common";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 
-import { AuthService } from './auth.service';
+import { AuthService } from "./auth.service";
 
-import { LocalAuthGuard } from './guards/local.guard';
+import { LocalAuthGuard } from "./guards/local.guard";
 
-import { ROUTES, SWAGGER_API_TAGS } from 'src/utils/constants';
-import { SignInUserDto, SignUpUserDto } from 'src/users/dtos/auth.dto';
+import { ROUTES, SWAGGER_API_TAGS } from "src/lib/constants";
+import { SignInUserDto, SignUpUserDto } from "src/users/dtos";
 
 @ApiTags(SWAGGER_API_TAGS.AUTH)
 @Controller(ROUTES.AUTH)
@@ -23,18 +23,18 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @ApiBody({ type: SignInUserDto })
-  @Post('signin')
+  @Post("signin")
   async signIn(@Req() req) {
     return this.authService.signIn(req.user);
   }
 
-  @Post('signup')
+  @Post("signup")
   async signUp(@Body() dto: SignUpUserDto) {
     return this.authService.signUp(dto);
   }
 
-  @Get('activate/:uuid')
-  async activateProfile(@Param('uuid') uuid: string) {
+  @Get("activate/:uuid")
+  async activateProfile(@Param("uuid") uuid: string) {
     return this.authService.activateProfile(uuid);
   }
 }

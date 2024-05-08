@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { prettifyLastSeenDate } from '@/lib/utils';
+import { prettifyLastSeenDate } from "@/lib/utils";
 
 export const LastSeen = ({ lastSeen }: { lastSeen: string }) => {
   const [state, setState] = useState(prettifyLastSeenDate(lastSeen));

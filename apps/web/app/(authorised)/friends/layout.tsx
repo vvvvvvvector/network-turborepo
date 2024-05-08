@@ -1,7 +1,7 @@
-import { FriendsOrRequestsNav } from '@/components/friends/friends-or-requests-nav';
+import { FriendsOrRequestsNav } from "@/components/friends/friends-or-requests-nav";
 
 export default function FriendsLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {

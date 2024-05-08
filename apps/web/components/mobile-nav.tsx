@@ -1,29 +1,29 @@
-import { type SetStateAction, useState } from 'react';
-import Link, { type LinkProps } from 'next/link';
+import { type SetStateAction, useState } from "react";
+import Link, { type LinkProps } from "next/link";
 
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
-import { Icons } from '@/components/icons';
+import { Icons } from "@/components/icons";
 
-import { MAIN_NAV_PAGES as pages } from '@/lib/constants';
-import { capitalize } from '@/lib/utils';
+import { MAIN_NAV_PAGES as pages } from "@/lib/constants";
+import { capitalize } from "@/lib/utils";
 
 export const icon = (type: (typeof pages)[number], size: number) => {
   switch (type) {
-    case '/profile':
+    case "/profile":
       return <Icons.myProfile size={size} />;
-    case '/news':
+    case "/news":
       return <Icons.news size={size} />;
-    case '/messenger':
+    case "/messenger":
       return <Icons.messenger size={size} />;
-    case '/friends':
+    case "/friends":
       return <Icons.friends size={size} />;
-    case '/photos':
+    case "/photos":
       return <Icons.photos size={size} />;
     default:
       const _: never = type; // eslint-disable-line
-      throw 'Not all cases are covered';
+      throw "Not all cases are covered";
   }
 };
 
@@ -31,7 +31,7 @@ export const menuItemName = (type: (typeof pages)[number]) => {
   const pathname = type.slice(1);
 
   switch (type) {
-    case '/profile':
+    case "/profile":
       return `My ${pathname}`;
     default:
       return capitalize(pathname);
@@ -40,9 +40,9 @@ export const menuItemName = (type: (typeof pages)[number]) => {
 
 export const query = (type: (typeof pages)[number]) => {
   switch (type) {
-    case '/friends':
+    case "/friends":
       return {
-        tab: 'all'
+        tab: "all",
       };
     default:
       return undefined;
@@ -80,7 +80,7 @@ const MobileNav = () => {
               className="flex items-center"
               href={{
                 pathname: page,
-                query: query(page)
+                query: query(page),
               }}
               onOpenChange={setOpen}
             >

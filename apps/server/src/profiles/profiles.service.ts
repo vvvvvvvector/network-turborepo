@@ -1,15 +1,15 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
 
-import { Repository } from 'typeorm';
+import { Repository } from "typeorm";
 
-import { Profile } from './entities/profile.entity';
-import { Avatar } from './entities/avatar.entity';
+import { Profile } from "./entities/profile.entity";
+import { Avatar } from "./entities/avatar.entity";
 
 @Injectable()
 export class ProfilesService {
   constructor(
-    @InjectRepository(Profile) private profilesRepository: Repository<Profile>,
+    @InjectRepository(Profile) private profilesRepository: Repository<Profile>
   ) {}
 
   async updateBio(id: number, bio: string) {
@@ -67,15 +67,18 @@ export class ProfilesService {
 
       return this.profilesRepository.save(profile);
     } catch (error) {
-      throw new BadRequestException('Profile not found.');
+      throw new BadRequestException("Profile not found.");
     }
   }
 
   private async getProfileByUserId(id: number) {
     try {
-      const profile = await this.profilesRepository.findOneOrFail({
+      return this.profilesRepository.findOneOrFail({
         where: { user: { id } },
-        relations: ['user', 'avatar'],
+        relations: {
+          user: true,
+          avatar: true,
+        },
         select: {
           user: {
             id: true,
@@ -83,10 +86,8 @@ export class ProfilesService {
           },
         },
       });
-
-      return profile;
     } catch (error) {
-      throw new BadRequestException('Profile not found.');
+      throw new BadRequestException("Profile not found.");
     }
   }
 }

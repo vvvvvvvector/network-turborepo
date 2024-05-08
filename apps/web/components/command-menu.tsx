@@ -1,9 +1,9 @@
-import { useEffect, useCallback } from 'react';
-import { useTheme } from 'next-themes';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { useEffect, useCallback } from "react";
+import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-import { signOut } from '@/app/server';
+import { signOut } from "@/app/server";
 
 import {
   CommandDialog,
@@ -12,19 +12,19 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
-} from '@/components/ui/command';
-import { Button } from '@/components/ui/button';
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
 
-import { Icons } from '@/components/icons';
-import { getThemeIcon } from '@/components/header';
+import { Icons } from "@/components/icons";
+import { getThemeIcon } from "@/components/header";
 
-import { PAGES } from '@/lib/constants';
-import { capitalize, cn } from '@/lib/utils';
+import { PAGES } from "@/lib/constants";
+import { capitalize, cn } from "@/lib/utils";
 
-import { useCommandMenuStore } from '@/zustand/command-menu.store';
+import { useCommandMenuStore } from "@/zustand/command-menu.store";
 
-const COMMAND_ITEM_ICON_STYLE = 'mr-2 size-4';
+const COMMAND_ITEM_ICON_STYLE = "mr-2 size-4";
 
 interface Props {
   className?: string;
@@ -40,16 +40,16 @@ export const CommandMenu = ({ className }: Props) => {
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
 
         toogleCmdMenuOpenState();
       }
     };
 
-    document.addEventListener('keydown', down);
+    document.addEventListener("keydown", down);
 
-    return () => document.removeEventListener('keydown', down);
+    return () => document.removeEventListener("keydown", down);
   }, []);
 
   // eslint-disable-next-line
@@ -65,7 +65,7 @@ export const CommandMenu = ({ className }: Props) => {
         variant="outline"
         onClick={() => setCommandMenuOpened(true)}
         className={cn(
-          'flex w-full items-center justify-between rounded-lg text-sm text-muted-foreground',
+          "flex w-full items-center justify-between rounded-lg text-sm text-muted-foreground",
           className
         )}
       >
@@ -204,7 +204,7 @@ export const CommandMenu = ({ className }: Props) => {
                 runCommand(() => {
                   signOut();
 
-                  toast.success('You have successfully signed out.');
+                  toast.success("You have successfully signed out.");
 
                   push(PAGES.SIGN_IN);
                 })

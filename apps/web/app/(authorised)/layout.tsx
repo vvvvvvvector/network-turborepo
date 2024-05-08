@@ -1,9 +1,9 @@
-import { SocketConnector } from '@/components/socket-connector';
-import { Header } from '@/components/header';
-import { DesktopNav } from '@/components/desktop-nav';
+import { SocketConnector } from "@/components/socket-connector";
+import { Header } from "@/components/header";
+import { DesktopNav } from "@/components/desktop-nav";
 
 export default function AuthorisedLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {

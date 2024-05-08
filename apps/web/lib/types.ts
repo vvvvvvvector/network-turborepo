@@ -6,16 +6,17 @@ type CreateProfile<T> = {
   profile: T;
 };
 
-export type BaseFriendRequestStatus = 'rejected' | 'accepted' | 'pending';
+export type BaseFriendRequestStatus = "rejected" | "accepted" | "pending";
 
 export type ExtendedFriendRequestStatus =
-  | 'friend'
-  | 'pending:sender'
-  | 'pending:receiver'
-  | 'rejected:sender'
-  | 'none';
+  | "friend"
+  | "pending:sender"
+  | "pending:receiver"
+  | "rejected:sender"
+  | "none";
 
-export type UserFromListOfUsers = User & ProfileWithAvatarWithoutLikes;
+export type UserFromListOfUsers = Pick<User, "username"> &
+  ProfileWithAvatarWithoutLikes;
 
 export type NetworkUser = NetworkUserProfile &
   NetworkUserContacts &
@@ -44,12 +45,12 @@ type Profile = {
   bio: string | null;
 };
 
-export type AvatarWithoutLikes = CreateAvatar<Pick<Avatar, 'url'>>;
+export type AvatarWithoutLikes = CreateAvatar<Pick<Avatar, "url">>;
 
 export type ProfileWithAvatarWithoutLikes = CreateProfile<AvatarWithoutLikes>;
 
 type NetworkUserProfile = CreateProfile<
-  Omit<Profile, 'uuid'> & CreateAvatar<Avatar>
+  Omit<Profile, "uuid"> & CreateAvatar<Avatar>
 >;
 
 type AuthorisedUserProfile = CreateProfile<Profile & CreateAvatar<Avatar>>;

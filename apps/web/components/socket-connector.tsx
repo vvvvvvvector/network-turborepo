@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { parseCookies } from 'nookies';
+import { useEffect } from "react";
+import { parseCookies } from "nookies";
 
-import { TOKEN_NAME } from '@/lib/constants';
+import { TOKEN_NAME } from "@/lib/constants";
 
-import { useSocketStore } from '@/zustand/socket.store';
+import { useSocketStore } from "@/zustand/socket.store";
 
 export const SocketConnector = ({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) => {

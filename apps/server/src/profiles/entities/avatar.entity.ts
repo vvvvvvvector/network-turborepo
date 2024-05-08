@@ -1,7 +1,7 @@
-import { Entity, Column, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-import { TABLES } from 'src/utils/constants';
-import { Profile } from './profile.entity';
+import { TABLES } from "src/lib/constants";
+import { Profile } from "./profile.entity";
 
 @Entity({ name: TABLES.AVATARS })
 export class Avatar {

@@ -1,12 +1,12 @@
-import { cache } from 'react';
-import { notFound, redirect } from 'next/navigation';
+import { cache } from "react";
+import { notFound, redirect } from "next/navigation";
 
-import { NetworkUserProfile } from '@/components/profiles/network-user-profile';
+import { NetworkUserProfile } from "@/components/profiles/network-user-profile";
 
-import { getNetworkUserPubliclyAvailableData } from '@/app/(authorised)/[username]/api';
-import { getSignedInUserUsername } from '@/app/(auth)/auth';
+import { getNetworkUserPubliclyAvailableData } from "@/app/(authorised)/[username]/api";
+import { getSignedInUserUsername } from "@/app/(auth)/auth";
 
-import { PAGES } from '@/lib/constants';
+import { PAGES } from "@/lib/constants";
 
 const getNetworkUserData = cache(getNetworkUserPubliclyAvailableData);
 
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props) {
   const user = await getNetworkUserData(params.username);
 
   return {
-    title: !('error' in user) ? user.username : 'Profile not found :('
+    title: !("error" in user) ? user.username : "Profile not found :(",
   };
 }
 
@@ -33,7 +33,7 @@ export default async function NetworkUserPage({ params }: Props) {
 
   const user = await getNetworkUserData(params.username);
 
-  if ('error' in user) notFound();
+  if ("error" in user) notFound();
 
   return <NetworkUserProfile user={user} />;
 }

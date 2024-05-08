@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { useEffect } from "react";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
-import { Tooltip } from '@/components/tooltip';
-import { Icons } from '@/components/icons';
-import { Avatar } from '@/components/avatar';
+import { Tooltip } from "@/components/tooltip";
+import { Icons } from "@/components/icons";
+import { Avatar } from "@/components/avatar";
 
-import { useRequestsMutations } from '@/hooks/use-requests-mutations';
-import { useTab } from '@/hooks/use-tab';
+import { useRequestsMutations } from "@/hooks/use-requests-mutations";
+import { useTab } from "@/hooks/use-tab";
 
-import { ICON_INSIDE_BUTTON_SIZE } from '@/lib/constants';
-import { type UserFromListOfUsers } from '@/lib/types';
+import { ICON_INSIDE_BUTTON_SIZE } from "@/lib/constants";
+import { type UserFromListOfUsers } from "@/lib/types";
 
-const types = ['incoming', 'outgoing', 'rejected'] as const;
+const types = ["incoming", "outgoing", "rejected"] as const;
 
 const BUTTONS: Record<
   (typeof types)[number],
   ({
-    onClicks
+    onClicks,
   }: {
     onClicks: Array<
       (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
@@ -61,29 +61,29 @@ const BUTTONS: Record<
         </Button>
       </Tooltip>
     );
-  }
+  },
 };
 
 export const RequestsList = ({
-  requests
+  requests,
 }: {
   requests: Record<(typeof types)[number], Array<UserFromListOfUsers>>;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const type = useTab<typeof types>('type');
+  const type = useTab<typeof types>("type");
 
   const { accept, reject, cancel } = useRequestsMutations();
 
   const ON_CLICKS = (type: (typeof types)[number]) => {
     return (username: string) => {
       switch (type) {
-        case 'incoming':
+        case "incoming":
           return [accept(username), reject(username)];
-        case 'outgoing':
+        case "outgoing":
           return [cancel(username)];
-        case 'rejected':
+        case "rejected":
           return [accept(username)];
       }
     };
@@ -91,13 +91,13 @@ export const RequestsList = ({
 
   useEffect(() => {
     switch (type) {
-      case 'incoming':
+      case "incoming":
         router.replace(`${pathname}?type=${type}`);
         break;
-      case 'outgoing':
+      case "outgoing":
         router.replace(`${pathname}?type=${type}`);
         break;
-      case 'rejected':
+      case "rejected":
         router.replace(`${pathname}?type=${type}`);
         break;
       default:
@@ -135,7 +135,7 @@ export const RequestsList = ({
             </Link>
           </div>
           {BUTTONS[type]({
-            onClicks: ON_CLICKS(type)(user.username)
+            onClicks: ON_CLICKS(type)(user.username),
           })}
         </li>
       ))}

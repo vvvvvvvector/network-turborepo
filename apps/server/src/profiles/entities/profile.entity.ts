@@ -5,22 +5,22 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   JoinColumn,
-} from 'typeorm';
+} from "typeorm";
 
-import { User } from 'src/users/entities/user.entity';
-import { TABLES } from 'src/utils/constants';
-import { Avatar } from './avatar.entity';
+import { User } from "src/users/entities/user.entity";
+import { TABLES } from "src/lib/constants";
+import { Avatar } from "./avatar.entity";
 
 @Entity({ name: TABLES.PROFILES })
 export class Profile {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   uuid: string;
 
   @Column({ default: true })
   isActivated: boolean;
 
-  @OneToOne(() => Avatar, { cascade: ['insert', 'update'] })
-  @JoinColumn({ name: 'avatarId' })
+  @OneToOne(() => Avatar, { cascade: ["insert", "update"] })
+  @JoinColumn({ name: "avatarId" })
   avatar: Avatar;
 
   @CreateDateColumn()

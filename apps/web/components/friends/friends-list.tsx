@@ -1,34 +1,34 @@
-import Link from 'next/link';
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-import { Avatar } from '@/components/avatar';
-import { Icons } from '@/components/icons';
+import { Avatar } from "@/components/avatar";
+import { Icons } from "@/components/icons";
 
-import { useCommonActions } from '@/hooks/use-common-actions';
-import { useRequestsMutations } from '@/hooks/use-requests-mutations';
-import { useTab } from '@/hooks/use-tab';
+import { useCommonActions } from "@/hooks/use-common-actions";
+import { useRequestsMutations } from "@/hooks/use-requests-mutations";
+import { useTab } from "@/hooks/use-tab";
 
 import {
   DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE
-} from '@/lib/constants';
+  ICON_INSIDE_BUTTON_SIZE,
+} from "@/lib/constants";
 
-import { tabs } from '@/components/friends/friends';
+import { tabs } from "@/components/friends/friends";
 
-import { getMyFriends } from '@/app/(authorised)/friends/api';
+import { getMyFriends } from "@/app/(authorised)/friends/api";
 
 interface Props {
   friends: Awaited<ReturnType<typeof getMyFriends>>;
   connectionsInformation: {
-    [username: string]: 'online' | 'offline';
+    [username: string]: "online" | "offline";
   };
 }
 
@@ -37,21 +37,21 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
 
   const { writeMessage } = useCommonActions();
 
-  const tab = useTab<typeof tabs>('tab');
+  const tab = useTab<typeof tabs>("tab");
 
   const users =
-    tab === 'all'
+    tab === "all"
       ? friends
       : friends.filter(
-          (user) => connectionsInformation[user.username] === 'online'
+          (user) => connectionsInformation[user.username] === "online"
         );
 
   if (!users.length) {
     return (
       <span className="my-7 text-center">
-        {tab === 'all'
+        {tab === "all"
           ? "You don't have any friends yet."
-          : 'None of your friends are online.'}
+          : "None of your friends are online."}
       </span>
     );
   }
@@ -71,7 +71,7 @@ export const FriendsList = ({ friends, connectionsInformation }: Props) => {
                   username={user.username}
                   avatar={user.profile.avatar?.url}
                 />
-                {connectionsInformation[user.username] === 'online' && (
+                {connectionsInformation[user.username] === "online" && (
                   <span className="absolute bottom-0 right-0 size-4 rounded-full border-[2px] border-background bg-emerald-400 transition-[background-color] group-hover:border-neutral-200 group-hover:dark:border-neutral-700" />
                 )}
               </div>

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   MutationCache,
   QueryClient,
-  QueryClientProvider
-} from '@tanstack/react-query';
-import { toast } from 'sonner';
-import axios from 'axios';
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { toast } from "sonner";
+import axios from "axios";
 
 export default function QueryProvider({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
@@ -24,8 +24,8 @@ export default function QueryProvider({
             } else if (error instanceof Error) {
               toast.error(error.message);
             }
-          }
-        })
+          },
+        }),
       })
   ); // https://tkdodo.eu/blog/react-query-fa-qs#2-the-queryclient-is-not-stable
 

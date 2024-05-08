@@ -1,38 +1,38 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
-import { FriendsList } from '@/components/friends/friends-list';
+import { FriendsList } from "@/components/friends/friends-list";
 
-import { cn } from '@/lib/utils';
-import { PAGES } from '@/lib/constants';
+import { cn } from "@/lib/utils";
+import { PAGES } from "@/lib/constants";
 
-import { useTab } from '@/hooks/use-tab';
-import { useConnectionsInformation } from '@/hooks/use-connections-information';
+import { useTab } from "@/hooks/use-tab";
+import { useConnectionsInformation } from "@/hooks/use-connections-information";
 
-import { getMyFriends } from '@/app/(authorised)/friends/api';
+import { getMyFriends } from "@/app/(authorised)/friends/api";
 
-export const tabs = ['all', 'online'] as const;
+export const tabs = ["all", "online"] as const;
 
 export const Friends = ({
-  users
+  users,
 }: {
   users: Awaited<ReturnType<typeof getMyFriends>>;
 }) => {
   const router = useRouter();
 
-  const tab = useTab<typeof tabs>('tab');
+  const tab = useTab<typeof tabs>("tab");
 
   useEffect(() => {
     switch (tab) {
-      case 'all':
+      case "all":
         router.replace(`${PAGES.FRIENDS}?tab=${tab}`);
         break;
-      case 'online':
+      case "online":
         router.replace(`${PAGES.FRIENDS}?tab=${tab}`);
         break;
       default:
@@ -44,7 +44,7 @@ export const Friends = ({
     users.reduce(
       (accumulator, currentValue) =>
         Object.assign(accumulator, {
-          [currentValue.username]: 'offline'
+          [currentValue.username]: "offline",
         }),
       {}
     )
@@ -59,7 +59,7 @@ export const Friends = ({
             className={cn(
               `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`,
               {
-                'bg-accent': tab === 'all'
+                "bg-accent": tab === "all",
               }
             )}
           >
@@ -71,13 +71,13 @@ export const Friends = ({
             className={cn(
               `cursor-pointer rounded p-2 px-[1rem] py-[0.5rem] hover:bg-accent`,
               {
-                'bg-accent': tab === 'online'
+                "bg-accent": tab === "online",
               }
             )}
           >
             {`Online [${
               Object.values(connectionsInformation).filter(
-                (val) => val === 'online'
+                (val) => val === "online"
               ).length
             }]`}
           </li>

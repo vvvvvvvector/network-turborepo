@@ -1,22 +1,22 @@
+import * as _ from "lodash";
 import {
   BadRequestException,
   Inject,
   Injectable,
   forwardRef,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+} from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
-import { Repository } from 'typeorm';
+import { User } from "./entities/user.entity";
 
-import { getSignedInUserDataQueryBuilder, parseUserContacts } from './utils';
+import { SignUpUserDto } from "./dtos";
 
-import { User } from './entities/user.entity';
+import { Profile } from "src/profiles/entities/profile.entity";
+import { FriendRequestsService } from "src/friend-requests/friend-requests.service";
+import { Avatar } from "src/profiles/entities/avatar.entity";
 
-import { SignUpUserDto } from './dtos/auth.dto';
-
-import { Profile } from 'src/profiles/entities/profile.entity';
-import { FriendRequestsService } from 'src/friend-requests/friend-requests.service';
-import { Avatar } from 'src/profiles/entities/avatar.entity';
+import { getExtendedFriendRequestStatus } from "./utils";
 
 @Injectable()
 export class UsersService {
@@ -24,60 +24,92 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @Inject(forwardRef(() => FriendRequestsService))
-    private readonly friendRequestsService: FriendRequestsService,
+    private readonly friendRequestsService: FriendRequestsService
   ) {}
 
   async getMyUsernameById(id: number) {
     try {
-      const { username } = await this.usersRepository.findOneOrFail({
+      const data = await this.usersRepository.findOneOrFail({
         where: { id },
+        select: {
+          username: true,
+        },
       });
 
-      return {
-        username,
-      };
+      return data;
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
   async getUserById(id: number) {
     try {
-      const qb = getSignedInUserDataQueryBuilder(
-        this.usersRepository.createQueryBuilder('user'),
-      );
-
-      const user = await qb.where('user.id = :id', { id }).getOneOrFail();
-
-      const { contacts, ...rest } = user;
-
-      return {
-        ...rest,
-        contacts: {
-          email: contacts.email,
+      const data = await this.usersRepository.findOneOrFail({
+        where: { id },
+        relations: {
+          profile: {
+            avatar: true,
+          },
+          contacts: {
+            email: true,
+          },
         },
-      };
+        select: {
+          id: true,
+          username: true,
+          profile: {
+            uuid: true,
+            isActivated: true,
+            bio: true,
+            createdAt: true,
+            avatar: {
+              url: true,
+              likes: true,
+            },
+          },
+          contacts: {
+            id: true,
+            email: {
+              contact: true,
+              isPublic: true,
+            },
+          },
+        },
+      });
+
+      return _.pick(data, ["username", "profile", "contacts.email"]);
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
   async getUserAvatarAndUsername(id: number) {
     try {
-      // eslint-disable-next-line
-      const { password, ...user } = await this.usersRepository.findOneOrFail({
+      const {
+        username,
+        profile: { avatar },
+      } = await this.usersRepository.findOneOrFail({
         where: { id },
-        relations: ['profile', 'profile.avatar'],
+        relations: {
+          profile: {
+            avatar: true,
+          },
+        },
+        select: {
+          id: true,
+          username: true,
+          profile: {
+            createdAt: true,
+            avatar: {
+              url: true,
+            },
+          },
+        },
       });
 
-      return {
-        username: user.username,
-        avatar: user.profile.avatar.url
-          ? { url: user.profile.avatar.url }
-          : null,
-      };
+      return { username, avatar };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -134,22 +166,26 @@ export class UsersService {
 
       return id;
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
   async findUserByUsername(username: string) {
-    const user = await this.usersRepository.findOne({
+    return this.usersRepository.findOne({
       where: { username },
-      relations: ['profile'],
+      relations: {
+        profile: true,
+      },
     });
-
-    return user;
   }
 
   async getAllUsersUsernamesWithIds() {
-    const users = await this.usersRepository.find({
-      relations: ['profile', 'profile.avatar'],
+    return this.usersRepository.find({
+      relations: {
+        profile: {
+          avatar: true,
+        },
+      },
       select: {
         id: true,
         username: true,
@@ -161,14 +197,22 @@ export class UsersService {
         },
       },
     });
-
-    return users;
   }
 
   async getUserPublicAvailableData(signedInUserId: number, username: string) {
     try {
       const user = await this.usersRepository.findOneOrFail({
-        relations: ['profile', 'profile.avatar', 'contacts', 'contacts.email'],
+        where: {
+          username,
+        },
+        relations: {
+          profile: {
+            avatar: true,
+          },
+          contacts: {
+            email: true,
+          },
+        },
         select: {
           id: true,
           username: true,
@@ -190,46 +234,31 @@ export class UsersService {
             },
           },
         },
-        where: {
-          username,
-        },
       });
 
       const friendRequest = await this.friendRequestsService.alreadyFriends(
         signedInUserId,
-        user.id,
+        user.id
       );
 
-      let extendedFriendRequestStatus = '';
+      const extendedFriendRequestStatus = await getExtendedFriendRequestStatus(
+        friendRequest,
+        signedInUserId
+      );
 
-      switch (friendRequest?.status) {
-        case 'accepted':
-          extendedFriendRequestStatus = 'friend';
-
-          break;
-        case 'pending':
-          extendedFriendRequestStatus =
-            friendRequest.sender.id === signedInUserId
-              ? 'pending:receiver'
-              : 'pending:sender';
-
-          break;
-        case 'rejected':
-          extendedFriendRequestStatus =
-            friendRequest.sender.id === signedInUserId
-              ? 'pending:receiver'
-              : 'rejected:sender';
-
-          break;
-        default:
-          extendedFriendRequestStatus = 'none';
-
-          break;
-      }
-
-      return { extendedFriendRequestStatus, ...parseUserContacts(user) };
+      return {
+        ..._.pick(user, [
+          "username",
+          "lastSeen",
+          "profile",
+          user.contacts.email.isPublic
+            ? "contacts.email"
+            : "contacts.email.isPublic",
+        ]),
+        extendedFriendRequestStatus,
+      };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -237,7 +266,11 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOneOrFail({
         where: { id },
-        relations: ['contacts', 'contacts.email'],
+        relations: {
+          contacts: {
+            email: true,
+          },
+        },
       });
 
       user.contacts.email.isPublic = !user.contacts.email.isPublic;
@@ -250,7 +283,7 @@ export class UsersService {
         },
       };
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 
@@ -262,9 +295,9 @@ export class UsersService {
 
       user.lastSeen = new Date();
 
-      await this.usersRepository.save(user);
+      return this.usersRepository.save(user);
     } catch (error) {
-      throw new BadRequestException('User not found.');
+      throw new BadRequestException("User not found.");
     }
   }
 }

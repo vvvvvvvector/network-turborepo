@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useTheme } from 'next-themes';
-import { Toaster as AmazingSonnerToaster } from 'sonner';
+import { useTheme } from "next-themes";
+import { Toaster as AmazingSonnerToaster } from "sonner";
 
 interface Props {
   fontFamily?: string;
@@ -9,7 +9,7 @@ interface Props {
 
 export const Toaster = ({ fontFamily }: Props) => {
   const { theme } = useTheme() as {
-    theme: 'light' | 'dark' | 'system' | undefined;
+    theme: "light" | "dark" | "system" | undefined;
   };
 
   return (
@@ -18,7 +18,7 @@ export const Toaster = ({ fontFamily }: Props) => {
       closeButton
       theme={theme}
       style={{
-        fontFamily
+        fontFamily,
       }}
     />
   );

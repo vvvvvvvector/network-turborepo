@@ -1,27 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
 
-import { Repository } from 'typeorm';
+import { Repository } from "typeorm";
 
-import { Chat } from './entities/chat.entity';
+import { Chat } from "./entities/chat.entity";
 
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from "src/users/users.service";
 
-import { ChatAlreadyExistsException } from './exceptions/chat-already-exists';
-import { ChatWithYourselfException } from './exceptions/chat-with-yourself';
-import { ChatNotFoundException } from './exceptions/chat-not-found';
+import {
+  ChatAlreadyExistsException,
+  ChatWithYourselfException,
+  ChatNotFoundException,
+} from "./exceptions";
 
 @Injectable()
 export class ChatsService {
   constructor(
     @InjectRepository(Chat) private chatsRepository: Repository<Chat>,
-    private readonly usersService: UsersService,
+    private readonly usersService: UsersService
   ) {}
 
   async updateChatLastMessage(
     id: string,
     content: string,
-    lastMessageSentAt: Date,
+    lastMessageSentAt: Date
   ) {
     try {
       const chat = await this.chatsRepository.findOneOrFail({
@@ -41,7 +43,7 @@ export class ChatsService {
 
   async getChatIdByAddresseeUsername(
     authorisedUserId: number,
-    addresseeUsername: string,
+    addresseeUsername: string
   ) {
     const chat = await this.chatsRepository.findOne({
       where: [
@@ -64,7 +66,7 @@ export class ChatsService {
       ],
     });
 
-    return chat ? chat.id : '';
+    return chat ? chat.id : "";
   }
 
   async getChatData(authorisedUserUsername: string, id: string) {
@@ -121,7 +123,7 @@ export class ChatsService {
         },
         order: {
           messages: {
-            createdAt: 'ASC',
+            createdAt: "ASC",
           },
         },
       });
@@ -195,12 +197,18 @@ export class ChatsService {
 
   async getAllAuthorisedUserChats(signedInUserId: number) {
     const chats = await this.chatsRepository.find({
-      relations: [
-        'initiator',
-        'initiator.profile.avatar',
-        'addressee',
-        'addressee.profile.avatar',
-      ],
+      relations: {
+        initiator: {
+          profile: {
+            avatar: true,
+          },
+        },
+        addressee: {
+          profile: {
+            avatar: true,
+          },
+        },
+      },
       select: {
         id: true,
         lastMessageSentAt: true,
@@ -240,8 +248,8 @@ export class ChatsService {
       ],
       order: {
         lastMessageSentAt: {
-          direction: 'DESC',
-          nulls: 'LAST',
+          direction: "DESC",
+          nulls: "LAST",
         },
       },
     });

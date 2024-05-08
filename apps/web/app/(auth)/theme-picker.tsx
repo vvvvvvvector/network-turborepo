@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem
-} from '@/components/ui/dropdown-menu';
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
-import { Icons } from '@/components/icons';
+import { Icons } from "@/components/icons";
 
-import { capitalize } from '@/lib/utils';
+import { capitalize } from "@/lib/utils";
 
 export function ThemePicker() {
   const { setTheme, themes } = useTheme();

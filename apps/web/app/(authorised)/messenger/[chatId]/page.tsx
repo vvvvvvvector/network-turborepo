@@ -1,9 +1,9 @@
-import { type Metadata } from 'next';
+import { type Metadata } from "next";
 
-import { getChatData } from '@/app/(authorised)/messenger/api';
-import { auth } from '@/app/(auth)/auth';
+import { getChatData } from "@/app/(authorised)/messenger/api";
+import { auth } from "@/app/(auth)/auth";
 
-import { Chat } from '@/components/messenger/chat';
+import { Chat } from "@/components/messenger/chat";
 
 interface Props {
   params: {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-  title: 'Messenger / Chat'
+  title: "Messenger / Chat",
 };
 
 export default async function ChatPage({ params }: Props) {

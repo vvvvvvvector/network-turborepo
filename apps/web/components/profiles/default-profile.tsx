@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import { type MouseEventHandler } from 'react';
+import { type MouseEventHandler } from "react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-import { Tooltip } from '@/components/tooltip';
-import { Icons } from '@/components/icons';
-import { Avatar } from '@/components/avatar';
+import { Tooltip } from "@/components/tooltip";
+import { Icons } from "@/components/icons";
+import { Avatar } from "@/components/avatar";
 
-import { useRequestsMutations } from '@/hooks/use-requests-mutations';
-import { useCommonActions } from '@/hooks/use-common-actions';
+import { useRequestsMutations } from "@/hooks/use-requests-mutations";
+import { useCommonActions } from "@/hooks/use-common-actions";
 
 import {
   DROPDOWN_MENU_ICON_STYLES,
-  ICON_INSIDE_BUTTON_SIZE
-} from '@/lib/constants';
-import type { ExtendedFriendRequestStatus, NetworkUser } from '@/lib/types';
-import { formatDate, formatTime } from '@/lib/utils';
+  ICON_INSIDE_BUTTON_SIZE,
+} from "@/lib/constants";
+import type { ExtendedFriendRequestStatus, NetworkUser } from "@/lib/types";
+import { formatDate, formatTime } from "@/lib/utils";
 
 const BUTTONS: Record<
-  Exclude<ExtendedFriendRequestStatus, 'friend'>,
+  Exclude<ExtendedFriendRequestStatus, "friend">,
   ({
-    onClicks
+    onClicks,
   }: {
     onClicks: Array<
       | ((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>)
@@ -52,7 +52,7 @@ const BUTTONS: Record<
       </Tooltip>
     </>
   ),
-  'pending:receiver': ({ onClicks }) => (
+  "pending:receiver": ({ onClicks }) => (
     <>
       <Badge className="absolute -right-0 -top-0">
         You have already sent a friend request to this user
@@ -67,7 +67,7 @@ const BUTTONS: Record<
       </Tooltip>
     </>
   ),
-  'pending:sender': ({ onClicks }) => (
+  "pending:sender": ({ onClicks }) => (
     <>
       <Badge className="absolute -right-0 -top-0">
         User have sent you a friend request!
@@ -95,7 +95,7 @@ const BUTTONS: Record<
       </DropdownMenu>
     </>
   ),
-  'rejected:sender': ({ onClicks }) => (
+  "rejected:sender": ({ onClicks }) => (
     <>
       <Badge variant="destructive" className="absolute -right-0 -top-0">
         You have rejected a friend request from this user
@@ -109,35 +109,35 @@ const BUTTONS: Record<
         </Button>
       </Tooltip>
     </>
-  )
+  ),
 };
 
 export const DefaultProfile = (
-  user: Omit<NetworkUser, 'extendedFriendRequestStatus'> & {
-    extendedFriendRequestStatus: Exclude<ExtendedFriendRequestStatus, 'friend'>;
+  user: Omit<NetworkUser, "extendedFriendRequestStatus"> & {
+    extendedFriendRequestStatus: Exclude<ExtendedFriendRequestStatus, "friend">;
   }
 ) => {
   const { openPhoto } = useCommonActions();
 
   const { send, cancel, accept, reject } = useRequestsMutations();
 
-  const ON_CLICKS = (type: Exclude<ExtendedFriendRequestStatus, 'friend'>) => {
+  const ON_CLICKS = (type: Exclude<ExtendedFriendRequestStatus, "friend">) => {
     return (username: string) => {
       switch (type) {
-        case 'none':
+        case "none":
           return [send(username)];
-        case 'pending:receiver':
+        case "pending:receiver":
           return [cancel(username)];
-        case 'pending:sender':
+        case "pending:sender":
           return [
             accept<HTMLDivElement>(username),
-            reject<HTMLDivElement>(username)
+            reject<HTMLDivElement>(username),
           ];
-        case 'rejected:sender':
+        case "rejected:sender":
           return [accept(username)];
         default:
           const _: never = type; // eslint-disable-line
-          throw 'Not all cases are covered';
+          throw "Not all cases are covered";
       }
     };
   };
@@ -169,11 +169,11 @@ export const DefaultProfile = (
           </DropdownMenu>
           <div className="relative top-3 flex flex-col">
             <span className="mb-4 text-2xl font-semibold">{`${user.username}`}</span>
-            <span>{`bio: ${user.profile.bio ?? 'no bio yet 😔'}`}</span>
+            <span>{`bio: ${user.profile.bio ?? "no bio yet 😔"}`}</span>
           </div>
         </div>
         {BUTTONS[user.extendedFriendRequestStatus]({
-          onClicks: ON_CLICKS(user.extendedFriendRequestStatus)(user.username)
+          onClicks: ON_CLICKS(user.extendedFriendRequestStatus)(user.username),
         })}
       </div>
       <Separator className="my-4" />
@@ -186,7 +186,7 @@ export const DefaultProfile = (
           </time>
         </li>
         <li>{`avatar likes: ${
-          user.profile.avatar?.likes ?? 'no photo yet'
+          user.profile.avatar?.likes ?? "no photo yet"
         } ❤️`}</li>
         <li>{`is profile activated: ${user.profile.isActivated}`}</li>
         <li>
@@ -196,7 +196,7 @@ export const DefaultProfile = (
           </time>
         </li>
         <li>{`email: ${
-          user.contacts.email.isPublic ? user.contacts.email.contact : 'private'
+          user.contacts.email.isPublic ? user.contacts.email.contact : "private"
         }`}</li>
       </ul>
     </div>

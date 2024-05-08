@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { useSocketStore } from '@/zustand/socket.store';
+import { useSocketStore } from "@/zustand/socket.store";
 
 export const useConnectionsInformation = (init: {
-  [username: string]: 'online' | 'offline';
+  [username: string]: "online" | "offline";
 }) => {
   const [connectionsInformation, setConnectionsInformation] = useState(init);
 
@@ -14,7 +14,7 @@ export const useConnectionsInformation = (init: {
       if (username in connectionsInformation) {
         setConnectionsInformation((rest) => ({
           ...rest,
-          [username]: 'online'
+          [username]: "online",
         }));
       }
     };
@@ -23,25 +23,25 @@ export const useConnectionsInformation = (init: {
       if (username in connectionsInformation) {
         setConnectionsInformation((rest) => ({
           ...rest,
-          [username]: 'offline'
+          [username]: "offline",
         }));
       }
     };
 
     socket.emit(
-      'which-friends-online',
+      "which-friends-online",
       Object.keys(connectionsInformation),
       (users) => {
         setConnectionsInformation(users);
       }
     );
 
-    socket.on('network-user-online', onUserConnection);
-    socket.on('network-user-offline', onUserDisconnection);
+    socket.on("network-user-online", onUserConnection);
+    socket.on("network-user-offline", onUserDisconnection);
 
     return () => {
-      socket.off('network-user-online', onUserConnection);
-      socket.off('network-user-offline', onUserConnection);
+      socket.off("network-user-online", onUserConnection);
+      socket.off("network-user-offline", onUserConnection);
     };
   }, []);
 

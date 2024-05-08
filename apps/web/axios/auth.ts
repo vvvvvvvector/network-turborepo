@@ -1,10 +1,10 @@
-import { axiosApiInstance } from '@/axios';
+import { axiosApiInstance } from "@/axios";
 
 // vvv ------------------mutations------------------ vvv
 
 const signIn = async (values: { username: string; password: string }) => {
   const { data } = await axiosApiInstance.post<{ token: string }>(
-    '/auth/signin',
+    "/auth/signin",
     values
   );
 
@@ -18,7 +18,7 @@ const signUp = async (values: {
 }) => {
   const { data } = await axiosApiInstance.post<{
     receiver: string;
-  }>('/auth/signup', values);
+  }>("/auth/signup", values);
 
   return data;
 };
