@@ -33,9 +33,12 @@
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/typeorm": "^10.0.2",
     "@nestjs/websockets": "^10.3.2",
+    "@ts-rest/core": "^3.45.2",
+    "@ts-rest/nest": "^3.45.2",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "contract": "workspace:*",
     "lodash": "^4.17.21",
     "nodemailer": "^6.9.9",
     "passport": "^0.7.0",
@@ -44,7 +47,8 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.3.2",

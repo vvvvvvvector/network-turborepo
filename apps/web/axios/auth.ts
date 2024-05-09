@@ -4,7 +4,7 @@ import { axiosApiInstance } from "@/axios";
 
 const signIn = async (values: { username: string; password: string }) => {
   const { data } = await axiosApiInstance.post<{ token: string }>(
-    "/auth/signin",
+    "/auth/sign-in",
     values
   );
 
@@ -18,7 +18,7 @@ const signUp = async (values: {
 }) => {
   const { data } = await axiosApiInstance.post<{
     receiver: string;
-  }>("/auth/signup", values);
+  }>("/auth/sign-up", values);
 
   return data;
 };
