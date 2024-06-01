@@ -1,5 +1,5 @@
-import { db } from "./client";
+import { database } from "./client";
 
 export * as schema from "./schema";
 
-export default db;
+export const db = database;
