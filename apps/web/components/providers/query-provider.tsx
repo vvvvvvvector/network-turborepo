@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import {
+  DefaultOptions,
   MutationCache,
   QueryClient,
   QueryClientProvider,
@@ -9,6 +10,16 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { toast } from "sonner";
 import axios from "axios";
+
+const queriesOptions = {
+  retry: 10,
+  retryDelay: (attempt) => attempt * 1000,
+} satisfies DefaultOptions["queries"];
+
+const mutationsOptions = {
+  retry: 10,
+  retryDelay: (attempt) => attempt * 1000,
+} satisfies DefaultOptions["mutations"];
 
 export default function QueryProvider({
   children,
@@ -18,6 +29,10 @@ export default function QueryProvider({
   const [queryClient] = useState(
     () =>
       new QueryClient({
+        defaultOptions: {
+          queries: queriesOptions,
+          mutations: mutationsOptions,
+        },
         mutationCache: new MutationCache({
           onError: (error) => {
             if (axios.isAxiosError(error)) {
